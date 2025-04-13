@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giỏ Hàng</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/base.css" />
+    <link rel="stylesheet" href="./assets/css/cart.css" />
+    <link
+      rel="stylesheet"
+      href="./assets/fonts/fontawesome-free-6.7.2-web/fontawesome-free-6.7.2-web/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="header">
+      <div class="grid">
+        <div class="header__navbar">
+          <a href="index.html" class="header__navbar-link">
+            <i class="fa-solid fa-house Home__button"></i>
+            Trở về trang chủ
+          </a>
+        </div>
+        <div class="header-with-search">
+          <div class="header__logo">
+            <div class="header__logo-img">
+              <span>
+                <a href="/" class="header__logo-link"
+                  ><img
+                    src="https://upload.wikimedia.org/wikipedia/vi/thumb/e/ef/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg/1200px-Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg.png"
+                    alt="Hust's Food"
+                    id="fastfood"
+                  />
+                  Hust's food
+                </a>
+              </span>
+            </div>
+          </div>
+          <div class="header__search">
+            <div class="header__search-input-wrap">
+              <input
+                type="text"
+                class="header__search-input"
+                placeholder="Nhập để tìm kiếm sản phẩm"
+              />
+              <!-- search history -->
+              <div class="header__search-history">
+                <h3 class="header__search-history-heading">Lịch sử tìm kiếm</h3>
+                <ul class="header__search-history-list">
+                  <li class="header__search-history-item">
+                    <a href="">Project ăn liền</a>
+                  </li>
+                  <li class="header__search-history-item">
+                    <a href="">Project free</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <button class="header__search-btn">
+              <i
+                class="header__search-btn-icon fa-solid fa-magnifying-glass"
+              ></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <div class="cart-container--nocart">
+        <div class="cart-container">
+          <img
+            src="	https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/9bdd8040b334d31946f4.png"
+            alt="Giỏ hàng trống"
+            class="cart__img-nocart"
+          />
+          <p>Giỏ hàng của bạn đang trống</p>
+          <a href="index.html" class="buy-now">Mua ngay</a>
+        </div>
+      </div>
+      <!-- khi có hàng -->
+      <div class="cart-container cart-container__exist">
+        <ul class="cart-item-list">
+          <li class="cart-item-list__li">
+            <div class="cart-item">
+              <img
+                src="https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m3bn3s8zvf35b7"
+                alt="Sản phẩm"
+              />
+              <div class="info">
+                <p>Combo 8 Túi Bánh Bông Lan</p>
+                <span class="price">145.000₫</span>
+              </div>
+              <div class="cart-button">
+                <div class="quantity">
+                  <button>-</button>
+                  <input type="text" value="1" />
+                  <button>+</button>
+                </div>
+                <button class="delete">Xóa</button>
+              </div>
+            </div>
+          </li>
+          <li class="cart-item-list__li">
+            <div class="cart-item">
+              <img
+                src="https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m3bn3s8zvf35b7"
+                alt="Sản phẩm"
+              />
+              <div class="info">
+                <p>Combo 8 Túi Bánh Bông Lan</p>
+                <span class="price">145.000₫</span>
+              </div>
+              <div class="cart-button">
+                <div class="quantity">
+                  <button>-</button>
+                  <input type="text" value="1" />
+                  <button>+</button>
+                </div>
+                <button class="delete">Xóa</button>
+              </div>
+            </div>
+          </li>
+          <li class="cart-item-list__li">
+            <div class="cart-item">
+              <img
+                src="https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m3bn3s8zvf35b7"
+                alt="Sản phẩm"
+              />
+              <div class="info">
+                <p>Combo 8 Túi Bánh Bông Lan</p>
+                <span class="price">145.000₫</span>
+              </div>
+              <div class="cart-button">
+                <div class="quantity">
+                  <button>-</button>
+                  <input type="text" value="1" />
+                  <button>+</button>
+                </div>
+                <button class="delete">Xóa</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="checkout">
+          <span>Tổng thanh toán: <strong>145.000₫</strong></span>
+          <!-- <button>Đặt hàng</button> -->
+          <a href="pay.html">Đặt hàng</a>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="grid">
+        <div class="grid__row">
+          <div class="grid__column-2-4">
+            <h3 class="footer__heading">Chăm sóc khách hàng</h3>
+            <ul class="footer-list">
+              <li class="footer-item">
+                <a href="" class="footer-item__link">Trung tâm trợ giúp</a>
+              </li>
+              <li class="footer-item">
+                <a href="" class="footer-item__link">Hust'food mail</a>
+              </li>
+              <li class="footer-item">
+                <a href="" class="footer-item__link">Hướng dẫn mua hàng</a>
+              </li>
+            </ul>
+          </div>
+          <div class="grid__column-2-4">
+            <h3 class="footer__heading">Giới thiệu</h3>
+            <ul class="footer-list">
+              <li class="footer-item">
+                <a href="" class="footer-item__link">Giới thiệu</a>
+              </li>
+              <li class="footer-item">
+                <a href="" class="footer-item__link">Tuyển dụng</a>
+              </li>
+              <li class="footer-item">
+                <a href="" class="footer-item__link">Điều khoản</a>
+              </li>
+            </ul>
+          </div>
+          <div class="grid__column-2-4">
+            <h3 class="footer__heading">Danh mục</h3>
+            <ul class="footer-list">
+              <li class="footer-item">
+                <a href="" class="footer-item__link">Bim Bim</a>
+              </li>
+              <li class="footer-item">
+                <a href="" class="footer-item__link">Nước ngọt</a>
+              </li>
+              <li class="footer-item">
+                <a href="" class="footer-item__link">Bánh kẹo</a>
+              </li>
+            </ul>
+          </div>
+          <div class="grid__column-2-4">
+            <h3 class="footer__heading">Theo dõi</h3>
+            <ul class="footer-list">
+              <li class="footer-item">
+                <a href="" class="footer-item__link">
+                  <i class="footer-item__icon fa-brands fa-square-facebook"></i>
+                  Facebook</a
+                >
+              </li>
+              <li class="footer-item">
+                <a href="" class="footer-item__link">
+                  <i class="footer-item__icon fa-brands fa-instagram"></i>
+                  Instagram</a
+                >
+              </li>
+              <li class="footer-item">
+                <a href="" class="footer-item__link">
+                  <i class="footer-item__icon fa-brands fa-youtube"></i>
+                  Youtube</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="grid__column-2-4">
+            <h3 class="footer__heading">Vào cửa hàng trên ứng dụng</h3>
+            <div class="footer__download">
+              <a href="">
+                <img
+                  src="/assets/img/google_play.png"
+                  alt="Google Play"
+                  class="footer__download-app-img"
+                />
+              </a>
+              <a href="">
+                <img
+                  src="/assets/img/app_store.png"
+                  alt="App Store"
+                  class="footer__download-app-img"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <div class="grid">
+          <p class="footer__text">Bản quyền thuộc về nhóm 24</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
