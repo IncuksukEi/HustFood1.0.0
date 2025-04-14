@@ -16,7 +16,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/products/**").permitAll() // Cho phép truy cập public
+                        .requestMatchers("/api/products/**", "/api/categories/**").permitAll() // Cho phép truy cập public
                         .anyRequest().authenticated() // Các API khác cần đăng nhập
                 )
                 .httpBasic(Customizer.withDefaults()); // Cho phép dùng basic auth nếu cần
