@@ -3,7 +3,7 @@ package com.hustfood.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "products")
@@ -24,6 +24,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
+    @JsonBackReference
     private Category category;
 
     @Column(name = "category_id", nullable = false)
@@ -40,11 +41,11 @@ public class Product {
 
     @Column(name = "image_url")
     private String imageUrl;
+        /*
+        @OneToMany(mappedBy = "productId")
+        private List<OrderDetail> orderDetails;
 
-    @OneToMany(mappedBy = "productId")
-    private List<OrderDetail> orderDetails;
-
-    @OneToMany(mappedBy = "productId")
-    private List<Inventory> inventories;
-
-}
+        @OneToMany(mappedBy = "productId")
+        private List<Inventory> inventories;
+         */
+    }
