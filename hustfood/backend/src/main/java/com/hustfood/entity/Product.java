@@ -38,9 +38,13 @@ public class Product {
     @Column(name = "sold_quantity", columnDefinition = "INT DEFAULT 0")
     private Integer soldQuantity = 0;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @OneToMany(mappedBy = "productId")
     private List<OrderDetail> orderDetails;
 
     @OneToMany(mappedBy = "productId")
     private List<Inventory> inventories;
+
 }
