@@ -3,6 +3,7 @@ package com.hustfood.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "categories")
@@ -34,6 +35,7 @@ public class Category {
 
     @OneToMany
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private List<Product> products;
 
     public enum Status { ACTIVE, INACTIVE }
