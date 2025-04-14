@@ -381,7 +381,7 @@
 .modal {
   display: none;
   /* back end chỉnh thành flex để hiện lên và khi ẩn thì cho nó bằng none
-  nếu không lớp phủ vẫn còn*/
+    nếu không lớp phủ vẫn còn*/
 }
 .register-form {
   display: none;
