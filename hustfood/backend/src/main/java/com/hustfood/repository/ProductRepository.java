@@ -12,7 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p ORDER BY p.soldQuantity DESC")
     List<Product> findTopSellingProducts();
 
-    // JPQL truy vấn lấy 2 sản phẩm có rating cao nhất
+    // JPQL truy vấn lấy N sản phẩm có rating cao nhất
     @Query("SELECT p FROM Product p ORDER BY p.rating DESC")
     List<Product> findTopRatedProducts();
 }
