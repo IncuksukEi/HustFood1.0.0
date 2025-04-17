@@ -47,9 +47,9 @@ public class ProductController {
     public List<Product> getTopSellingProducts() {
         return productService.getTopSellingProducts();
     }
-    // Lấy 2 sản phẩm có rating cao nhất
+    // Lấy N sản phẩm có rating cao nhất
     @GetMapping("/top-rated")
-    public List<Product> getTopRatedProducts(@RequestParam(defaultValue = "2") int n) {
+    public List<Product> getTopRatedProducts(@RequestParam(value = "n", defaultValue = "2", required = false) int n) {
         return productService.getTopRatedProducts(n);
     }
 }
