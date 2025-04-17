@@ -55,6 +55,7 @@ public class ProductService {
     public List<Product> getTopSellingProducts() {
         return productRepository.findTopSellingProducts();
     }
+
     // Lấy N sản phẩm có rating cao nhất
     public List<Product> getTopRatedProducts(int n) {
         List<Product> products = productRepository.findTopRatedProducts();
