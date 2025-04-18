@@ -36,13 +36,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('male', 'female', 'other') DEFAULT 'other'")
     private Gender gender;
-
+/*
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
     private List<Feedback> feedbacks;
-
+*/
     public enum Role { USER, ADMIN }
     public enum Status { ACTIVE, BANNED }
     public enum Gender { male, female, other }
