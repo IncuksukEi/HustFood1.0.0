@@ -11,6 +11,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/notifications" element={<Notification />}/>
+        <Route path="/help" element={<Help />} />
         <Route path="/management" element={<Management />} />
         <Route path="/product" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
