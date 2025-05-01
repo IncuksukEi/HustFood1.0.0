@@ -1,4 +1,5 @@
 import React from "react";
+import "./ProductItem.css"; // Import your CSS file for styling
 
 const ProductItem = ({ imageUrl, name, oldPrice, currentPrice, sold, brand, origin, discount }) => {
   return (

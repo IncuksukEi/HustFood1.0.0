@@ -5,16 +5,18 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheck,
-  faFacebook,
-  faInstagram,
   faBell,
   faCircleQuestion,
   faMagnifyingGlass,
   faCartShopping,
 } from '@fortawesome/free-solid-svg-icons';
-import noCartImage from './assets/image/img/no_cart.png';
-import logo from 'https://upload.wikimedia.org/wikipedia/vi/thumb/e/ef/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg/1200px-Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg.png';
-
+import {
+  faFacebook,
+  faInstagram
+} from '@fortawesome/free-brands-svg-icons';
+import noCartImage from '../../assets/images/img/no_cart.png'; // Adjust the path as needed
+import logo from '../../assets/images/img/logo.png';
+import avt from '../../assets/images/img/avt.jpg';
 import {
   logoutUser,
   performSearch,
@@ -25,7 +27,7 @@ import {
   fetchLatestProducts,
 } from '../../services/headerService';
 
-const Header = ({ isAuthenticated = false }) => {
+const Header = (/*{ isAuthenticated = false }*/) => {
   // State for dropdowns
   const [isNotifyOpen, setIsNotifyOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -78,7 +80,7 @@ const Header = ({ isAuthenticated = false }) => {
   const navigate = useNavigate();
 
   // chuyển đổi giữa người mua và người bán
-  handleSwitchToSeller = () => {
+  const handleSwitchToSeller = () => {
     navigate('/management');
   };
 
@@ -182,22 +184,20 @@ const Header = ({ isAuthenticated = false }) => {
                   <span>Kênh người mua</span>
                   <FontAwesomeIcon icon={faCheck} />
                 </li>
-                <li className="header__navbar-option-item">
-                  <button onClick={handleSwitchToSeller}>
+                <li className="header__navbar-option-item" onClick={handleSwitchToSeller}>
                     <span>Kênh người bán</span>
                     <FontAwesomeIcon icon={faCheck} />
-                  </button>
                 </li>
               </ul>
             </li>
             <li className="header__navbar-item">
               <span className="header__navbar-title--nopointer">Kết nối</span>
-              <button className="header__nav-icon-link" onClick={() => handleSocialClick('facebook')}>
+              <div className="header__nav-icon-link" onClick={() => handleSocialClick('facebook')}>
                 <FontAwesomeIcon icon={faFacebook} className="header__navbar-icon" />
-              </button>
-              <button className="header__nav-icon-link" onClick={() => handleSocialClick('instagram')}>
+              </div>
+              <div className="header__nav-icon-link" onClick={() => handleSocialClick('instagram')}>
                 <FontAwesomeIcon icon={faInstagram} className="header__navbar-icon" />
-              </button>
+              </div>
             </li>
           </ul>
           <ul className="header__navbar-list">
@@ -269,7 +269,7 @@ const Header = ({ isAuthenticated = false }) => {
                   onKeyDown={(e) => e.key === 'Enter' && setIsUserMenuOpen(!isUserMenuOpen)}
                 >
                   <img
-                    src="https://media.istockphoto.com/id/1209654046/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-h%E1%BB%93-s%C6%A1-avatar-ng%C6%B0%E1%BB%9Di-d%C3%B9ng-minh-h%E1%BB%8Da-vector-%C4%91en.jpg?s=612x612&w=0&k=20&c=WzylxcP0LLDMfNHs_fSlwoAW8u9tVZNyC704xuV0GZE="
+                    src={avt}
                     alt=""
                     className="header__navbar-user-img"
                   />
@@ -277,13 +277,13 @@ const Header = ({ isAuthenticated = false }) => {
                   {isUserMenuOpen && (
                     <ul className="header__navbar-user-menu">
                       <li className="header__navbar-user-item">
-                        <button onClick={() => handleUserMenuClick('profile')}>Tài khoản của tôi</button>
+                        <div onClick={() => handleUserMenuClick('profile')}>Tài khoản của tôi</div>
                       </li>
                       <li className="header__navbar-user-item">
-                        <button onClick={() => handleUserMenuClick('orders')}>Đơn mua</button>
+                        <div onClick={() => handleUserMenuClick('orders')}>Đơn mua</div>
                       </li>
                       <li className="header__navbar-user-item header__navbar-user-item--separate">
-                        <button onClick={() => handleUserMenuClick('logout')}>Đăng xuất</button>
+                        <div onClick={() => handleUserMenuClick('logout')}>Đăng xuất</div>
                       </li>
                     </ul>
                   )}
@@ -321,10 +321,10 @@ const Header = ({ isAuthenticated = false }) => {
                 <h3 className="header__search-history-heading">Lịch sử tìm kiếm</h3>
                 <ul className="header__search-history-list">
                   <li className="header__search-history-item">
-                    <button onClick={() => handleSearch('Project ăn liền')}>Project ăn liền</button>
+                    <div onClick={() => handleSearch('Project ăn liền')}>Project ăn liền</div>
                   </li>
                   <li className="header__search-history-item">
-                    <button onClick={() => handleSearch('Project free')}>Project free</button>
+                    <div onClick={() => handleSearch('Project free')}>Project free</div>
                   </li>
                 </ul>
               </div>
@@ -335,22 +335,15 @@ const Header = ({ isAuthenticated = false }) => {
           </div>
           <div className="header__cart" ref={cartRef}>
             <div className="header__cart-wrap">
-              <button
+              <div
                 className="header__cart-icon"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (isCartOpen === false) setIsCartOpen(!isCartOpen);
-                }}
+                onClick={() => setIsCartOpen(!isCartOpen)}
               >
                 <FontAwesomeIcon icon={faCartShopping} />
-              </button>
-              <button className="header__cart-notice" onClick={(e) => {
-                  e.preventDefault();
-                  if (isCartOpen === false) setIsCartOpen(!isCartOpen);
-                }}
-              >
-                3
-              </button>
+              </div>
+              <div className="header__cart-notice" onClick={() => setIsCartOpen(!isCartOpen)}>
+                {cartItems.length}
+              </div>
               {isCartOpen && (
                 <div className="header__cart-list">
                   <img src={noCartImage} alt="" className="header__cart-no-cart-img" />
@@ -374,7 +367,7 @@ const Header = ({ isAuthenticated = false }) => {
                             </span>
                           </div>
                           <div className="header__cart-item-body">
-                            <div className="header__cart-item-description">Phân loại: Tảo biển</div>
+                            <div className="header__cart-item-description">Phân loại: {item.category}</div>
                             <button
                               className="header__cart-item-remove"
                               onClick={() => handleCartItemRemove(item.id)}
