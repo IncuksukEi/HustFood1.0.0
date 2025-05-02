@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { getBillboardImages } from '../../services/productService';
+//import { getBillboardImages } from '../../services/productService';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './BillBoard.css';
+import { billboardData } from '../../data/billBoradData';
 
 const BillBoard = () => {
     const [images, setImages] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        const fetchImages = async () => {
+        /*const fetchImages = async () => {
             try {
                 const data = await getBillboardImages();
                 setImages(data);
@@ -16,7 +17,9 @@ const BillBoard = () => {
                 console.error('Error fetching billboard images:', error);
             }
         };
-        fetchImages();
+        fetchImages();*/
+        setImages(billboardData); // Sử dụng dữ liệu tạm thời từ billboardData
+
     }, []);
 
     const nextSlide = () => {
@@ -33,10 +36,8 @@ const BillBoard = () => {
 
     // Fallback image khi API chưa hoạt động
     const defaultImage = {
-        id: 1,
-        imageUrl: "kfc-banner.jpg",
-        title: "KFC Special Offer",
-        description: "Ăn thả ga - Quà cực đã"
+        url_img: "kfc-banner.jpg",
+        name: "KFC Special Offer",
     };
 
     const displayedImages = images.length > 0 ? images : [defaultImage];
@@ -49,8 +50,8 @@ const BillBoard = () => {
             
             <div className="billboard-content">
                 <img 
-                    src={displayedImages[currentIndex].imageUrl} 
-                    alt={displayedImages[currentIndex].title}
+                    src={displayedImages[currentIndex].url_img} 
+                    alt={displayedImages[currentIndex].name}
                     className="billboard-image"
                 />
             </div>

@@ -8,6 +8,7 @@ import Footer from '../../components/Footer/Footer';
 import './HomeSearch.css';
 import "../../styles/base.css";
 import ProductList from '../../components/ProductItem/ProductList';
+import productsData from "../../data/productsData";
 
 function HomeSearch() {
   const [searchResults, setSearchResults] = useState([]);
@@ -29,6 +30,7 @@ function HomeSearch() {
       }
       const data = await response.json();
       setSearchResults(data);
+      
     } catch (error) {
       setError('Error fetching search results: ' + error.message);
       console.error('Error fetching search results:', error);
@@ -36,6 +38,7 @@ function HomeSearch() {
       setIsLoading(false);
     }
   }, []);
+  
 
   // Effect để xử lý tìm kiếm từ URL
   useEffect(() => {
@@ -43,6 +46,7 @@ function HomeSearch() {
     if (query) {
       fetchSearchResults(query);
     }
+    setSearchResults(productsData);
   }, [searchParams, fetchSearchResults]);
 
   // Effect để lắng nghe sự kiện tìm kiếm mới
@@ -83,10 +87,10 @@ function HomeSearch() {
                     <FontAwesomeIcon icon={faAngleDown} className="select-input__icon" />
                     <ul className="select-input__list">
                       <li className="select-input__item">
-                        <button className="select-input__link">Giá: Thấp đến cao</button>
+                        <div className="select-input__link">Thấp đến cao</div>
                       </li>
                       <li className="select-input__item">
-                        <button className="select-input__link">Giá: Cao đến thấp</button>
+                        <div className="select-input__link">Cao đến thấp</div>
                       </li>
                     </ul>
                   </div>
