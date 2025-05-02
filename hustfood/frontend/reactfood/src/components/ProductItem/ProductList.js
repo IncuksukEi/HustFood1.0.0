@@ -4,26 +4,13 @@ import "./ProductList.css";
 import {getProducts} from "../../services/productService";
 
 const ProductList = ({ products: searchResults }) => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]); // Initialize with productsData
 
   useEffect(() => {
-    // If search results are provided, use them
+    // Update products if search results are provided
     if (searchResults) {
       setProducts(searchResults);
-      return;
     }
-
-    // Otherwise fetch all products
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts();
-        setProducts(data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
-
-    fetchProducts();
   }, [searchResults]);
 
   // Show message if no products found

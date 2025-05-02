@@ -1,10 +1,10 @@
 import React from 'react';
-import Header from '../../components/Header/Header'; 
-import Footer from '../../components/Footer/Footer';
 import './Home.css';
 import "../../styles/base.css";
+import Header from '../../components/Header/Header'; 
 import BillBoard from '../../components/Billboard/BillBoard';
 import Category from '../../components/Category/Category';
+import Footer from '../../components/Footer/Footer';
 
 function Home() {
   return (
