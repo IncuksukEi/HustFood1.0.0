@@ -1,13 +1,19 @@
 import React, {useState, useEffect} from "react";
 import ProductItem from "./ProductItem";
-//import products from "../data/products";
-import "./ProductList.css"; // Import your CSS file for styling
-import {getProducts} from "../../services/productService"; // Import the product service
+import "./ProductList.css";
+import {getProducts} from "../../services/productService";
 
-const ProductList = () => {
+const ProductList = ({ products: searchResults }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    // If search results are provided, use them
+    if (searchResults) {
+      setProducts(searchResults);
+      return;
+    }
+
+    // Otherwise fetch all products
     const fetchProducts = async () => {
       try {
         const data = await getProducts();
@@ -18,7 +24,12 @@ const ProductList = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [searchResults]);
+
+  // Show message if no products found
+  if (products.length === 0) {
+    return <div className="no-results">Không tìm thấy sản phẩm</div>;
+  }
 
   return (
     <div className="grid__row">

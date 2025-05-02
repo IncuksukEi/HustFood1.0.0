@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Header.css';
 import '../../styles/base.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheck,
@@ -28,6 +28,7 @@ import {
 } from '../../services/headerService';
 
 const Header = (/*{ isAuthenticated = false }*/) => {
+  const location = useLocation();
   // State for dropdowns
   const [isNotifyOpen, setIsNotifyOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -149,11 +150,23 @@ const Header = (/*{ isAuthenticated = false }*/) => {
   };
 
   // xử lý tìm kiếm
-  const handleSearch = async (query) => {
-    try {
-      const results = await performSearch(query);
-    } catch (error) {
-      console.error('Error performing search:', error);
+  const handleSearch = (query) => {
+    if (!query.trim()) return;
+
+    const isSearchPage = location.pathname === '/search';
+    
+    if (isSearchPage) {
+      // Nếu đang ở trang search, cập nhật URL và để HomeSearch xử lý
+      const newUrl = `/search?q=${encodeURIComponent(query.trim())}`;
+      window.history.pushState(null, '', newUrl);
+      
+      // Trigger một custom event để HomeSearch biết cần refresh
+      window.dispatchEvent(new CustomEvent('searchQueryChanged', {
+        detail: { query: query.trim() }
+      }));
+    } else {
+      // Nếu đang ở trang khác, navigate bình thường
+      navigate(`/search?q=${encodeURIComponent(query.trim())}`);
     }
   };
 
@@ -298,7 +311,7 @@ const Header = (/*{ isAuthenticated = false }*/) => {
               <span>
                 <a href="/" className="header__logo-link">
                   <img src={logo} alt="Hust's Food" id="fastfood" />
-                  Hust's food
+                  HUST FOOD
                 </a>
               </span>
             </div>

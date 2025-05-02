@@ -1,7 +1,8 @@
 /* Header */
 .header {
   height: var(--header-height);
-  background-image: linear-gradient(0, #ec4633, #f15b35);
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header__navbar {
@@ -51,6 +52,7 @@
   margin-left: 4px;
   font-size: 1.4rem;
   font-weight: 400;
+  color: #333333;
 }
 
 .header__navbar-user-menu {
@@ -204,7 +206,7 @@
 .header__navbar-item-link {
   display: inline-block;
   font-size: 1.3rem;
-  color: var(--white-color);
+  color: #333333;
   text-decoration: none;
   font-weight: 300;
 }
@@ -250,11 +252,12 @@
 .header__navbar-icon {
   font-size: 1.8rem;
   margin: 0 4px;
+  color: #333333;
 }
 
 .header__navbar-title--nopointer {
   cursor: text;
-  color: var(--white-color);
+  color: #333333;
 }
 
 /* Header QR code */
@@ -356,7 +359,7 @@
 
 .header__notify-header h3 {
   margin: 0;
-  color: #999;
+  color: #333333;
   margin: 0 0 0 12px;
   font-weight: 400;
   font-size: 1.5rem;
@@ -482,7 +485,7 @@
 .auth-form__switch-btn {
   font-size: 1.6rem;
   font-weight: 500;
-  color: var(--primary-color);
+  color: #ec4633;
   cursor: pointer;
 }
 
@@ -603,7 +606,7 @@
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
-  color: #f6e9e7;
+  color: #333333;
 }
 
 .header__logo-img img {
@@ -638,7 +641,7 @@
 }
 
 .header__cart-icon {
-  color: var(--white-color);
+  color: #333333;
   font-size: 2.5rem;
   text-decoration: none;
 }
@@ -804,9 +807,9 @@
   font-size: 1.4rem;
   line-height: 1.4rem;
   border-radius: 10px;
-  border: 2px solid #ee4d2d;
-  color: var(--primary-color);
-  background-color: var(--white-color);
+  border: 2px solid #ff0000;
+  color: #ff0000;
+  background-color: #ffffff;
   text-decoration: none;
 }
 
@@ -825,6 +828,7 @@
   color: var(--text-color);
   padding: 0 16px;
   border-radius: 2px;
+  background-color: #f5f5f5; /* Add light gray background */
 }
 
 .header__search-select {
@@ -848,7 +852,7 @@
 }
 
 .header__search-btn {
-  background-color: var(--primary-color);
+  background-color: #ff0000; /* Changed to red */
   border: none;
   height: 34px;
   border-radius: 2px;
@@ -858,14 +862,14 @@
 }
 
 .header__search-btn:hover {
-  background-color: var(--primary-color);
-  opacity: 0.8;
+  background-color: #d63a27; /* Darker red on hover */
+  opacity: 1; /* Remove opacity change */
   cursor: pointer;
 }
 
 .header__search-btn-icon {
   font-size: 1.4rem;
-  color: var(--white-color);
+  color: #ffffff;
 }
 
 .header__search-select:hover .header__search-option {
