@@ -1,5 +1,6 @@
 /* Footer */
 .footer {
+  background-color: #222222;
   border-top: 4px solid var(--primary-color);
   padding-top: 12px;
 }
@@ -7,7 +8,7 @@
 .footer__heading {
   font-size: 1.4rem;
   text-transform: uppercase;
-  color: var(--text-color);
+  color: #ffffff;
 }
 
 .footer-list {
@@ -18,7 +19,7 @@
 .footer-item__link {
   text-decoration: none;
   font-size: 1.2rem;
-  color: #737373;
+  color: #ffffff;
   padding: 2px 0;
   display: flex;
   font-weight: 500;
@@ -48,7 +49,7 @@
 }
 
 .footer__bottom {
-  background-color: #f5f5f5;
+  background-color: #1a1a1a;
   padding: 12px 0;
   margin-top: 24px;
 }
@@ -57,6 +58,6 @@
   margin: 0;
   font-size: 1.2rem;
   text-align: center;
-  color: #737373;
+  color: #ffffff;
   font-weight: 600;
 }
