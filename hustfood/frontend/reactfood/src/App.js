@@ -14,12 +14,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Search" element={<HomeSearch />} />
+        <Route path="/" element={<Home />} />                      { /*created*/ }
+        <Route path="/Search" element={<HomeSearch />} />          { /*created*/ }
         <Route path="/notifications" element={<Notification />}/>
-        <Route path="/help" element={<Help />} />
+        <Route path="/help" element={<Help />} />                  { /*created*/ }
         <Route path="/management" element={<Management />} />
-        <Route path="/product" element={<Product />} />
+        <Route path="/product" element={<Product />} />            { /*created*/ }
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/pay" element={<Pay />} />
