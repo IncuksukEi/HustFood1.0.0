@@ -315,7 +315,7 @@ const Header = () => {
                 <span>
                   <a href="/" className="header__logo-link">
                     <img src={logo} alt="Hust's Food" id="fastfood" />
-                    HUST FOOD
+                    <span className="header__logo-text">HUST FOOD</span>
                   </a>
                 </span>
               </div>

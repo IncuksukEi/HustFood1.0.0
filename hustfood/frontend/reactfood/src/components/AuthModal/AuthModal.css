@@ -23,19 +23,178 @@
   animation: growth linear 0.1s;
 }
 
-/* Các styles khác giữ nguyên từ file Header.css */
 .auth-form {
-  width: 500px;
-  border-radius: 5px;
+  padding: 10px 20px 10px 20px;
+  width: 360px;
+  background: white;
+  border-radius: 12px;
   overflow: hidden;
-  background-color: var(--white-color);
 }
 
 .auth-form__container {
-  padding: 0 32px;
+  padding: 16px 16px;
 }
 
-/* ... Copy các styles liên quan đến auth-form từ Header.css sang đây ... */
+.auth-form__heading {
+  font-size: 20px;
+  font-weight: 200;
+  color: #000;
+  text-align: left; /* Align text to the left */
+  margin-bottom: 12px;
+  text-decoration: none; /* Remove unnecessary underline */
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.auth-form__group {
+  margin-bottom: 0px;
+}
+
+.auth-form__input {
+  width: 100%;
+  padding: 2px 0px 0px 0px; /* Adjust padding for top and bottom */
+  border: none; /* Remove border */
+  border-bottom: 0.1px solid#a8a7a7f8; /* Add underline */
+  border-radius: 0px;
+  font-size: 12px;
+  background-color: #fff;
+  font: inherit;
+  color: #000000;
+  font-weight: normal; /* Ensure underline is not bold */
+}
+
+.auth-form__input::placeholder {
+  color: #000000;
+}
+
+.auth-form__input:focus {
+  border-color: #e4200b;
+  outline: none;
+}
+
+.auth-form__policy {
+  margin: 8px 0;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  font-size: 11px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.auth-form__policy input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  margin-top: 1px;
+}
+
+.auth-form__submit {
+  width: 100%;
+  height: 32px; /* Add fixed height */
+  padding: 0; /* Remove padding */
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 8px 0;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.auth-form__submit:hover {
+  background: #28a745;
+}
+
+.auth-form__separator {
+  text-align: left; /* Align text to the left */
+  color: #000;
+  font-size: 11px;
+  font-weight: bold; /* Make text bold */
+  margin: 10px 0 16px;
+  position: relative;
+  font-family: Oswald, sans-serif;
+}
+
+.auth-form__separator::before {
+  content: none; /* Remove the horizontal line */
+}
+
+.auth-form__separator span {
+  position: relative;
+  background: none; /* Remove background */
+  padding: 0;
+  z-index: 1;
+}
+
+.social-button {
+  width: 100%;
+  height: 32px; /* Match login button height */
+  padding: 0; /* Remove padding */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 25px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 8px 0;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.social-button.facebook {
+  background: #3958a6;
+  color: white;
+}
+
+.social-button.facebook:hover {
+  background: #1666d3;
+}
+
+.social-button.google {
+  background: #e4200b;
+  color: white;
+}
+
+.social-button.google:hover {
+  background: #c23321;
+}
+
+.social-button.apple {
+  background: #000;
+  color: white;
+}
+
+.social-button i {
+  margin-right: 8px;
+  font-size: 14px; /* Slightly smaller icons */
+}
+
+.auth-form__switch {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 11px;
+  color: #333;
+}
+
+.auth-form__switch span {
+  color: #000000;
+}
+
+.auth-form__switch button {
+  background: none;
+  border: none;
+  color: #000000;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 4px;
+  font-size: 11px;
+}
+
+.auth-form__switch button:hover {
+  text-decoration: underline;
+}
 
 @keyframes growth {
   from {
@@ -43,5 +202,14 @@
   }
   to {
     transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
