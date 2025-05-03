@@ -7,7 +7,7 @@ const Help = () => {
     <div className="help-page">
       <Link to="/" className="back-button">
         <i className="fas fa-arrow-left"></i>
-        <span>Trang chủ</span>
+        <span>HOME</span>
       </Link>
       
       <div className="help-banner">

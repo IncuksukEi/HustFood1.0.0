@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useSearchParams } from 'react-router-dom';
@@ -16,6 +16,7 @@ function HomeSearch() {
   const [error, setError] = useState(null);
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const queryToBack = searchParams.get('q') || '';
 
   // Tối ưu hóa hàm fetchSearchResults với useCallback
   const fetchSearchResults = useCallback(async (query) => {
@@ -124,7 +125,7 @@ function HomeSearch() {
                     <p>Không tìm thấy sản phẩm phù hợp</p>
                   </div>
                 ) : (
-                  <ProductList products={searchResults} />
+                  <ProductList products={searchResults} queryToBack={queryToBack}/>
                 )}
               </div>
   
