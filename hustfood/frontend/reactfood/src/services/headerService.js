@@ -22,16 +22,6 @@ export const fetchLatestProducts = async () => {
   }
 };
 
-// Register user (placeholder for modal handling)
-export const openRegisterModal = () => {
-  console.log('Open register modal');
-};
-
-// Login user (placeholder for modal handling)
-export const openLoginModal = () => {
-  console.log('Open login modal');
-};
-
 // Logout user
 export const logoutUser = async () => {
   try {
@@ -39,19 +29,6 @@ export const logoutUser = async () => {
     return response.data; // Return the logout status
   } catch (error) {
     console.error('Error logging out:', error);
-    throw error;
-  }
-};
-
-// Perform search
-export const performSearch = async (query) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/search`, {
-      params: { query },
-    });
-    return response.data; // Return the search results
-  } catch (error) {
-    console.error('Error performing search:', error);
     throw error;
   }
 };
