@@ -9,7 +9,7 @@ import {
 //import googlePlay from './assets/img/google_play.png'; // Adjust path as needed
 //import appStore from './assets/img/app_store.png'; // Adjust path as needed
 //import './assets/css/main.css';
-import { getSocialMediaLinks } from '../../services/headerService';
+import { getSocialMediaLinks } from '../../services/mediaService';
 import { useNavigate }  from 'react-router-dom';
 
 

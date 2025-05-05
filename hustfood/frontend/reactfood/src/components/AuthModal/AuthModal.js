@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AuthModal.css';
 
-const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
-    const [isLoginMode, setIsLoginMode] = useState(initialMode === 'login');
+const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode }) => { 
+    const [modeA, setModeA] = useState(modeInit);
+    useEffect(() => {setModeA(modeInit)}, [modeInit]);
 
     if (!isOpen) return null;
 
@@ -13,10 +14,10 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
                 <div className="auth-form">
                     <div className="auth-form__container">
                         <h3 className="auth-form__heading">
-                            {isLoginMode ? 'LOGIN' : 'SIGN UP'}
+                            {modeA === 'login' ? 'LOGIN' : 'SIGN UP'}
                         </h3>
                         
-                        {!isLoginMode && (
+                        {modeA === 'signup' && (
                             <>
                                 <div className="auth-form__group">
                                     <input type="text" className="auth-form__input" placeholder="Họ của bạn *" />
@@ -37,7 +38,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
                             <input type="password" className="auth-form__input" placeholder="Mật khẩu *" />
                         </div>
 
-                        {!isLoginMode && (
+                        {modeA === 'signup' && (
                             <div className="auth-form__policy">
                                 <input type="checkbox" id="policy" />
                                 <label htmlFor="policy">
@@ -47,7 +48,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
                         )}
 
                         <button className="auth-form__submit">
-                            {isLoginMode ? 'Đăng nhập' : 'Tạo tài khoản'}
+                            {modeA === 'login' ? 'Đăng nhập' : 'Tạo tài khoản'}
                         </button>
 
                         <p className="auth-form__separator">Hoặc tiếp tục với</p>
@@ -62,15 +63,15 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
                             Đăng nhập bằng Google
                         </button>
                         <div className="auth-form__switch">
-                            {isLoginMode ? (
+                            {modeA === 'login' ? (
                                 <>
                                     <span>Bạn chưa có tài khoản? </span>
-                                    <button onClick={() => setIsLoginMode(false)}>Đăng ký</button>
+                                    <button onClick={() => {onChangeMode('signup'); setModeA('signup')}}>Đăng ký</button>
                                 </>
                             ) : (
                                 <>
                                     <span>Bạn đã có tài khoản? </span>
-                                    <button onClick={() => setIsLoginMode(true)}>Đăng nhập</button>
+                                    <button onClick={() => {onChangeMode('login'); setModeA('login')}}>Đăng nhập</button>
                                 </>
                             )}
                         </div>
