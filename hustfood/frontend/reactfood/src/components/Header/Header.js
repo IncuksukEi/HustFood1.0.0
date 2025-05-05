@@ -19,7 +19,6 @@ import logo from '../../assets/images/img/logo.png';
 import avt from '../../assets/images/img/avt.jpg';
 import {
   logoutUser,
-  performSearch,
   removeCartItem,
   getSocialMediaLinks,
   fetchLatestProducts,
@@ -32,12 +31,9 @@ const Header = () => {
   const [isNotifyOpen, setIsNotifyOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   const [cartItems, setCartItems] = useState([]);
   const [notifications, setNotifications] = useState([]);
-
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
 
@@ -142,7 +138,8 @@ const Header = () => {
       } else if (action === 'orders') {
         navigate('/cart'); // Chuyển hướng đến trang đơn hàng
       } else if (action === 'logout') {
-        await logoutUser();
+        const status = await logoutUser();
+        setIsAuthenticated(status); // Đánh dấu người dùng là đã đăng xuất
       }
     } catch (error) {
       console.error('Error handling user menu action:', error);
@@ -182,7 +179,7 @@ const Header = () => {
 
   // xử lý khi nhấp vào giỏ hàng
   const handleViewCart = () => {
-    navigate('/cart'); // Chuyển hướng đến trang giỏ hàng
+    navigate('/cart');
   };
 
   return (

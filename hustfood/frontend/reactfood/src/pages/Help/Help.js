@@ -1,101 +1,51 @@
+// src/pages/Help.js
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './Help.css';
+import Header from '../../components/Header/Header'; 
+import Footer from '../../components/Footer/Footer';
+const faqs = [
+  {
+    question: "Làm thế nào để đặt món trên Hust's Food?",
+    answer: "Bạn chỉ cần chọn món, thêm vào giỏ hàng và tiến hành thanh toán theo hướng dẫn."
+  },
+  {
+    question: "Tôi có thể hủy đơn hàng sau khi đã đặt không?",
+    answer: "Có, bạn có thể hủy đơn hàng trong vòng 5 phút sau khi đặt. Sau thời gian này, đơn hàng sẽ được xử lý và không thể hủy."
+  },
+  {
+    question: "Tôi có thể thanh toán bằng phương thức nào?",
+    answer: "Chúng tôi hỗ trợ thanh toán qua tiền mặt, thẻ ATM nội địa, Visa/MasterCard và ví điện tử."
+  },
+  {
+    question: "Tôi không nhận được email xác nhận đơn hàng?",
+    answer: "Vui lòng kiểm tra thư mục Spam hoặc liên hệ bộ phận chăm sóc khách hàng để được hỗ trợ."
+  },
+  {
+    question: "Thời gian giao hàng trung bình là bao lâu?",
+    answer: "Thông thường, thời gian giao hàng từ 20 đến 30 phút tùy khu vực."
+  },
+  {
+    question: "Tôi muốn đổi hoặc trả món ăn?",
+    answer: "Nếu có vấn đề với món ăn, vui lòng chụp ảnh và liên hệ chúng tôi trong vòng 1 giờ để được hỗ trợ đổi trả."
+  }
+];
 
 const Help = () => {
   return (
-    <div className="help-page">
-      <Link to="/" className="back-button">
-        <i className="fas fa-arrow-left"></i>
-        <span>HOME</span>
-      </Link>
-      
-      <div className="help-banner">
-        <h1>Trung tâm trợ giúp</h1>
-        <p>Chúng tôi có thể giúp gì cho bạn?</p>
-      </div>
-
-      <div className="help-search">
-        <input type="text" placeholder="Tìm kiếm câu hỏi..." />
-      </div>
-
-      <div className="help-sections">
-        <div className="help-section">
-          <h2>Câu hỏi thường gặp</h2>
-          <div className="faq-list">
-            <div className="faq-group">
-              <div className="faq-icon">
-                <i className="fas fa-shopping-cart"></i>
-              </div>
-              <div className="faq-content">
-                <h3>Làm thế nào để đặt hàng?</h3>
-                <div className="faq-steps">
-                  <p>1. Chọn món ăn bạn muốn từ thực đơn</p>
-                  <p>2. Thêm món ăn vào giỏ hàng</p>
-                  <p>3. Điền thông tin giao hàng</p>
-                  <p>4. Tiến hành thanh toán</p>
-                  <p>5. Đợi món ăn được giao đến địa chỉ của bạn</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="faq-group">
-              <div className="faq-icon">
-                <i className="fas fa-wallet"></i>
-              </div>
-              <div className="faq-content">
-                <h3>Phương thức thanh toán?</h3>
-                <div className="payment-methods">
-                  <div className="payment-method">
-                    <i className="fas fa-money-bill"></i>
-                    <span>Tiền mặt</span>
-                  </div>
-                  <div className="payment-method">
-                    <i className="fas fa-credit-card"></i>
-                    <span>Thẻ ngân hàng</span>
-                  </div>
-                  <div className="payment-method">
-                    <i className="fas fa-mobile-alt"></i>
-                    <span>Ví điện tử</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="faq-group">
-              <div className="faq-icon">
-                <i className="fas fa-clock"></i>
-              </div>
-              <div className="faq-content">
-                <h3>Thời gian giao hàng?</h3>
-                <div className="delivery-info">
-                  <p className="delivery-time">20-30 phút</p>
-                  <p className="delivery-note">*Thời gian có thể thay đổi tùy theo khu vực</p>
-                </div>
-              </div>
-            </div>
+    <><Header/>
+    <div className="help-container">
+      <h1>Trung Tâm Trợ Giúp</h1>
+      <p className="intro">Dưới đây là những câu hỏi thường gặp từ khách hàng:</p>
+      <div className="faq-list">
+        {faqs.map((faq, index) => (
+          <div className="faq-item" key={index}>
+            <h3 className="faq-question">Q: {faq.question}</h3>
+            <p className="faq-answer">A: {faq.answer}</p>
           </div>
-        </div>
-
-        <div className="help-section">
-          <h2>Liên hệ với chúng tôi</h2>
-          <div className="contact-info">
-            <div className="contact-item">
-              <h4>Hotline</h4>
-              <p>1900 xxxx</p>
-            </div>
-            <div className="contact-item">
-              <h4>Email</h4>
-              <p>support@hustfood.com</p>
-            </div>
-            <div className="contact-item">
-              <h4>Địa chỉ</h4>
-              <p>Số 1 Đại Cồ Việt, Hai Bà Trưng, Hà Nội</p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
+    <Footer /></>
   );
 };
 

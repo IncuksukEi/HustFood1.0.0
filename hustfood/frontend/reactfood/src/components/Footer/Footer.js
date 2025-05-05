@@ -32,37 +32,37 @@ const Footer = () => {
       if (item === 'Trung tâm trợ giúp') {
         navigate('/help');
       }
-      else if (item === "Hust'food mail") {
-        navigate('/mail');
-      }
+      // else if (item === "Hust'food mail") {
+      //   navigate('/mail');
+      // }
       else{
         navigate('/guide');
       }
     }
-    else if (category === 'Giới thiệu') {
+    else if (category === 'Chính sách') {
       // Handle introduction link clicks (About, Careers, Terms)
-      if (item === 'Giới thiệu') {
-        navigate('/about');
+      if (item === 'Quy định chung') {
+        navigate('/general');
       }
-      else if (item === 'Tuyển dụng') {
-        navigate('/careers');
-      }
-      else{
-        navigate('/terms');
-      }
-    } 
-    else if (category === 'Danh mục') {
-      // Handle category link clicks (Snacks, Drinks, Sweets)
-      if (item === 'Bim Bim') {
-        navigate('/snacks');
-      }
-      else if (item === 'Nước ngọt') {
-        navigate('/drinks');
+      else if (item === 'Thanh toán khi đặt hàng') {
+        navigate('/payorder');
       }
       else{
-        navigate('/sweets');
+        navigate('/work');
       }
     } 
+    // else if (category === 'Danh mục') {
+    //   // Handle category link clicks (Snacks, Drinks, Sweets)
+    //   if (item === 'Bim Bim') {
+    //     navigate('/snacks');
+    //   }
+    //   else if (item === 'Nước ngọt') {
+    //     navigate('/drinks');
+    //   }
+    //   else{
+    //     navigate('/sweets');
+    //   }
+    // } 
     else if (category === 'Theo dõi') {
       handleSocialClick(item.toLowerCase());
     } 
@@ -83,26 +83,26 @@ const Footer = () => {
       heading: 'Chăm sóc khách hàng',
       items: [
         { name: 'Trung tâm trợ giúp', id: 'help-center' },
-        { name: "Hust'food mail", id: 'mail' },
+        // { name: "Hust'food mail", id: 'mail' },
         { name: 'Hướng dẫn mua hàng', id: 'guide' },
       ],
     },
     {
-      heading: 'Giới thiệu',
+      heading: 'Chính sách',
       items: [
-        { name: 'Giới thiệu', id: 'about' },
-        { name: 'Tuyển dụng', id: 'careers' },
-        { name: 'Điều khoản', id: 'terms' },
+        { name: 'Quy định chung', id: 'general' },
+        { name: 'Thanh toán khi đặt hàng', id: 'payorder' },
+        { name: 'Hoạt động', id: 'work' },
       ],
     },
-    {
-      heading: 'Danh mục',
-      items: [
-        { name: 'Bim Bim', id: 'snacks' },
-        { name: 'Nước ngọt', id: 'drinks' },
-        { name: 'Bánh kẹo', id: 'sweets' },
-      ],
-    },
+    // {
+    //   heading: 'Danh mục',
+    //   items: [
+    //     { name: 'Bim Bim', id: 'snacks' },
+    //     { name: 'Nước ngọt', id: 'drinks' },
+    //     { name: 'Bánh kẹo', id: 'sweets' },
+    //   ],
+    // },
     {
       heading: 'Theo dõi',
       items: [
