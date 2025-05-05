@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './Header.css';
-import '../../styles/base.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './Header.css';
+import '../../styles/base.css';
+import noCartImage from '../../assets/images/img/no_cart.png'; // Adjust the path as needed
+import logo from '../../assets/images/img/logo.png';
+import avt from '../../assets/images/img/avt.jpg';
+import { getSocialMediaLinks } from '../../services/mediaService';
+import { logoutUser } from '../../services/authService';
+import { removeCartItem } from '../../services/cartService';
+import { fetchLatestProducts } from '../../services/productService';
+import AuthModal from '../AuthModal/AuthModal';
 import {
   faCheck,
   faBell,
@@ -14,54 +22,26 @@ import {
   faFacebook,
   faInstagram
 } from '@fortawesome/free-brands-svg-icons';
-import noCartImage from '../../assets/images/img/no_cart.png'; // Adjust the path as needed
-import logo from '../../assets/images/img/logo.png';
-import avt from '../../assets/images/img/avt.jpg';
-import {
-  logoutUser,
-  removeCartItem,
-  getSocialMediaLinks,
-  fetchLatestProducts,
-} from '../../services/headerService';
-import AuthModal from '../AuthModal/AuthModal';
+
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   // State for dropdowns
-  const [isNotifyOpen, setIsNotifyOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [notifications, setNotifications] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Refs for click-outside detection
-  const notifyRef = useRef(null);
   const userMenuRef = useRef(null);
   const cartRef = useRef(null);
-
-  // Fetch notifications and cart items on mount
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const cartData = await fetchLatestProducts();
-        setNotifications(cartData);
-      } catch (error) {
-        console.error('Error loading data:', error);
-      }
-    };
-
-    loadData();
-  }, []);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (notifyRef.current && !notifyRef.current.contains(event.target)) {
-        setIsNotifyOpen(false);
-      }
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false);
       }
@@ -73,8 +53,6 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
   /////////////////////////////////
-
-  const navigate = useNavigate();
 
   // chuyển đổi giữa người mua và người bán
   const handleSwitchToSeller = () => {
@@ -90,28 +68,6 @@ const Header = () => {
       window.open(url, '_blank'); // Mở liên kết trong một tab mới
     } else {
       console.error(`No URL found for platform: ${platform}`);
-    }
-  };
-
-  // xử lý khi nhấp vào thông báo
-  const handleNotifyClick = async (itemId) => {
-    try {
-      if (itemId === 'all') {
-        navigate('/notifications'); // Chuyển hướng đến trang thông báo
-        // đánh dấu tất cả thông báo là đã xem
-        setNotifications((prev) =>
-          prev.map((item) => ({ ...item, viewed: true })) // Cập nhật trạng thái thông báo
-        );
-      } else {
-        navigate(`/product/${itemId}`);
-        setNotifications((prev) =>
-          prev.map((item) =>
-            item.id === itemId ? { ...item, viewed: true } : item
-          )
-        );
-      }
-    } catch (error) {
-      console.error('Error handling notification click:', error);
     }
   };
 
@@ -212,48 +168,6 @@ const Header = () => {
               </li>
             </ul>
             <ul className="header__navbar-list">
-              <li
-                className="header__navbar-item header__navbar-item--has-notify"
-                ref={notifyRef}
-                onClick={() => setIsNotifyOpen(!isNotifyOpen)}
-                role="button"
-                aria-expanded={isNotifyOpen}
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && setIsNotifyOpen(!isNotifyOpen)}
-              >
-                <div className="header__navbar-item-link">
-                  <FontAwesomeIcon icon={faBell} className="header__navbar-icon" />
-                  THÔNG BÁO
-                </div>
-                {isNotifyOpen && (
-                  <div className="header__notify">
-                    <header className="header__notify-header">
-                      <h3>Thông báo mới nhận</h3>
-                    </header>
-                    <ul className="header__notify-list">
-                      {notifications.map((item) => (
-                        <li
-                          key={item.id}
-                          className={`header__notify-item ${item.viewed ? 'header__notify-item--viewed' : ''}`}
-                        >
-                          <button className="header__notify-link" onClick={() => handleNotifyClick(item.id)}>
-                            <img src={item.img} alt="" className="header__notify-img" />
-                            <div className="header__notify-info">
-                              <span className="header__notify-name">{item.name}</span>
-                              <span className="header__notify-descriotion">{item.description}</span>
-                            </div>
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                    <footer className="header__notify-footer">
-                      <div className="header__notify-footer-btn" onClick={() => handleNotifyClick('all')}>
-                        Xem tất cả
-                      </div>
-                    </footer>
-                  </div>
-                )}
-              </li>
               <li className="header__navbar-item">
                 <div className="header__navbar-item-link" onClick={handleHelpClick}>
                   <FontAwesomeIcon icon={faCircleQuestion} className="header__navbar-icon" />
