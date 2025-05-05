@@ -1,6 +1,6 @@
-import img0 from "../assets/images/banner/img0.webp";
-import img1 from "../assets/images/banner/img1.webp";
-import img2 from "../assets/images/banner/img2.webp";
+import img0 from "../assets/images/banner/img0.png";
+import img1 from "../assets/images/banner/img1.png";
+import img2 from "../assets/images/banner/img2.png";
 
 export const billboardData = [
     {

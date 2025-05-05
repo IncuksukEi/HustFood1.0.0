@@ -2,8 +2,9 @@ import React, {useState, useEffect} from "react";
 import ProductItem from "./ProductItem";
 import "./ProductList.css";
 import {getProducts} from "../../services/productService";
+import { Link } from 'react-router-dom';
 
-const ProductList = ({ products: searchResults }) => {
+const ProductList = ({ products: searchResults, queryToBack}) => {
   const [products, setProducts] = useState([]); // Initialize with productsData
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const ProductList = ({ products: searchResults }) => {
   return (
     <div className="grid__row">
       {products.map((product, index) => (
-        <ProductItem key={index} {...product} />
+        <ProductItem key={index} {...product} queryToBack={queryToBack}/>
       ))}
     </div>
   );
