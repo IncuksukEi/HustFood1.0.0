@@ -1,0 +1,71 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 3rem;
+}
+.card {
+  background: var(--color-text);
+  padding: 2rem 1rem;
+  border-radius: 3px;
+}
+.card-icon {
+  text-align: center;
+  display: grid;
+  place-items: center;
+}
+.card-icon span {
+  height: 50px;
+  width: 50px;
+  color: var(--color-main);
+  font-size: 2.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+.users span {
+  color: #0072f2;
+  background-color: #e5f3f3;
+}
+.prod span {
+  color: #f42a26;
+  background-color: #fde9ea;
+}
+.orders span {
+  color: #ffbc01;
+  background-color: #fff8e5;
+}
+.card-info {
+  text-align: center;
+  margin-top: 0.6rem;
+}
+.card-info h2 {
+  font-size: 3rem;
+  color: var(--color-main);
+}
+.card-info small {
+  display: inline-block;
+  color: var(--color-button1);
+  font-weight: 500;
+  font-size: 1.4rem;
+}
+.chart-grid {
+  display: grid;
+  grid-template-columns: 64% auto;
+  margin-top: 3rem;
+  grid-gap: 2.5rem;
+}
+.chart-users,
+.chart-sales {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 3px;
+}
+.chart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #000;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #999;
+  margin-bottom: 1rem;
+}

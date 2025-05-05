@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <title>Admin</title>
+  </head>
+  <body>
+    <input type="checkbox" id="navbar-toggle" />
+    <div class="navbar">
+      <div class="navbar-brand">
+        <div class="brand-flex">
+          <button class="las la-home"></button>
+          <div class="brand-icons">
+            <span class="las la-bell"></span>
+            <span class="las la-user-circle"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-main">
+        <div class="navbar-user">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/vi/thumb/e/ef/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg/1200px-Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg.png"
+            alt=""
+            width="40px"
+          />
+          <div>
+            <h3>HUST FOOD</h3>
+            <span>Trang quản lý</span>
+          </div>
+        </div>
+        <div class="navbar-menu">
+          <div class="menu-head">
+            <span>Bảng điều khiển</span>
+          </div>
+          <ul>
+            <li>
+              <a href="#" class="active">
+                <span class="las la-balance-scale"></span>
+                Thống kê tài chính
+              </a>
+            </li>
+            <li>
+              <a href="analytics.html">
+                <span class="las la-chart-pie"></span>
+                Phân tích
+              </a>
+            </li>
+          </ul>
+          <div class="menu-head">
+            <span>Phần quản lý</span>
+          </div>
+          <ul>
+            <li>
+              <a href="prodmana.html">
+                <span class="las la-shopping-cart"></span>
+                Quản lý sản phẩm
+              </a>
+            </li>
+            <li>
+              <a href="ordersmana.html">
+                <span class="las la-envelope"></span>
+                Quản lý đơn hàng
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <header>
+        <div class="menu-toggle">
+          <label for="navbar-toggle">
+            <span class="las la-bars"></span>
+          </label>
+        </div>
+        <div class="search">
+          <input type="search" placeholder="Muốn tìm gì nào?" />
+          <span class="las la-search"></span>
+        </div>
+        <div class="header-icons"></div>
+      </header>
+      <main>
+        <div class="page-header">
+          <div>
+            <h1>Thống kê tài chính</h1>
+            <small
+              >Theo dõi các số liệu chính. Kiểm tra và xem thông tin chi
+              tiết</small
+            >
+          </div>
+          <div class="header-actions">
+            <button>
+              <span class="las la-file-export"></span>
+              Export
+            </button>
+            <button>
+              <span class="las la-tools"></span>
+              Settings
+            </button>
+          </div>
+        </div>
+        <div class="cards">
+          <div class="card-single">
+            <div class="card-flex">
+              <div class="card-info">
+                <div class="card-head">
+                  <span>Mua hàng</span>
+                  <small>Số lượng mua hàng</small>
+                </div>
+                <h2>17,663</h2>
+                <small>Giảm 2%</small>
+              </div>
+              <div class="card-chart danger">
+                <span class="las la-chart-line"></span>
+              </div>
+            </div>
+          </div>
+          <div class="card-single">
+            <div class="card-flex">
+              <div class="card-info">
+                <div class="card-head">
+                  <span>Hủy đơn</span>
+                  <small>Giá trị của đơn hàng bị hủy</small>
+                </div>
+                <h2>$4,523.11</h2>
+                <small>Bị hủy ít hơn 10%</small>
+              </div>
+              <div class="card-chart success">
+                <span class="las la-chart-line"></span>
+              </div>
+            </div>
+          </div>
+          <div class="card-single">
+            <div class="card-flex">
+              <div class="card-info">
+                <div class="card-head">
+                  <span>Khách hàng</span>
+                  <small>Số lượng khách hàng đặt hàng</small>
+                </div>
+                <h2>46,085</h2>
+                <small>ít hơn 2% số lượng khách truy cập</small>
+              </div>
+              <div class="card-chart yellow">
+                <span class="las la-chart-line"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="jobs-grid">
+          <div class="analytics-card">
+            <div class="analytics-head">
+              <h3>Các hành động cần thực hiện</h3>
+              <span class="las la-ellipsis-h"></span>
+            </div>
+            <div class="analytics-chart">
+              <div class="chart-circle">
+                <h1>74%</h1>
+              </div>
+              <div class="analytics-note">
+                <small
+                  >Lưu ý: Sprint hiện tại cần một cuộc họp với các bên liên quan
+                  để đi đến kết luận.</small
+                >
+              </div>
+            </div>
+            <div class="analytics-btn">
+              <button>Tạo báo cáo</button>
+            </div>
+          </div>
+          <div class="jobs">
+            <h2>
+              Sản Phẩm
+              <small
+                >Xem tất cả sản phẩm <span class="las la-arrow-right"></span
+              ></small>
+            </h2>
+            <div class="table-responsive">
+              <table width="100%">
+                <tbody>
+                  <tr>
+                    <td>
+                      <div>
+                        <span class="indicator"></span>
+                      </div>
+                    </td>
+                    <td>
+                      <div>Cơm gà</div>
+                    </td>
+                    <td><div>45.000đ</div></td>
+                    <td><div>Món gà rán</div></td>
+                    <td><div>Đăng 6 ngày trước</div></td>
+                    <td>
+                      <div>
+                        <button>Xem thêm</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <span class="indicator even"></span>
+                      </div>
+                    </td>
+                    <td>
+                      <div>Cơm gà rán</div>
+                    </td>
+                    <td>
+                      <div>45.000đ</div>
+                    </td>
+                    <td>
+                      <div>Món gà rán</div>
+                    </td>
+                    <td>
+                      <div>Đăng 6 ngày trước</div>
+                    </td>
+                    <td>
+                      <div>
+                        <button>Xem thêm</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <span class="indicator"></span>
+                      </div>
+                    </td>
+                    <td>
+                      <div>Cơm phi lê gà</div>
+                    </td>
+                    <td>
+                      <div>45.000đ</div>
+                    </td>
+                    <td>
+                      <div>Món gà rán</div>
+                    </td>
+                    <td>
+                      <div>Đăng 6 ngày trước</div>
+                    </td>
+                    <td>
+                      <div>
+                        <button>Xem thêm</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <span class="indicator even"></span>
+                      </div>
+                    </td>
+                    <td>
+                      <div>Gà viên</div>
+                    </td>
+                    <td>
+                      <div>30.000đ</div>
+                    </td>
+                    <td>
+                      <div>Món gà rán</div>
+                    </td>
+                    <td>
+                      <div>Đăng 6 ngày trước</div>
+                    </td>
+                    <td>
+                      <div>
+                        <button>Xem thêm</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <label for="navbar-toggle" class="body-label"></label>
+  </body>
+</html>

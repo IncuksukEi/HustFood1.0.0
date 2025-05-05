@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/prodmana.css" />
+    <title>Admin</title>
+  </head>
+  <body>
+    <input type="checkbox" id="navbar-toggle" />
+    <div class="navbar">
+      <div class="navbar-brand">
+        <div class="brand-flex">
+          <button class="las la-home"></button>
+          <div class="brand-icons">
+            <span class="las la-bell"></span>
+            <span class="las la-user-circle"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-main">
+        <div class="navbar-user">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/vi/thumb/e/ef/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg/1200px-Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg.png"
+            alt=""
+            width="40px"
+          />
+          <div>
+            <h3>HUST FOOD</h3>
+            <span>Trang quản lý</span>
+          </div>
+        </div>
+        <div class="navbar-menu">
+          <div class="menu-head">
+            <span>Bảng điều khiển</span>
+          </div>
+          <ul>
+            <li>
+              <a href="#">
+                <span class="las la-balance-scale"></span>
+                Thống kê tài chính
+              </a>
+            </li>
+            <li>
+              <a href="analytics.html">
+                <span class="las la-chart-pie"></span>
+                Phân tích
+              </a>
+            </li>
+          </ul>
+          <div class="menu-head">
+            <span>Phần quản lý</span>
+          </div>
+          <ul>
+            <li>
+              <a href="#" class="active">
+                <span class="las la-shopping-cart"></span>
+                Quản lý sản phẩm
+              </a>
+            </li>
+            <li>
+              <a href="ordersmana.html">
+                <span class="las la-envelope"></span>
+                Quản lý đơn hàng
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <header>
+        <div class="menu-toggle">
+          <label for="navbar-toggle">
+            <span class="las la-bars"></span>
+          </label>
+        </div>
+        <div class="search">
+          <input type="search" placeholder="Muốn tìm gì nào?" />
+          <span class="las la-search"></span>
+        </div>
+        <div class="header-icons"></div>
+      </header>
+      <main>
+        <div class="products">
+          <h2>Danh sách sản phẩm</h2>
+          <button>Thêm sản phẩm</button>
+          <div class="table-responsive">
+            <table width="100%">
+              <thead>
+                <tr>
+                  <th><div>Tên sản phẩm</div></th>
+                  <th><div>Giá bán</div></th>
+                  <th><div>Các chi phí khác</div></th>
+                  <th><div>Lợi nhuận</div></th>
+                  <th><div>Loại</div></th>
+                  <th><div>Mô tả</div></th>
+                  <th><div>Trạng thái</div></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div>Gà sốt cay</div></td>
+                  <td><div>50.000đ</div></td>
+                  <td><div>10.000đ</div></td>
+                  <td><div>40.000đ</div></td>
+                  <td><div>Món gà rán</div></td>
+                  <td>
+                    <div>
+                      Món gà sốt cay đặc biệt, hương vị đậm đà, phù hợp cho
+                      những tín đồ mê cay nồng...
+                    </div>
+                  </td>
+                  <td>
+                    <div class="product_actions">
+                      <button class="edit">Chỉnh sửa</button>
+                      <button class="delete">Xóa</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal">
+          <div class="modal_overlay"></div>
+          <div class="modal_content">
+            <h2>Thêm Sản Phẩm Mới</h2>
+            <form class="product_form">
+              <label>
+                Tên sản phẩm:
+                <input type="text" name="name" required />
+              </label>
+
+              <label>
+                Giá bán:
+                <input type="number" name="price" required />
+              </label>
+
+              <label>
+                Các chi phí khác:
+                <input type="number" name="extraCosts" />
+              </label>
+
+              <!-- <label>
+                Lợi nhuận:
+                <input type="number" name="profit" />
+              </label> -->
+
+              <label>
+                Loại:
+                <select name="type" required>
+                  <option value="Món gà rán">Món gà rán</option>
+                  <option value="Burger và cơm">Burger và cơm</option>
+                  <option value="Thức ăn nhẹ">Thức ăn nhẹ</option>
+                  <option value="Tráng miệng">Tráng miệng</option>
+                  <option value="Đồ uống">Đồ uống</option>
+                </select>
+              </label>
+
+              <label>
+                Mô tả:
+                <textarea
+                  name="description"
+                  maxlength="500"
+                  rows="5"
+                ></textarea>
+              </label>
+
+              <div class="product_actions">
+                <button type="submit" class="add">Thêm</button>
+                <button type="button" class="update">Cập nhật</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <label for="navbar-toggle" class="body-label"></label>
+    <script src="assets/js/prodmana.js"></script>
+  </body>
+</html>
