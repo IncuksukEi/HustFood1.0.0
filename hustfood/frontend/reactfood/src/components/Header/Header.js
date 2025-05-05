@@ -9,11 +9,9 @@ import avt from '../../assets/images/img/avt.jpg';
 import { getSocialMediaLinks } from '../../services/mediaService';
 import { logoutUser } from '../../services/authService';
 import { removeCartItem } from '../../services/cartService';
-import { fetchLatestProducts } from '../../services/productService';
 import AuthModal from '../AuthModal/AuthModal';
 import {
   faCheck,
-  faBell,
   faCircleQuestion,
   faMagnifyingGlass,
   faCartShopping,
@@ -27,19 +25,17 @@ import {
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  // State for dropdowns
+  const [error, setError] = useState(null);
+  const [mode, setMode] = useState('');
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
-
-  // Refs for click-outside detection
   const userMenuRef = useRef(null);
   const cartRef = useRef(null);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -52,7 +48,6 @@ const Header = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-  /////////////////////////////////
 
   // chuyển đổi giữa người mua và người bán
   const handleSwitchToSeller = () => {
@@ -61,28 +56,30 @@ const Header = () => {
 
   // đi đến các trang mạng xã hội
   const handleSocialClick = (platform) => {
-    const socialMediaLinks = getSocialMediaLinks(); // Lấy các liên kết mạng xã hội từ headerService.js
-    const url = socialMediaLinks[platform]; // Lấy URL tương ứng với nền tảng (Facebook hoặc Instagram)
+    const socialMediaLinks = getSocialMediaLinks();
+    const url = socialMediaLinks[platform]; 
   
     if (url) {
-      window.open(url, '_blank'); // Mở liên kết trong một tab mới
+      window.open(url, '_blank');
     } else {
-      console.error(`No URL found for platform: ${platform}`);
+      setError(error.message);
     }
   };
 
   // xử lý khi nhấp vào trợ giúp
   const handleHelpClick = () => {
-    navigate('/help'); // Chuyển hướng đến trang trợ giúp
+    navigate('/help');
   };
 
   // xử lý khi nhấp vào đăng ký
   const handleRegisterClick = () => {
+    setMode('signup');
     setShowAuthModal(true);
   };
 
   // xử lý khi nhấp vào đăng nhập
   const handleLoginClick = () => {
+    setMode('login');
     setShowAuthModal(true);
   };
 
@@ -90,15 +87,13 @@ const Header = () => {
   const handleUserMenuClick = async (action) => {
     try {
       if (action === 'profile') {
-        navigate('/profile'); // Chuyển hướng đến trang hồ sơ người dùng
-      } else if (action === 'orders') {
-        navigate('/cart'); // Chuyển hướng đến trang đơn hàng
+        navigate('/profile');
       } else if (action === 'logout') {
         const status = await logoutUser();
-        setIsAuthenticated(status); // Đánh dấu người dùng là đã đăng xuất
+        setIsAuthenticated(status);
       }
     } catch (error) {
-      console.error('Error handling user menu action:', error);
+      setError(error.message);
     }
   };
 
@@ -123,13 +118,13 @@ const Header = () => {
     }
   };
 
-  // xử lý khi nhấp vào sản phẩm trong giỏ hàng
+  // xử lý khi xoá sản phẩm trong giỏ hàng
   const handleCartItemRemove = async (itemId) => {
     try {
       await removeCartItem(itemId);
       setCartItems((prev) => prev.filter((item) => item.id !== itemId));
     } catch (error) {
-      console.error('Error removing cart item:', error);
+      setError(error.message);
     }
   };
 
@@ -203,9 +198,6 @@ const Header = () => {
                       <ul className="header__navbar-user-menu">
                         <li className="header__navbar-user-item">
                           <div onClick={() => handleUserMenuClick('profile')}>Tài khoản của tôi</div>
-                        </li>
-                        <li className="header__navbar-user-item">
-                          <div onClick={() => handleUserMenuClick('orders')}>Đơn mua</div>
                         </li>
                         <li className="header__navbar-user-item header__navbar-user-item--separate">
                           <div onClick={() => handleUserMenuClick('logout')}>Đăng xuất</div>
@@ -320,6 +312,8 @@ const Header = () => {
       <AuthModal 
         isOpen={showAuthModal} 
         onClose={() => setShowAuthModal(false)}
+        modeInit={mode}
+        onChangeMode={(newMode) => setMode(newMode)}
       />
     </>
   );
