@@ -2,7 +2,8 @@ import axios from 'axios';
 
 export const getProducts = async () => {
     try{
-        // list 10
+        // list all products
+        // product_id
         // name
         // description
         // price
@@ -42,3 +43,13 @@ export const getProductById = async (productId) => {
         throw error;
     }
 }
+
+// lấy danh sách 10 sản phẩm mới nhất để hiển thị trong thông báo
+export const fetchLatestProducts = async () => {
+    try {
+      const response = await axios.get(`https://latest-products`);
+      return response.data; // Return the list of latest products
+    } catch (error) {
+      throw error;
+    }
+};
