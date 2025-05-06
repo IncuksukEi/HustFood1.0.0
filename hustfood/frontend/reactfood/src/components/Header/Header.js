@@ -297,12 +297,11 @@ const Header = () => {
                               <h5 className="header__cart-item-name">{item.name}</h5>
                               <span className="header__cart-item-price-wrap">
                                 <span className="header__cart-item-price">{item.price}</span>
-                                <span className="header__cart-item-multiply">x</span>
+                                <span className="header__cart-item-multiply"> x </span>
                                 <span className="header__cart-item-qnt">{item.quantity}</span>
                               </span>
                             </div>
                             <div className="header__cart-item-body">
-                              <div className="header__cart-item-description">Phân loại: {item.category}</div>
                               <button
                                 className="header__cart-item-remove"
                                 onClick={() => handleCartItemRemove(item.id)}
