@@ -9,6 +9,7 @@ import avt from '../../assets/images/img/avt.jpg';
 import { getSocialMediaLinks } from '../../services/mediaService';
 import { logoutUser } from '../../services/authService';
 import { removeCartItem } from '../../services/cartService';
+import { getCartItems } from '../../services/cartService'; // Assuming you have a function to fetch cart items
 import AuthModal from '../AuthModal/AuthModal';
 import {
   faCheck,
@@ -20,6 +21,7 @@ import {
   faFacebook,
   faInstagram
 } from '@fortawesome/free-brands-svg-icons';
+import productsData from '../../data/productsData';
 
 
 const Header = () => {
@@ -35,6 +37,19 @@ const Header = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const userMenuRef = useRef(null);
   const cartRef = useRef(null);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const items = await getCartItems(); // Assuming you have a function to fetch cart items
+        setCartItems(items);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    /*fetchCartItems();*/
+    setCartItems(productsData); // Set initial cart items for demonstration
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -271,9 +286,9 @@ const Header = () => {
                     <h4 className="header__cart-heading">Sản phẩm đã thêm</h4>
                     <ul className="header__cart-list-item">
                       {cartItems.map((item) => (
-                        <li key={item.id} className="header__cart-item">
+                        <li key={item.product_id} className="header__cart-item">
                           <img
-                            src="https://down-vn.img.susercontent.com/file/92ed62261c9121f7808e0b1915cf7c99.webp"
+                            src={item.url_img}
                             alt=""
                             className="header__cart-img"
                           />
