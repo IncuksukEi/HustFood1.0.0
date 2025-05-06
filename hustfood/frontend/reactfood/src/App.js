@@ -6,7 +6,6 @@ import Cart from './pages/Cart/Cart';
 import Profile from './pages/Profile/Profile';
 import Pay from './pages/Pay/Pay';
 import Help from './pages/Help/Help';
-import Management from './pages/Management/Management';
 import Home from './pages/Home/Home';
 import Guide from './pages/Guide/Guide';
 import PayOrder from './pages/PayOrder/PayOrder' //Chinh sach thanh toan khi dat hang (thuoc Footer)
@@ -20,7 +19,6 @@ function App() {
         <Route path="/" element={<Home />} />                      { /*created*/ }
         <Route path="/Search" element={<HomeSearch />} />          { /*created*/ }
         <Route path="/help" element={<Help />} />                  { /*created*/ }
-        <Route path="/management" element={<Management />} />
         <Route path="/product" element={<Product />} />            { /*created*/ }
         <Route path="/cart" element={<Cart />} />                  { /*created*/ } 
         <Route path="/profile" element={<Profile />} />
