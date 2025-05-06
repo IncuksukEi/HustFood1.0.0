@@ -787,7 +787,18 @@
 }
 
 .header__cart-item-remove {
-  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 25px;
+  border-radius: 45%;
+  background-color: #f5f5f5;
+  margin: 0 5px;
+  border: 1px solid #e8e8e8;
+  color: #757575;
+  font-weight: 500;
+  font-size: 1.3rem;
   color: var(--text-color);
 }
 
