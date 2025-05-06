@@ -675,7 +675,8 @@
   cursor: pointer;
 }
 
-.header__cart-wrap:hover .header__cart-list {
+.header__cart-wrap/*:hover*/
+.header__cart-list {
   display: block;
 }
 
