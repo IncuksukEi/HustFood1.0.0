@@ -1,5 +1,14 @@
 import axios from 'axios';
 
+export const getCartItems = async () => {
+    try {
+        const response = await axios.get('https://cart');
+        return response.data; // Return the cart items
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const removeCartItem = async (itemId) => {
     try {
       const response = await axios.delete(`https://cart/${itemId}`);
