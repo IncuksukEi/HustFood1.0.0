@@ -87,6 +87,19 @@
   margin-top: 1px;
 }
 
+.auth-form__policy-checked span {
+  color: red; /* Đặt màu chữ là đỏ */
+}
+
+.auth-form__policy-checked {
+  margin-top: 4px; /* Add spacing between the label and the new line */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: red; /* Keep the text red */
+}
+
 .auth-form__submit {
   width: 100%;
   height: 32px; /* Add fixed height */
@@ -103,7 +116,7 @@
 }
 
 .auth-form__submit:hover {
-  background: #28a745;
+  background: #25983f;
 }
 
 .auth-form__separator {
@@ -149,7 +162,7 @@
 }
 
 .social-button.facebook:hover {
-  background: #1666d3;
+  background: #2e558c;
 }
 
 .social-button.google {
