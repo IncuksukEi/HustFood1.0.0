@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Category.css';
 
 // Import images
+import offerImg from '../../assets/images/categories/khuyen-mai.jpg';
 import newDishImg from '../../assets/images/categories/mon-moi.jpg';
 import singleComboImg from '../../assets/images/categories/combo-1-nguoi.jpg';
 import groupComboImg from '../../assets/images/categories/combo-nhom.jpg';
@@ -12,6 +13,7 @@ import snacksImg from '../../assets/images/categories/thuc-an-nhe.jpg';
 import drinksImg from '../../assets/images/categories/do-uong.jpg';
 
 const categories = [
+  { id: 0, name: 'Ưu đãi', image:offerImg, query: 'uu-dai' },
   { id: 1, name: 'Món Mới', image: newDishImg, query: 'mon-moi' },
   { id: 2, name: 'Combo 1 Người', image: singleComboImg, query: 'combo-1-nguoi' },
   { id: 3, name: 'Combo Nhóm', image: groupComboImg, query: 'combo-nhom' },
