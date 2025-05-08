@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&display=swap");
 .category-container {
   padding: 20px;
   max-width: 1200px;
@@ -5,10 +6,10 @@
 }
 
 .category-title {
-  font-size: 24px;
+  font-size: 20px;
   margin-bottom: 20px;
   color: black;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: Oswald;
 }
 
 .category-grid {
@@ -41,8 +42,8 @@
 
 .category-name {
   padding: 10px;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 550;
   background: #fff;
   border: 1px solid #eee;
 }

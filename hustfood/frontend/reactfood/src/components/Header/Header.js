@@ -12,7 +12,6 @@ import { removeCartItem } from '../../services/cartService';
 import { getCartItems } from '../../services/cartService'; // Assuming you have a function to fetch cart items
 import AuthModal from '../AuthModal/AuthModal';
 import {
-  faCheck,
   faCircleQuestion,
   faMagnifyingGlass,
   faCartShopping,
@@ -159,11 +158,9 @@ const Header = () => {
                 <ul className="header__navbar-option">
                   <li className="header__navbar-option-item header__navbar-option-item--active">
                     <span>Kênh người mua</span>
-                    <FontAwesomeIcon icon={faCheck} />
                   </li>
                   <li className="header__navbar-option-item" onClick={handleSwitchToSeller}>
-                      <span>Kênh người bán</span>
-                      <FontAwesomeIcon icon={faCheck} />
+                    <span>Kênh người bán</span>
                   </li>
                 </ul>
               </li>
