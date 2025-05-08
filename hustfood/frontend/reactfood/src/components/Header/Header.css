@@ -724,54 +724,6 @@
   color: #ffffff;
 }
 
-.header__search-input:focus ~ .header__search-history {
-  display: block;
-}
-
-/* Search history */
-.header__search-history {
-  position: absolute;
-  top: calc(100% + 2px);
-  left: 0;
-  width: calc(100% - 16px);
-  background-color: var(--white-color);
-  border-radius: 2px;
-  box-shadow: 0 1px 5px #c9c9c9;
-  display: none;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.header__search-history-heading {
-  margin: 6px 12px;
-  font-size: 1.4rem;
-  color: #999;
-  font-weight: 400;
-}
-
-.header__search-history-list {
-  padding-left: 0;
-  list-style: none;
-  margin: 6px 0 0;
-}
-
-.header__search-history-item {
-  height: 38px;
-  padding: 0 12px;
-}
-
-.header__search-history-item:hover {
-  background-color: #fafafa;
-}
-
-.header__search-history-item a {
-  text-decoration: none;
-  font-size: 1.4rem;
-  line-height: 38px;
-  color: var(--text-color);
-  display: block;
-}
-
 /* Animations */
 @keyframes fadeIn {
   from {
