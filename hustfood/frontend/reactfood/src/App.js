@@ -11,6 +11,8 @@ import Guide from './pages/Guide/Guide';
 import PayOrder from './pages/PayOrder/PayOrder' //Chinh sach thanh toan khi dat hang (thuoc Footer)
 import Work from './pages/Work/Work' //Chinh sach hoat dong (thuoc Footer)
 import General from './pages/General/General' //Chinh sach chung (thuoc Footer)
+import History from './pages/History/History';
+import Reset from './pages/Reset/Reset';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/payorder" element={<PayOrder />} />          { /*created*/ }
         <Route path="/work" element={<Work />} />                  { /*created*/ }
         <Route path="/general" element={<General />} />            { /*created*/ }
+        <Route path="/history" element={<History />} />            { /*created*/ }
+        <Route path="/reset-password" element={<Reset />} />       { /*created*/ }
       </Routes>
     </Router>
   );
