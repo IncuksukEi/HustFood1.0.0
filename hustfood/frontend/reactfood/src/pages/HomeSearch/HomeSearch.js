@@ -10,6 +10,7 @@ import "../../styles/base.css";
 import ProductList from '../../components/ProductItem/ProductList';
 import productsData from "../../data/productsData";
 
+
 function HomeSearch() {
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -74,50 +75,7 @@ function HomeSearch() {
           <div className="grid__row app__content">
             <Sidebar />
             <div className="grid__column-10">
-              {/* Filter Section */}
-              <div className="home-filter">
-                <div className="home-filter__left">
-                  <span className="home-filter__label">Sắp xếp theo</span>
-                  <button className="home-filter__btn btn">Phổ biến</button>
-                  <button className="home-filter__btn btn btn--primary">Mới nhất</button>
-                  <button className="home-filter__btn btn">Bán chạy</button>
-  
-                  {/* Price Filter Dropdown */}
-                  <div className="select-input">
-                    <span className="select-input__label">Giá</span>
-                    <FontAwesomeIcon icon={faAngleDown} className="select-input__icon" />
-                    <ul className="select-input__list">
-                      <li className="select-input__item">
-                        <div className="select-input__link">Thấp đến cao</div>
-                      </li>
-                      <li className="select-input__item">
-                        <div className="select-input__link">Cao đến thấp</div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-  
-                {/* Pagination Controls */}
-                <div className="home-filter__page">
-                  <span className="home-filter__page-num">
-                    <span className="home-filter__page-current">1</span>
-                    <span className="home-filter__page-separator">/</span>
-                    <span className="home-filter__page-total">14</span>
-                  </span>
-                  <div className="home-filter__page-control">
-                    <div 
-                      className="home-filter__page-btn home-filter__page-btn--disabled"
-                      disabled
-                    >
-                      <FontAwesomeIcon icon={faAngleLeft} />
-                    </div>
-                    <div className="home-filter__page-btn">
-                      <FontAwesomeIcon icon={faAngleRight} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
+              
               {/* Search Results Section */}
               <div className="home-product">
                 {searchResults.length === 0 ? (
@@ -127,41 +85,6 @@ function HomeSearch() {
                 ) : (
                   <ProductList products={searchResults} queryToBack={queryToBack}/>
                 )}
-              </div>
-  
-              {/* Main Pagination */}
-              <div className="pagination-container">
-                <ul className="pagination home-product__pagination">
-                  <li className="pagination-item">
-                    <div className="pagination-item__link">
-                      <FontAwesomeIcon icon={faAngleLeft} />
-                    </div>
-                  </li>
-                  
-                  <li className="pagination-item pagination-item--active">
-                    <div className="pagination-item__link">1</div>
-                  </li>
-                  <li className="pagination-item">
-                    <div className="pagination-item__link">2</div>
-                  </li>
-                  <li className="pagination-item">
-                    <div className="pagination-item__link">3</div>
-                  </li>
-                  
-                  <li className="pagination-item pagination-item--dots">
-                    <span className="pagination-item__link">...</span>
-                  </li>
-                  
-                  <li className="pagination-item">
-                    <div className="pagination-item__link">14</div>
-                  </li>
-                  
-                  <li className="pagination-item">
-                    <div className="pagination-item__link">
-                      <FontAwesomeIcon icon={faAngleRight} />
-                    </div>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>

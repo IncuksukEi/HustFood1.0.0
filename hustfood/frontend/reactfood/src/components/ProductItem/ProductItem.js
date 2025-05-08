@@ -1,12 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProductItem.css";
+import { updateCartItem, addCartItem } from "../../services/cartService";
+import { getUser } from "../../services/userService";
+import { getCartItemByProductId } from "../../services/cartService";
 
 const ProductItem = ({ product_id, name, price, url_img, description, queryToBack }) => {
   const navigate = useNavigate();
-  const handleAddToCart = () => {
-    // Logic will be implemented later
-    console.log("Add to cart:", name);
+
+  const handleGetUser = async () => {
+    try {
+      const user = await getUser();
+      return user;
+    } catch (error) {
+      throw error;
+    };
+  };
+
+  const handleAddToCart = async () => {
+    const user = await handleGetUser();
+    const cartItem = await getCartItemByProductId(user.user_id, product_id);
+    const newQuantity = cartItem ? cartItem.quantity + 1 : 1;
+    newQuantity === 1 ? await addCartItem({user_id: user.user_id, product_id, quantity: newQuantity}) : await updateCartItem(cartItem.cart_id, { ...cartItem, quantity: newQuantity });
   };
 
   const handleImageClick = () => {
