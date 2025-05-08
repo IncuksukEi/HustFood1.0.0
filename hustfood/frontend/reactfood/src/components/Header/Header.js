@@ -252,17 +252,6 @@ const Header = () => {
                     }
                   }}
                 />
-                <div className="header__search-history">
-                  <h3 className="header__search-history-heading">Lịch sử tìm kiếm</h3>
-                  <ul className="header__search-history-list">
-                    <li className="header__search-history-item">
-                      <div onClick={() => handleSearch('Project ăn liền')}>Project ăn liền</div>
-                    </li>
-                    <li className="header__search-history-item">
-                      <div onClick={() => handleSearch('Project free')}>Project free</div>
-                    </li>
-                  </ul>
-                </div>
               </div>
               <button className="header__search-btn" onClick={() => handleSearch(searchQuery)}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} className="header__search-btn-icon" />
