@@ -9,12 +9,23 @@
   transition: transform ease-in 0.1s;
   will-change: transform;
   padding: 12px;
-  /* height: 1000px; */
+}
+
+.grid__column-2-4 {
+  padding-left: 12px;
+  padding-right: 12px;
+  width: 25%;
+}
+
+.productitem {
+  width: 100%;
+  margin-bottom: 24px;
 }
 
 .home-product-item__info {
   display: flex;
   justify-content: space-between;
+  height: 34px;
 }
 
 .home-product-item:hover {
@@ -36,10 +47,8 @@
   color: #333;
   line-height: 1.8rem;
   margin: 0 0 4px 0;
-  height: auto;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  height: 30px;
+  max-width: 60%;
 }
 
 .home-product-item__price {
@@ -68,18 +77,18 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
   margin-bottom: 12px;
-  height: 35px; /* Cố định chiều cao phần mô tả */
+  height: 32px;
 }
 
 .home-product-item__add-btn {
   width: 100%;
   padding: 8px;
   margin-top: 12px;
-  background-color: #ccc;
+  background-color: #e8e8e8;
   border: none;
-  border-radius: 20px;
+  border-radius: 4px;
   font-size: 1.4rem;
-  color: #ffffff;
+  color: #333333;
   cursor: pointer;
   font-weight: normal;
   transition: background-color 0.2s ease;

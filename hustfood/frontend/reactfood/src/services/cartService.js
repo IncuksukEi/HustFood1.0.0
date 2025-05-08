@@ -9,6 +9,15 @@ export const getCartItems = async () => {
     }
 }
 
+export const getCartItemByProductId = async (user_id, productId) => {
+    try {
+        const response = await axios.get(`https://cart/${productId}/user/${user_id}`);
+        return response.data; // Return the cart item by ID
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const removeCartItem = async (itemId) => {
     try {
       const response = await axios.delete(`https://cart/${itemId}`);
@@ -18,10 +27,19 @@ export const removeCartItem = async (itemId) => {
     }
 };
 
-export const updateCartItem = async (itemId, data) => {
+export const updateCartItem = async (cartItemId, data) => {
     try {
-        const response = await axios.put(`https://cart/${itemId}`, data);
+        const response = await axios.put(`https://cart/${cartItemId}`, data);
         return response.data; // Return the updated cart item
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const addCartItem = async (data) => {
+    try {
+        const response = await axios.post('https://cart', data);
+        return response.data; // Return the added cart item
     } catch (error) {
         throw error;
     }
