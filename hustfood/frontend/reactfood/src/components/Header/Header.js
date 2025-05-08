@@ -30,7 +30,7 @@ const Header = () => {
   const [mode, setMode] = useState('');
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Assuming user is authenticated for demo
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -140,6 +140,17 @@ const Header = () => {
     } catch (error) {
       setError(error.message);
     }
+  };
+
+  // Add new handler for quantity updates
+  const handleUpdateQuantity = (itemId, change) => {
+    setCartItems(prev => prev.map(item => {
+      if (item.product_id === itemId) {
+        const newQuantity = item.quantity + change;
+        return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
+      }
+      return item;
+    }));
   };
 
   // xử lý khi nhấp vào giỏ hàng
@@ -281,11 +292,23 @@ const Header = () => {
                           <div className="header__cart-item-info">
                             <div className="header__cart-item-head">
                               <h5 className="header__cart-item-name">{item.name}</h5>
-                              <span className="header__cart-item-price-wrap">
-                                <span className="header__cart-item-price">{item.price}</span>
-                                <span className="header__cart-item-multiply"> x </span>
+                              <div className="header__cart-item-quantity">
+                                <button 
+                                  className="header__cart-item-quantity-btn"
+                                  onClick={() => handleUpdateQuantity(item.product_id, -1)}
+                                  disabled={item.quantity <= 1}
+                                >
+                                  -
+                                </button>
                                 <span className="header__cart-item-qnt">{item.quantity}</span>
-                              </span>
+                                <button 
+                                  className="header__cart-item-quantity-btn"
+                                  onClick={() => handleUpdateQuantity(item.product_id, 1)}
+                                >
+                                  +
+                                </button>
+                              </div>
+                              <span className="header__cart-item-price">{item.price}</span>
                             </div>
                             <div className="header__cart-item-body">
                               <button
