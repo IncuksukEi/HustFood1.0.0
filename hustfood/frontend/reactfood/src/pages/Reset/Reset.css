@@ -1,65 +1,30 @@
-.profile-page {
-  display: flex;
-  margin: 20px auto;
-  max-width: 1200px;
-}
-
-.profile-sidebar {
-  color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-right: 20px;
-  height: 100%;
-}
-
-.profile_content {
-  padding: 12px 0 12px 0;
-}
-.profile_container {
-  width: 600px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background: var(--white-color);
-}
-
-.detail-content {
+.reset-content {
   flex: 1;
   padding: 0 20px;
   display: flex;
   justify-content: center;
 }
 
-.detail-container {
+.reset-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   background: white;
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.detail-container h1 {
+.reset-container h1 {
   font-size: 24px;
   color: #202124;
   margin-bottom: 30px;
   text-align: center;
 }
 
-.detail-form {
+.reset-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.form-row {
-  display: flex;
-  gap: 20px;
-}
-
-.form-row .form-group {
-  flex: 1;
 }
 
 .form-group {
@@ -74,8 +39,7 @@
   font-weight: 500;
 }
 
-.form-group input,
-.form-group select {
+.form-group input {
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -83,13 +47,12 @@
   transition: border-color 0.2s ease;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.form-group input:focus {
   border-color: #e4002b;
   outline: none;
 }
 
-.update-button {
+.reset-button {
   background: #e4002b;
   color: white;
   border: none;
@@ -102,17 +65,10 @@
   margin-top: 10px;
 }
 
-.update-button:hover {
+.reset-button:hover {
   background: #c1001f;
 }
 
-.update-button:active {
+.reset-button:active {
   transform: scale(0.98);
-}
-
-@media (max-width: 600px) {
-  .form-row {
-    flex-direction: column;
-    gap: 20px;
-  }
 }
