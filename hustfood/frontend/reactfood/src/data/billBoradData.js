@@ -4,11 +4,11 @@ import img2 from "../assets/images/banner/img2.png";
 
 export const billboardData = [
     {
-        url_img: img0,
+        url_img: img1,
         name: "KFC Special Offer 0",
     },
     {
-        url_img: img1,
+        url_img: img0,
         name: "KFC Special Offer 1",
     },
     {
