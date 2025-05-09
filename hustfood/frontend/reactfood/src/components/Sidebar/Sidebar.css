@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&display=swap");
 .category {
   background-color: #fff;
   border-radius: 2px;
@@ -15,6 +16,7 @@
 
 .category__heading-icon {
   margin-right: 8px;
+  font-family: Oswald;
 }
 
 .category-list {
@@ -26,6 +28,10 @@
 .category-item {
   position: relative;
   padding: 8px 0;
+}
+
+.category-item__name {
+  font-family: Oswald;
 }
 
 .category-item--active .category-item__name {

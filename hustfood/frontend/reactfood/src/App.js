@@ -23,7 +23,7 @@ function App() {
         <Route path="/help" element={<Help />} />                  { /*created*/ }
         <Route path="/product" element={<Product />} />            { /*created*/ }
         <Route path="/cart" element={<Cart />} />                  { /*created*/ } 
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />            { /*created*/ }
         <Route path="/pay" element={<Pay />} />                    { /*created*/ }
         <Route path="/guide" element={<Guide />} />                { /*created*/ }
         <Route path="/payorder" element={<PayOrder />} />          { /*created*/ }
