@@ -4,7 +4,7 @@ import './Cart.css';
 import Header from '../../components/Header/Header'; 
 import Footer from '../../components/Footer/Footer';
 import productsData from '../../data/productsData';
-import { getCartItems } from '../../services/cartService';
+import { getAllCartItems } from '../../services/cartService';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const cartItems = await getCartItems();
+        const cartItems = await getAllCartItems();
         setItems(cartItems);
       } catch (error) {
         setError(error);
