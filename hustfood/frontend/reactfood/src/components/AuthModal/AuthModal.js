@@ -3,7 +3,7 @@ import './AuthModal.css';
 import { loginUser } from '../../services/authService';
 import { registerUser } from '../../services/authService';
 
-const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode }) => { 
+const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) => { 
     const [modeA, setModeA] = useState(modeInit);
     const [isChecked, setIsChecked] = useState(false);
     const [isFirstTime, setIsFirstTime] = useState(true);
@@ -25,8 +25,9 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode }) => {
         }
         try {
             const response = await loginUser(email, password);
-            if (response.status === 200) {
+            if (response) {
                 alert('Đăng nhập thành công!');
+                onLoginSuccess();
                 onClose();
             } else {
                 alert('Đăng nhập thất bại!');
@@ -53,7 +54,7 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode }) => {
         }
         try {
             const response = await registerUser(name, phone, email, password);
-            if (response.status === 200) {
+            if (response === 200) {
                 alert('Đăng ký thành công!');
                 onClose();
             } else {
@@ -129,12 +130,12 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode }) => {
                             {modeA === 'login' ? (
                                 <>
                                     <span>Bạn chưa có tài khoản? </span>
-                                    <button onClick={() => {onChangeMode('signup'); setModeA('signup')}}>Đăng ký</button>
+                                    <button onClick={() => {onChangeMode('signup')}}>Đăng ký</button>
                                 </>
                             ) : (
                                 <>
                                     <span>Bạn đã có tài khoản? </span>
-                                    <button onClick={() => {onChangeMode('login'); setModeA('login')}}>Đăng nhập</button>
+                                    <button onClick={() => {onChangeMode('login')}}>Đăng nhập</button>
                                 </>
                             )}
                         </div>

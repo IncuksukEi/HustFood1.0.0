@@ -3,7 +3,7 @@ import axios from 'axios';
 export const logoutUser = async () => {
     try {
       const response = await axios.post(`https://auth/logout`);
-      return response.data; // Return the logout status
+      return response.status;
     } catch (error) {
       throw error;
     }
@@ -12,16 +12,18 @@ export const logoutUser = async () => {
 export const loginUser = async (email, password) => {
     try {
       const response = await axios.post(`https://auth/login`, { email, password });
-      return response.data; // Return the login status
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+      return token;
     } catch (error) {
       throw error;
     }
   };
 
-export const registerUser = async (name, phone, email, password) => {
+export const registerUser = async (full_name, phone, email, password) => {
     try {
-      const response = await axios.post(`https://auth/register`, { name, phone, email, password });
-      return response.data; // Return the registration status
+      const response = await axios.post(`https://auth/register`, { full_name, phone, email, password });
+      return response.status;
     } catch (error) {
       throw error;
     }
