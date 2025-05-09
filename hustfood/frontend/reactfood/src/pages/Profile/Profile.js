@@ -29,38 +29,24 @@ const Profile = () => {
     return (
         <>
         <Header />
-        <div className="profile-page">
-            <div className='profile-sidebar'>
-                <ProfileSidebar />
-            </div>
-            <div className="profile-content">
-                <div className="detail-content">
-                    <div className="detail-container">
+        <div className="pro_profile-page">
+            <ProfileSidebar />
+            <div className="pro_profile-content">
+                <div className="pro_detail-content">
+                    <div className="pro_detail-container">
                         <h1>Chi tiết tài khoản</h1>
-                        <form onSubmit={handleSubmit} className="detail-form">
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Họ</label>
-                                    <input
-                                        type="text"
-                                        name="lastName"
-                                        value={formData.lastName}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Tên</label>
-                                    <input
-                                        type="text"
-                                        name="firstName"
-                                        value={formData.firstName}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                        <form onSubmit={handleSubmit} className="pro_detail-form">
+                            <div className="pro_form-group">
+                                <label>Họ tên</label>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    value={formData.lastName}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
-                            <div className="form-group">
+                            <div className="pro_form-group">
                                 <label>Số điện thoại</label>
                                 <input
                                     type="tel"
@@ -70,7 +56,7 @@ const Profile = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="pro_form-group">
                                 <label>Email</label>
                                 <input
                                     type="email"
@@ -80,8 +66,8 @@ const Profile = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-row">
-                                <div className="form-group">
+                            <div className="pro_form-row">
+                                <div className="pro_form-group">
                                     <label>Giới tính</label>
                                     <select 
                                         name="gender"
@@ -93,7 +79,7 @@ const Profile = () => {
                                         <option value="other">Khác</option>
                                     </select>
                                 </div>
-                                <div className="form-group">
+                                <div className="pro_form-group">
                                     <label>Ngày sinh</label>
                                     <input
                                         type="date"
@@ -104,7 +90,7 @@ const Profile = () => {
                                     />
                                 </div>
                             </div>
-                            <button type="submit" className="update-button">
+                            <button type="submit" className="pro_update-button">
                                 Cập nhật tài khoản
                             </button>
                         </form>
@@ -113,7 +99,7 @@ const Profile = () => {
             </div>
         </div>
         <Footer />
-        </>        
+        </>    
     );
 }
 export default Profile;
