@@ -198,6 +198,23 @@
 .header__navbar-item--has-notify:hover .header__notify {
   display: block;
 }
+.header__cart-item-quantity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+}
+.header__cart-item-quantity-btn {
+  padding: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  margin: 0 4px;
+  width: 17px;
+  height: 17px;
+  border-radius: 3px;
+}
 
 .header__navbar-item,
 .header__navbar-item-link {

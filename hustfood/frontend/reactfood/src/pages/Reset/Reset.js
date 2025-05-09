@@ -34,33 +34,33 @@ const Reset = () => {
                         <h1>Đặt lại mật khẩu</h1>
                         <form onSubmit={handleSubmit} className="reset-form">
                             <div className="form-group">
-                                <label>Mật khẩu hiện tại</label>
                                 <input
                                     type="password"
                                     name="currentPassword"
                                     value={formData.currentPassword}
                                     onChange={handleChange}
                                     required
+                                    placeholder='Mật khẩu hiện tại'
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Mật khẩu mới</label>
                                 <input
                                     type="password"
                                     name="newPassword"
                                     value={formData.newPassword}
                                     onChange={handleChange}
                                     required
+                                    placeholder='Mật khẩu mới'
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Xác nhận mật khẩu mới</label>
                                 <input
                                     type="password"
                                     name="confirmPassword"
                                     value={formData.confirmPassword}
                                     onChange={handleChange}
                                     required
+                                    placeholder='Xác nhận mật khẩu mới'
                                 />
                             </div>
                             <button type="submit" className="reset-button">
