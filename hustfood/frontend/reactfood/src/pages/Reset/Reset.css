@@ -2,7 +2,7 @@
   flex: 1;
   padding: 0 20px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 }
 
 .reset-container {
@@ -12,6 +12,7 @@
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 65px;
 }
 
 .reset-container h1 {
@@ -31,6 +32,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: -9px;
 }
 
 .form-group label {
@@ -41,10 +43,11 @@
 
 .form-group input {
   padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  border: none;
+  border-radius: 0px;
+  font-size: 13px;
   transition: border-color 0.2s ease;
+  border-bottom: 1px solid #ccc;
 }
 
 .form-group input:focus {

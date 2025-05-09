@@ -1,3 +1,8 @@
+.pro_profile-page {
+  display: flex;
+  margin: 20px auto;
+  max-width: 1200px;
+}
 .profile-page {
   display: flex;
   margin: 20px auto;
@@ -12,10 +17,10 @@
   height: 100%;
 }
 
-.profile_content {
+.pro_profile_content {
   padding: 12px 0 12px 0;
 }
-.profile_container {
+.pro_profile_container {
   width: 600px;
   margin: auto;
   padding: 20px;
@@ -24,72 +29,72 @@
   background: var(--white-color);
 }
 
-.detail-content {
+.pro_detail-content {
   flex: 1;
   padding: 0 20px;
   display: flex;
   justify-content: center;
 }
 
-.detail-container {
+.pro_detail-container {
   width: 100%;
   max-width: 600px;
   background: white;
   padding: 30px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0pro_1);
 }
 
-.detail-container h1 {
+.pro_detail-container h1 {
   font-size: 24px;
   color: #202124;
   margin-bottom: 30px;
   text-align: center;
 }
 
-.detail-form {
+.pro_detail-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.form-row {
+.pro_form-row {
   display: flex;
   gap: 20px;
 }
 
-.form-row .form-group {
+.pro_form-row .pro_form-group {
   flex: 1;
 }
 
-.form-group {
+.pro_form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.form-group label {
+.pro_form-group label {
   font-size: 14px;
   color: #202124;
   font-weight: 500;
 }
 
-.form-group input,
-.form-group select {
+.pro_form-group input,
+.pro_form-group select {
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
-  transition: border-color 0.2s ease;
+  transition: border-color 0pro_2s ease;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.pro_form-group input:focus,
+.pro_form-group select:focus {
   border-color: #e4002b;
   outline: none;
 }
 
-.update-button {
+.pro_update-button {
   background: #e4002b;
   color: white;
   border: none;
@@ -98,20 +103,20 @@
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0pro_2s ease;
   margin-top: 10px;
 }
 
-.update-button:hover {
+.pro_update-button:hover {
   background: #c1001f;
 }
 
-.update-button:active {
+.pro_update-button:active {
   transform: scale(0.98);
 }
 
 @media (max-width: 600px) {
-  .form-row {
+  .pro_form-row {
     flex-direction: column;
     gap: 20px;
   }
