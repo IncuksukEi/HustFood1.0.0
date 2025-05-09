@@ -1,45 +1,54 @@
 import axios from 'axios';
 
-export const getCartItems = async () => {
+export const getAllCartItems = async (token) => {
     try {
-        const response = await axios.get('https://cart');
-        return response.data; // Return the cart items
+        const response = await axios.get('https://cart', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
     } catch (error) {
         throw error;
     }
 }
 
-export const getCartItemByProductId = async (user_id, productId) => {
+export const removeCartItem = async (token, productId) => {
     try {
-        const response = await axios.get(`https://cart/${productId}/user/${user_id}`);
-        return response.data; // Return the cart item by ID
-    } catch (error) {
-        throw error;
-    }
-}
-
-export const removeCartItem = async (itemId) => {
-    try {
-      const response = await axios.delete(`https://cart/${itemId}`);
-      return response.data; // Return the updated cart
+      const response = await axios.delete(`https://cart/${productId}`,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+      });
+      return response.status;
     } catch (error) {
       throw error;
     }
 };
 
-export const updateCartItem = async (cartItemId, data) => {
+export const updateAllCartItem = async (token, data) => {
     try {
-        const response = await axios.put(`https://cart/${cartItemId}`, data);
-        return response.data; // Return the updated cart item
+        const response = await axios.put(`https://cart`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body: data
+        });
+        return response.status;
     } catch (error) {
         throw error;
     }
 }
 
-export const addCartItem = async (data) => {
+export const addCartItem = async (token, data) => {
     try {
-        const response = await axios.post('https://cart', data);
-        return response.data; // Return the added cart item
+        const response = await axios.post('https://cart', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body: data
+        });
+        return response.status;
     } catch (error) {
         throw error;
     }

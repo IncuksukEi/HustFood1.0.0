@@ -2,7 +2,10 @@
   display: flex;
   margin: 20px auto;
   max-width: 1200px;
+  min-height: calc(100vh - 200px);
+  background-color: #f5f5f5;
 }
+
 .profile-page {
   display: flex;
   margin: 20px auto;
@@ -20,6 +23,7 @@
 .pro_profile_content {
   padding: 12px 0 12px 0;
 }
+
 .pro_profile_container {
   width: 600px;
   margin: auto;
@@ -29,11 +33,24 @@
   background: var(--white-color);
 }
 
+.pro_profile-content {
+  flex: 1;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+}
+
 .pro_detail-content {
   flex: 1;
   padding: 0 20px;
   display: flex;
   justify-content: center;
+}
+
+.pro_detail-content {
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
 }
 
 .pro_detail-container {
@@ -43,6 +60,14 @@
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0pro_1);
+}
+
+.pro_detail-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
 }
 
 .pro_detail-container h1 {
@@ -56,6 +81,12 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.pro_detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .pro_form-row {
@@ -73,10 +104,22 @@
   gap: 8px;
 }
 
+.pro_form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .pro_form-group label {
   font-size: 14px;
   color: #202124;
   font-weight: 500;
+}
+
+.pro_form-group label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #202124;
 }
 
 .pro_form-group input,
@@ -88,10 +131,27 @@
   transition: border-color 0pro_2s ease;
 }
 
+.pro_form-group input,
+.pro_form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
 .pro_form-group input:focus,
 .pro_form-group select:focus {
   border-color: #e4002b;
   outline: none;
+}
+
+.pro_form-group input:focus,
+.pro_form-group select:focus {
+  border-color: #e4002b;
+  outline: none;
+  box-shadow: 0 0 0 1px #e4002b;
 }
 
 .pro_update-button {
@@ -107,6 +167,19 @@
   margin-top: 10px;
 }
 
+.pro_update-button {
+  background: #e4002b;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
 .pro_update-button:hover {
   background: #c1001f;
 }
@@ -116,6 +189,21 @@
 }
 
 @media (max-width: 600px) {
+  .pro_form-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .pro_profile-content {
+    padding: 0 15px;
+  }
+
+  .pro_detail-container {
+    padding: 20px;
+  }
+
   .pro_form-row {
     flex-direction: column;
     gap: 20px;

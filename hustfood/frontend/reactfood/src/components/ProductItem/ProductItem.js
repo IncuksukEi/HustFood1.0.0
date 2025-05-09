@@ -1,9 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProductItem.css";
-import { updateCartItem, addCartItem } from "../../services/cartService";
+import { updateAllCartItem, addCartItem } from "../../services/cartService";
 import { getUser } from "../../services/userService";
-import { getCartItemByProductId } from "../../services/cartService";
 
 const ProductItem = ({ product_id, name, price, url_img, description, queryToBack }) => {
   const navigate = useNavigate();
@@ -15,13 +14,6 @@ const ProductItem = ({ product_id, name, price, url_img, description, queryToBac
     } catch (error) {
       throw error;
     };
-  };
-
-  const handleAddToCart = async () => {
-    const user = await handleGetUser();
-    const cartItem = await getCartItemByProductId(user.user_id, product_id);
-    const newQuantity = cartItem ? cartItem.quantity + 1 : 1;
-    newQuantity === 1 ? await addCartItem({user_id: user.user_id, product_id, quantity: newQuantity}) : await updateCartItem(cartItem.cart_id, { ...cartItem, quantity: newQuantity });
   };
 
   const handleImageClick = () => {
@@ -46,7 +38,7 @@ const ProductItem = ({ product_id, name, price, url_img, description, queryToBac
             {description}
           </span>
         </div>
-        <button className="home-product-item__add-btn" onClick={handleAddToCart}>
+        <button className="home-product-item__add-btn">
           Thêm
         </button>
       </div>

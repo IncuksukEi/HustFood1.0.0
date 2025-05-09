@@ -8,7 +8,8 @@ import logo from '../../assets/images/img/logo.png';
 import avt from '../../assets/images/img/avt.jpg';
 import { getSocialMediaLinks } from '../../services/mediaService';
 import { removeCartItem } from '../../services/cartService';
-import { getCartItems } from '../../services/cartService'; // Assuming you have a function to fetch cart items
+import { getAllCartItems } from '../../services/cartService'; 
+import { updateAllCartItem } from '../../services/cartService';
 import AuthModal from '../AuthModal/AuthModal';
 import {
   faCircleQuestion,
@@ -28,7 +29,7 @@ const Header = () => {
   const [error, setError] = useState(null);
   const [mode, setMode] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Assuming user is authenticated for demo
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -38,20 +39,22 @@ const Header = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const items = await getCartItems(); // Assuming you have a function to fetch cart items
+        const token = localStorage.getItem('token');
+        const items = await getAllCartItems(token);
         setCartItems(items);
       } catch (error) {
         setError(error.message);
       }
     };
     /*fetchCartItems();*/
-    setCartItems(productsData); // Set initial cart items for demonstration
+    setCartItems(productsData);
   }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (cartRef.current && !cartRef.current.contains(event.target)) {
         setIsCartOpen(false);
+        handleUpdateAllCartItems();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -93,11 +96,9 @@ const Header = () => {
   };
 
   // xử lý khi nhấp vào tài khoản người dùng
-  const handleUserMenuClick = async (action) => {
+  const handleUserMenuClick = async () => {
     try {
-      if (action === 'profile') {
         navigate('/profile');
-      }
     } catch (error) {
       setError(error.message);
     }
@@ -127,7 +128,8 @@ const Header = () => {
   // xử lý khi xoá sản phẩm trong giỏ hàng
   const handleCartItemRemove = async (itemId) => {
     try {
-      await removeCartItem(itemId);
+      const token = localStorage.getItem('token');
+      await removeCartItem(token, itemId);
       setCartItems((prev) => prev.filter((item) => item.id !== itemId));
     } catch (error) {
       setError(error.message);
@@ -143,6 +145,18 @@ const Header = () => {
       }
       return item;
     }));
+  };
+
+  // update all cart items
+  const handleUpdateAllCartItems = async () => {
+    try {
+      const data = cartItems.map((item) => ({product_id: item.product_id, quantity: item.quantity}));
+      const token = localStorage.getItem('token');
+      await updateAllCartItem(token, data);
+      setCartItems((prev) => prev.map((item) => item));
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   // xử lý khi nhấp vào giỏ hàng
@@ -197,7 +211,7 @@ const Header = () => {
                 <div className="user__check" ref={userMenuRef}>
                   <li
                     className="header__navbar-item header__navbar-user"
-                    onClick={() => handleUserMenuClick('profile')}
+                    onClick={() => handleUserMenuClick()}
                     role="button"
                     tabIndex={0}
                   >
@@ -317,6 +331,9 @@ const Header = () => {
         onClose={() => setShowAuthModal(false)}
         modeInit={mode}
         onChangeMode={(newMode) => setMode(newMode)}
+        onLoginSuccess={() => {
+          setIsAuthenticated(true);
+        }}
       />
     </>
   );
