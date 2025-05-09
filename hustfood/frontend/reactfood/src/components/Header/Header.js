@@ -7,7 +7,6 @@ import noCartImage from '../../assets/images/img/no_cart.png'; // Adjust the pat
 import logo from '../../assets/images/img/logo.png';
 import avt from '../../assets/images/img/avt.jpg';
 import { getSocialMediaLinks } from '../../services/mediaService';
-import { logoutUser } from '../../services/authService';
 import { removeCartItem } from '../../services/cartService';
 import { getCartItems } from '../../services/cartService'; // Assuming you have a function to fetch cart items
 import AuthModal from '../AuthModal/AuthModal';
@@ -28,7 +27,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [mode, setMode] = useState('');
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Assuming user is authenticated for demo
   const [cartItems, setCartItems] = useState([]);
@@ -52,9 +50,6 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-        setIsUserMenuOpen(false);
-      }
       if (cartRef.current && !cartRef.current.contains(event.target)) {
         setIsCartOpen(false);
       }
@@ -102,9 +97,6 @@ const Header = () => {
     try {
       if (action === 'profile') {
         navigate('/profile');
-      } else if (action === 'logout') {
-        const status = await logoutUser();
-        setIsAuthenticated(status);
       }
     } catch (error) {
       setError(error.message);
@@ -205,28 +197,16 @@ const Header = () => {
                 <div className="user__check" ref={userMenuRef}>
                   <li
                     className="header__navbar-item header__navbar-user"
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    onClick={() => handleUserMenuClick('profile')}
                     role="button"
-                    aria-expanded={isUserMenuOpen}
                     tabIndex={0}
-                    onKeyDown={(e) => e.key === 'Enter' && setIsUserMenuOpen(!isUserMenuOpen)}
                   >
                     <img
                       src={avt}
                       alt=""
                       className="header__navbar-user-img"
                     />
-                    <span className="header__navbar-user-name">Người dùng</span>
-                    {isUserMenuOpen && (
-                      <ul className="header__navbar-user-menu">
-                        <li className="header__navbar-user-item">
-                          <div onClick={() => handleUserMenuClick('profile')}>Tài khoản của tôi</div>
-                        </li>
-                        <li className="header__navbar-user-item header__navbar-user-item--separate">
-                          <div onClick={() => handleUserMenuClick('logout')}>Đăng xuất</div>
-                        </li>
-                      </ul>
-                    )}
+                    <span className="header__navbar-user-name">NGƯỜI DÙNG</span>
                   </li>
                 </div>
               )}
