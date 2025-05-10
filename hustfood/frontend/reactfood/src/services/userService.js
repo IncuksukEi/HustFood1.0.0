@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getUser = async (token) => {
     try {
-        const response = await axios.get('https://user',{
+        const response = await axios.get('http://localhost:8080/api/user/profile',{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -15,7 +15,7 @@ export const getUser = async (token) => {
 
 export const updateUser = async (token, data) => {
     try {
-        const response = await axios.post('https://user',{
+        const response = await axios.post('http://localhost:8080/api/user/update',{
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -29,7 +29,7 @@ export const updateUser = async (token, data) => {
 
 export const updateUserPassword = async (token, password, newPassword) => {
     try {
-        const response = await axios.post('https://user/password',{
+        const response = await axios.post('http://localhost:8080/api/user/reset-password',{
             headers: {
                 Authorization: `Bearer ${token}`
             },
