@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Header from '../../components/Header/Header'; 
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Footer from '../../components/Footer/Footer';
@@ -9,35 +7,22 @@ import './HomeSearch.css';
 import "../../styles/base.css";
 import ProductList from '../../components/ProductItem/ProductList';
 import productsData from "../../data/productsData";
+import { getProducts } from '../../services/productService';
 
 
 function HomeSearch() {
   const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const queryToBack = searchParams.get('q') || '';
 
-  // Tối ưu hóa hàm fetchSearchResults với useCallback
   const fetchSearchResults = useCallback(async (query) => {
     try {
-      setIsLoading(true);
       setError(null);
-      
-      // Replace this with your actual API call
-      const response = await fetch(`/api/search?q=${query}`);
-      if (!response.ok) {
-        throw new Error('Search failed');
-      }
-      const data = await response.json();
+      const data = await getProducts(query);
       setSearchResults(data);
-      
     } catch (error) {
       setError('Error fetching search results: ' + error.message);
-      console.error('Error fetching search results:', error);
-    } finally {
-      setIsLoading(false);
     }
   }, []);
   
@@ -47,6 +32,8 @@ function HomeSearch() {
     const query = searchParams.get('q');
     if (query) {
       fetchSearchResults(query);
+    } else {
+      setSearchResults([]);
     }
     setSearchResults(productsData);
   }, [searchParams, fetchSearchResults]);

@@ -1,5 +1,5 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 
 
@@ -15,8 +15,13 @@ const categories = [
 ];
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('q');
+  const handleCategoryClick = (category) => {
+    setSearchParams({ q: category.query });
+    navigate(`/search?q=${category.query}`);
+  }
 
 
     return (
@@ -32,7 +37,7 @@ const Sidebar = () => {
             key={category.id} 
             className={`category-item ${category.query === query ? 'category-item--active' : ''}`}
             >
-            <span className="category-item__name" onClick={() => setSearchParams({q: category.query})}>{category.name}</span>
+            <span className="category-item__name" onClick={() => handleCategoryClick(category)}>{category.name}</span>
             </li>
           ))}
           </ul>
