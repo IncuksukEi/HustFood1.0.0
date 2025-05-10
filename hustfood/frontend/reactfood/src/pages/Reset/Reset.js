@@ -3,10 +3,11 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ProfileSidebar from '../../components/ProfileSidebar/ProfileSidebar';
 import './Reset.css';
+import { updateUserPassword } from '../../services/userService';
 
 const Reset = () => {
     const [formData, setFormData] = useState({
-        currentPassword: '',
+        password: '',
         newPassword: '',
         confirmPassword: ''
     });
@@ -18,16 +19,28 @@ const Reset = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle password reset logic here
-        console.log('Form submitted:', formData);
+        if (formData.newPassword !== formData.confirmPassword) {
+            alert('Mật khẩu mới không khớp. Vui lòng thử lại.');
+            return;
+        }
+        try {
+            let token = localStorage.getItem('token');
+            const { password, newPassword } = formData;
+            const response = await updateUserPassword(token, password, newPassword);
+            if (response === 'password wrong'){
+                alert('Mật khẩu hiện tại không đúng. Vui lòng thử lại.');
+            }
+        } catch (error) {
+            alert('Đã xảy ra lỗi khi đặt lại mật khẩu. Vui lòng thử lại sau.');
+        }
     };
 
     return (
         <>
             <Header />
-            <div className="profile-page">
+            <div className="reset-page">
                 <ProfileSidebar />
                 <div className="reset-content">
                     <div className="reset-container">
@@ -36,8 +49,8 @@ const Reset = () => {
                             <div className="form-group">
                                 <input
                                     type="password"
-                                    name="currentPassword"
-                                    value={formData.currentPassword}
+                                    name="password"
+                                    value={formData.password}
                                     onChange={handleChange}
                                     required
                                     placeholder='Mật khẩu hiện tại'

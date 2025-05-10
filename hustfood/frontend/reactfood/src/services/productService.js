@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-export const getProducts = async () => {
+export const getProducts = async (query) => {
     try{
-        const response = await axios.get('https://api.example.com/products');
+        const response = await axios.get(`https://api.example.com/search?q=${query}`);
         return response.data;
     }
     catch (error) {
-        console.error('Error fetching products:', error);
         throw error; 
     }
 }
@@ -17,7 +16,6 @@ export const getProductById = async (productId) => {
         return response.data;
     }
     catch (error){
-        console.error('Error fetching product by ID:', error);
         throw error;
     }
 }
