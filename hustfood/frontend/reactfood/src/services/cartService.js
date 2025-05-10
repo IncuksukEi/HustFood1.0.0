@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getAllCartItems = async (token) => {
     try {
-        const response = await axios.get('https://cart', {
+        const response = await axios.get('http://localhost:8080/api/cart', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -15,7 +15,7 @@ export const getAllCartItems = async (token) => {
 
 export const removeCartItem = async (token, productId) => {
     try {
-      const response = await axios.delete(`https://cart/${productId}`,{
+      const response = await axios.delete(`http://localhost:8080/api/cart/${productId}`,{
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -28,7 +28,7 @@ export const removeCartItem = async (token, productId) => {
 
 export const updateAllCartItem = async (token, data) => {
     try {
-        const response = await axios.put(`https://cart`,{
+        const response = await axios.put(`http://localhost:8080/api/cart/update`,{
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -42,7 +42,7 @@ export const updateAllCartItem = async (token, data) => {
 
 export const addCartItem = async (token, data) => {
     try {
-        const response = await axios.post('https://cart', {
+        const response = await axios.post('http://localhost:8080/api/cart/add', {
             headers: {
                 Authorization: `Bearer ${token}`
             },
