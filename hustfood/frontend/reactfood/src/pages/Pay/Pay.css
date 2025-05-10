@@ -141,6 +141,18 @@
   cursor: pointer;
 }
 
+.check_mess-text {
+  font-size: 14px;
+  color: #ff0202;
+  margin-top: 10px;
+}
+
+.check_mess-ok {
+  font-size: 14px;
+  color: #4caf50;
+  margin-top: 10px;
+}
+
 .checkout_submit-btn {
   background: #e4002b;
   color: white;
