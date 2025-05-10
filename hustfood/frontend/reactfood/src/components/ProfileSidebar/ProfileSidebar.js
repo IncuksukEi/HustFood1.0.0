@@ -1,13 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './ProfileSidebar.css';
-import logo from '../../assets/images/img/logo.png';
+import { logoutUser } from '../../services/authService';
 
-const ProfileSidebar = () => {
+const ProfileSidebar = (nameUser) => {
     const [active, setActive] = useState('profile');
     useEffect(() => {
         setActive(window.location.pathname.split('/')[1]);
     },[]);
+
+    const handleLogout = async () => {
+        try {
+            const response = await logoutUser();
+            if (response === 200) {
+                localStorage.removeItem('token');
+                window.location.href = '/login';
+            } else {
+                alert('Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại sau.');
+            }
+        }
+        catch (error) {
+            console.error('Error logging out:', error);
+            alert('Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại sau.');
+        }
+    }
 
     const navigate = useNavigate();
     return (
@@ -17,12 +33,12 @@ const ProfileSidebar = () => {
                     <div className="profile-info">
                         <h2>
                             Xin chào, <br />
-                            Nguyễn!
+                            {/*nameUser*/}
                         </h2>
                         <p>
-                            <a href="javascript:void(0);" className="logout-link">
+                            <div className="logout-link" onClick={handleLogout}>
                                 Đăng xuất
-                            </a>
+                            </div>
                         </p>
                     </div>
                 </div>

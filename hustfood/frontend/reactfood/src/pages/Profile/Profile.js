@@ -1,18 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ProfileSidebar from '../../components/ProfileSidebar/ProfileSidebar';
 import './Profile.css';
+import { getUser } from '../../services/userService';
+import { updateUser } from '../../services/userService';
 
 const Profile = () => {
     const [formData, setFormData] = useState({
-            firstName: 'Nguyễn',
-            lastName: 'Văn A',
-            phone: '0123456789',
-            email: 'example@gmail.com',
-            gender: 'male',
-            birthDate: '1990-01-01'
-        });
+        full_name: '',
+        phone: '',
+        email: '',
+        date: '',
+    });
+    let nameUser = formData.full_name;
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            let token = localStorage.getItem('token');
+            try {
+                const user = await getUser(token);
+                setFormData({
+                    full_nameame: user.full_nameame,
+                    phone: user.phone,
+                    email: user.email,
+                    gender: user.gender,
+                    date: user.date
+                });
+                nameUser = user.full_name;
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        fetchUserData();
+    }, []);
     
         const handleChange = (e) => {
             setFormData({
@@ -21,16 +42,32 @@ const Profile = () => {
             });
         };
     
-        const handleSubmit = (e) => {
+        const handleSubmit = async (e) => {
             e.preventDefault();
-            // Handle update logic here
-            console.log('Form submitted:', formData);
-        };
+            let token = localStorage.getItem('token');
+            const updatedData = {
+                full_nameame: formData.full_name,
+                phone: formData.phone,
+                gender: formData.gender,
+                date: formData.date
+            };
+            try {
+                const response = await updateUser(token, updatedData);
+                if (response === 200) {
+                    alert('Cập nhật tài khoản thành công');
+                } else {
+                    alert('Đã xảy ra lỗi khi cập nhật tài khoản. Vui lòng thử lại sau.');
+                }
+            } catch (error) {
+                alert('Đã xảy ra lỗi khi cập nhật tài khoản. Vui lòng thử lại sau.');
+            }
+        }
+
     return (
         <>
         <Header />
         <div className="pro_profile-page">
-            <ProfileSidebar />
+            <ProfileSidebar nameUser={nameUser}/>
             <div className="pro_profile-content">
                 <div className="pro_detail-content">
                     <div className="pro_detail-container">
@@ -40,8 +77,8 @@ const Profile = () => {
                                 <label>Họ tên</label>
                                 <input
                                     type="text"
-                                    name="lastName"
-                                    value={formData.lastName}
+                                    name="full_name"
+                                    value={formData.full_name}
                                     onChange={handleChange}
                                     required
                                 />
@@ -83,14 +120,14 @@ const Profile = () => {
                                     <label>Ngày sinh</label>
                                     <input
                                         type="date"
-                                        name="birthDate"
-                                        value={formData.birthDate}
+                                        name="date"
+                                        value={formData.date}
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
                             </div>
-                            <button type="submit" className="pro_update-button">
+                            <button type="submit" className="pro_update-button" onClick={handleSubmit}>
                                 Cập nhật tài khoản
                             </button>
                         </form>

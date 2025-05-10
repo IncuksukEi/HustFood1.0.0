@@ -5,6 +5,7 @@ import Footer from '../../components/Footer/Footer';
 import './Product.css';
 import {getProductById} from '../../services/productService';
 import productsData from '../../data/productsData';
+import { addCartItem } from '../../services/cartService';
 
 const Product = () => {
     const [quantity, setQuantity] = useState(1);
@@ -12,23 +13,35 @@ const Product = () => {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q');
 
+
     useEffect(() => {
         const productIdParam = searchParams.get('product_id');
-        /*const handleProductId = async () => {
-            if (productId) {
-                const productFound = await getProductById(productId);
+        const handleProductId = async () => {
+            if (productIdParam) {
+                const productFound = await getProductById(productIdParam);
                 setProduct(productFound);
             }
         }
-        handleProductId();*/
-
-        if (productIdParam) {
-            let productIndex = parseInt(productIdParam, 10) - 1; // Convert to array index
-            if (!isNaN(productIndex) && productIndex >= 0 && productIndex < productsData.length) {
-                setProduct(productsData[productIndex]);
-            }
-        }
+        /*handleProductId();*/
+        setProduct(productsData[productIdParam - 1]);
     }, []);
+
+    const handleAddToCart = async () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const data = {
+                product_id: product.id,
+                quantity: quantity
+            };
+            try {
+                await addCartItem(token, data);
+            } catch (error) {
+                console.error('Error adding product to cart:', error);
+            }
+        } else {
+            console.error('User not authenticated');
+        }
+    }
 
     if (!product) {
         return (
@@ -56,6 +69,7 @@ const Product = () => {
                     <div className="product-right">
                         <div className="product-header">
                             <h1>{product.name}</h1>
+                            <span className="product-price">{product.price}đ</span>
                         </div>
                         <div className="product-description">
                             {product.description}
@@ -66,7 +80,7 @@ const Product = () => {
                                 <span>{quantity}</span>
                                 <button onClick={() => setQuantity(quantity + 1)}>+</button>
                             </div>
-                            <button className="add-to-cart">Thêm</button>
+                            <button className="add-to-cart" onClick={handleAddToCart}>Thêm</button>
                         </div>
                     </div>
                 </div>

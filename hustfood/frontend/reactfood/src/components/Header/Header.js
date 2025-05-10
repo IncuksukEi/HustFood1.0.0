@@ -33,7 +33,6 @@ const Header = () => {
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const userMenuRef = useRef(null);
   const cartRef = useRef(null);
 
   useEffect(() => {
@@ -54,7 +53,6 @@ const Header = () => {
     const handleClickOutside = (event) => {
       if (cartRef.current && !cartRef.current.contains(event.target)) {
         setIsCartOpen(false);
-        handleUpdateAllCartItems();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -208,7 +206,7 @@ const Header = () => {
                   </li>
                 </div>
               ) : (
-                <div className="user__check" ref={userMenuRef}>
+                <div className="user__check">
                   <li
                     className="header__navbar-item header__navbar-user"
                     onClick={() => handleUserMenuClick()}
@@ -263,7 +261,10 @@ const Header = () => {
               <div className="header__cart-wrap">
                 <div
                   className="header__cart-icon"
-                  onClick={() => setIsCartOpen(!isCartOpen)}
+                  onClick={() => {
+                    isCartOpen && handleUpdateAllCartItems();
+                    setIsCartOpen(!isCartOpen);
+                  }}
                 >
                   <FontAwesomeIcon icon={faCartShopping} />
                 </div>

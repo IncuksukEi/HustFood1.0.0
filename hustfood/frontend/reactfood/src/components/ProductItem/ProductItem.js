@@ -1,23 +1,34 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProductItem.css";
-import { updateAllCartItem, addCartItem } from "../../services/cartService";
-import { getUser } from "../../services/userService";
+import { addCartItem } from "../../services/cartService";
 
 const ProductItem = ({ product_id, name, price, url_img, description, queryToBack }) => {
   const navigate = useNavigate();
 
-  const handleGetUser = async () => {
-    try {
-      const user = await getUser();
-      return user;
-    } catch (error) {
-      throw error;
-    };
-  };
-
   const handleImageClick = () => {
     navigate(`/product?product_id=${product_id}&q=${queryToBack}`);
+  }
+
+  const handleAddToCart = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
+      return;
+    }
+    const cartItem = {
+      product_id,
+      quantity: 1
+    };
+    try {
+      const response = await addCartItem(cartItem, token);
+      if (response === 200) {
+        alert("Thêm sản phẩm vào giỏ hàng thành công!");
+      } else {
+        alert("Thêm sản phẩm vào giỏ hàng thất bại.");
+      }
+    } catch (error) {
+      alert("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.");
+    }
   }
 
   return (
@@ -38,7 +49,7 @@ const ProductItem = ({ product_id, name, price, url_img, description, queryToBac
             {description}
           </span>
         </div>
-        <button className="home-product-item__add-btn">
+        <button className="home-product-item__add-btn" onClick={handleAddToCart}>
           Thêm
         </button>
       </div>
