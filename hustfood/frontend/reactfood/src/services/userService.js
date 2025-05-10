@@ -27,15 +27,22 @@ export const updateUser = async (token, data) => {
     }
 }
 
-export const updateUserPassword = async (token, newPassword) => {
+export const updateUserPassword = async (token, password, newPassword) => {
     try {
         const response = await axios.post('https://user/password',{
             headers: {
                 Authorization: `Bearer ${token}`
             },
-            body: { newPassword }
+            body: { 
+                password: password,
+                newPassword: newPassword
+             }
         });
-        return response.data; // new token
+        const newtoken = response.data;
+        if (newtoken) {
+            localStorage.setItem('token', newtoken);
+        }
+        return token;
     } catch (error) {
         throw error;
     }
