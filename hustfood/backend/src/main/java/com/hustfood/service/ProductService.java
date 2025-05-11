@@ -1,64 +1,79 @@
 package com.hustfood.service;
 
+import com.hustfood.dto.ProductResponseDTO;
 import com.hustfood.entity.Product;
+import com.hustfood.exception.ProductNotFoundException;
 import com.hustfood.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
 
-    // Lấy toàn bộ sản phẩm
+    private static final List<String> FIXED_CATEGORIES = List.of(
+            "uu-dai", "mon-moi", "combo-1-nguoi", "combo-nhom", "ga-ran", "burger", "thuc-an-nhe", "do-uong"
+    );
+
+    public List<ProductResponseDTO> searchProducts(String query) {
+        String q = query.trim().toLowerCase();
+        List<Product> products;
+
+        if (FIXED_CATEGORIES.contains(q)) {
+            products = productRepository.findByCategoryNameIgnoreCase(q);
+        } else {
+            products = productRepository.searchProductsByKeyword(q);
+        }
+
+        return products.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    public ProductResponseDTO getProductDTOById(Long id) {
+        return productRepository.findById(id)
+                .map(this::toDTO)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+    }
+
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    // Lưu sản phẩm (thêm mới hoặc cập nhật)
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
 
-    // Cập nhật sản phẩm theo ID
-    public Product updateProduct(Long productId, Product product) {
-        Optional<Product> existingProduct = productRepository.findById(productId);
-        if (existingProduct.isPresent()) {
-            product.setProductId(productId);
-            return productRepository.save(product);
-        } else {
-            throw new RuntimeException("Sản phẩm không tồn tại với ID: " + productId);
-        }
+    public Product updateProduct(Long id, Product updatedProduct) {
+        Product existing = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+        updatedProduct.setProductId(id);
+        return productRepository.save(updatedProduct);
     }
 
-    // Xóa sản phẩm theo ID
-    public void deleteProduct(Long productId) {
-        if (productRepository.existsById(productId)) {
-            productRepository.deleteById(productId);
-        } else {
-            throw new RuntimeException("Sản phẩm không tồn tại với ID: " + productId);
+    public void deleteProduct(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new ProductNotFoundException(id);
         }
+        productRepository.deleteById(id);
     }
-    // Lấy thông tin sản phẩm theo ID
-    public Product getProductById(Long productId) {
-        Optional<Product> product = productRepository.findById(productId);
-        if (product.isPresent()) {
-            return product.get();
-        } else {
-            throw new RuntimeException("Sản phẩm không tồn tại với ID: " + productId);
-        }
-    }
-    // Lấy sản phẩm có lượt bán cao nhất
+
     public List<Product> getTopSellingProducts() {
         return productRepository.findTopSellingProducts();
     }
 
-    // Lấy N sản phẩm có rating cao nhất
-    public List<Product> getTopRatedProducts(int n) {
-        List<Product> products = productRepository.findTopRatedProducts();
-        return products.size() > n ? products.subList(0, n) : products;
+    private ProductResponseDTO toDTO(Product product) {
+        ProductResponseDTO dto = new ProductResponseDTO();
+        dto.setProductId(product.getProductId());
+        dto.setName(product.getName());
+        dto.setDescription(product.getDescription());
+        dto.setUrlImg(product.getUrlImg());
+        dto.setPrice(product.getPrice());
+        return dto;
     }
 }

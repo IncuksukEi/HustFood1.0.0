@@ -1,8 +1,16 @@
 package com.hustfood.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity
 @Table(name = "users")
@@ -22,6 +30,9 @@ public class User {
     @Column(nullable = false, unique = true)
     private String phone;
 
+    @Column(name = "birthDate")
+    private LocalDate birthDate;
+
     @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
 
@@ -36,14 +47,15 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('male', 'female', 'other') DEFAULT 'other'")
     private Gender gender;
-/*
+
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "user")
-    private List<Feedback> feedbacks;
-*/
     public enum Role { USER, ADMIN }
     public enum Status { ACTIVE, BANNED }
     public enum Gender { male, female, other }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
 }
