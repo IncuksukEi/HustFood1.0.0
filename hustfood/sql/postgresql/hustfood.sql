@@ -18,13 +18,14 @@ CREATE DATABASE hustfood ENCODING 'UTF8';
 CREATE TYPE user_role AS ENUM ('ADMIN', 'CUSTOMER');
 CREATE TYPE user_gender AS ENUM ('MALE', 'FEMALE', 'OTHER');
 CREATE TYPE order_status AS ENUM ('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED');
+CREATE TYPE user_status AS ENUM ('ACTIVE', 'BANNED');
 
 -- 1. Bảng categories
 CREATE TABLE categories (
     category_id BIGSERIAL PRIMARY KEY,
     catename VARCHAR(255),
-    description TEXT,
-    query VARCHAR(30)
+    query VARCHAR(30),
+    description TEXT
 );
 
 -- 2. Bảng users
@@ -35,6 +36,7 @@ CREATE TABLE users (
     phone VARCHAR(15),
     hashed_password VARCHAR(255),
     role user_role NOT NULL DEFAULT 'CUSTOMER',
+    status user_status NOT NULL DEFAULT 'ACTIVE',
     birthDate DATE,
     gender user_gender
 );
@@ -50,7 +52,8 @@ CREATE TABLE products (
     category_id_uu_dai BIGINT CHECK(category_id_uu_dai = 1 OR category_id_uu_dai IS NULL),
     stock INT DEFAULT 0,
     sold_quantity INT DEFAULT 0,
-    url_img TEXT
+    url_img TEXT,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 
 -- 4. Bảng orders
@@ -92,3 +95,7 @@ CREATE TABLE inventory (
     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
+
+ALTER TYPE user_gender RENAME VALUE 'male' TO 'MALE';
+ALTER TYPE user_gender RENAME VALUE 'female' TO 'FEMALE';
+ALTER TYPE user_gender RENAME VALUE 'other' TO 'OTHER';

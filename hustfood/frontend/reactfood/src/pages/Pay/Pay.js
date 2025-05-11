@@ -26,7 +26,7 @@ const Pay = () => {
                 setError(error);
             }
         };
-        fetchCartItems();
+        /*fetchCartItems();*/
     }, []);
 
     const handlePay = async (e) => {
@@ -40,7 +40,7 @@ const Pay = () => {
                setMess('Đặt hàng thành công');
             }
         } catch (error) {
-            setMess('Đặt hàng thất bại: ' + error.message);
+            setMess('Đặt hàng thất bại: ');
             setError(error);
         }
     }

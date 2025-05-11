@@ -33,7 +33,7 @@ public class JwtUtil {
                 .claim("role", user.getRole().name())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(key, SignatureAlgorithm.HS256) // Đảm bảo phương thức signWith này đúng với phiên bản mới của jjwt
                 .compact();
     }
 
