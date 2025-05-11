@@ -19,7 +19,7 @@ public class ProductService {
     private ProductRepository productRepository;
 
     private static final List<String> FIXED_CATEGORIES = List.of(
-            "uu-dai", "mon-moi", "combo-1-nguoi", "combo-nhom", "ga-ran", "burger", "thuc-an-nhe", "do-uong"
+            "fruit", "vegetable", "drink", "meat", "rice", "noodle", "snack", "other"
     );
 
     public List<ProductResponseDTO> searchProducts(String query) {

@@ -44,7 +44,7 @@ const Product = () => {
                 quantity: quantity
             };
             try {
-                response = await addCartItem(token, data);
+                const response = await addCartItem(token, data);
                 if (response.status === 200) {
                     alert('Thêm sản phẩm vào giỏ hàng thành công');
                 }

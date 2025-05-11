@@ -29,7 +29,7 @@ const Header = () => {
   const [error, setError] = useState(null);
   const [mode, setMode] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -122,7 +122,7 @@ const Header = () => {
     setError(null);
     try {
       const token = localStorage.getItem('token');
-      response = await removeCartItem(token, itemId);
+      const response = await removeCartItem(token, itemId);
       setCartItems((prev) => prev.filter((item) => item.id !== itemId));
     } catch (error) {
       setError(error);
