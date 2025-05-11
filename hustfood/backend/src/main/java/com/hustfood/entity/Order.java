@@ -1,5 +1,6 @@
 package com.hustfood.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -28,11 +29,11 @@ public class Order {
     @Column(columnDefinition = "ENUM('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED') DEFAULT 'PENDING'")
     private Status status = Status.PENDING;
 
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<OrderDetail> orderDetails;
 
-    @OneToMany(mappedBy = "orderId")
-    private List<Payment> payments;
-
-    public enum Status { PENDING, CONFIRMED, SHIPPED, CANCELLED }
+    public enum Status {
+        PENDING, CONFIRMED, SHIPPED, CANCELLED
+    }
 }
