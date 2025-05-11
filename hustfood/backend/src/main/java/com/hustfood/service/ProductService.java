@@ -2,13 +2,13 @@ package com.hustfood.service;
 
 import com.hustfood.dto.ProductResponseDTO;
 import com.hustfood.entity.Product;
+import com.hustfood.exception.ProductNotFoundException;
 import com.hustfood.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,7 +38,7 @@ public class ProductService {
     public ProductResponseDTO getProductDTOById(Long id) {
         return productRepository.findById(id)
                 .map(this::toDTO)
-                .orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại với ID: " + id));
+                .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     public List<Product> getAllProducts() {
@@ -51,14 +51,14 @@ public class ProductService {
 
     public Product updateProduct(Long id, Product updatedProduct) {
         Product existing = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại với ID: " + id));
+                .orElseThrow(() -> new ProductNotFoundException(id));
         updatedProduct.setProductId(id);
         return productRepository.save(updatedProduct);
     }
 
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Sản phẩm không tồn tại với ID: " + id);
+            throw new ProductNotFoundException(id);
         }
         productRepository.deleteById(id);
     }
