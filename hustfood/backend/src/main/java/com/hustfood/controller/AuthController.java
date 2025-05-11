@@ -51,9 +51,9 @@ public class AuthController {
         newUser.setEmail(req.getEmail());
         newUser.setPhone(req.getPhone());
         newUser.setHashedPassword(passwordEncoder.encode(req.getPassword()));
-        newUser.setRole(User.Role.USER); // set mặc định
+        newUser.setRole(User.Role.CUSTOMER); // set mặc định
         newUser.setStatus(User.Status.ACTIVE); // set mặc định
-        newUser.setGender(User.Gender.other); // set mặc định
+        newUser.setGender(User.Gender.OTHER); // set mặc định
 
         userRepository.save(newUser);
 

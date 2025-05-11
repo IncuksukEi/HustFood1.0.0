@@ -1,14 +1,18 @@
 package com.hustfood.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "orderdetails")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_detail_id")
@@ -26,15 +30,24 @@ public class OrderDetail {
     @Column(name = "total_price", precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
-    // Sửa lỗi vòng lặp: thêm JsonBackReference ở đây
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", insertable = false, updatable = false)
     @JsonBackReference
     private Order order;
 
-    // Nếu không cần trả Product trong JSON thì dùng JsonIgnore thay
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
     @JsonBackReference
     private Product product;
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "orderDetailId=" + orderDetailId +
+                ", orderId=" + orderId +
+                ", productId=" + productId +
+                ", quantity=" + quantity +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }
