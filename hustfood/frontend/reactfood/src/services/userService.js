@@ -38,7 +38,7 @@ export const updateUserPassword = async (token, password, newPassword) => {
                 newPassword: newPassword
              }
         });
-        const newtoken = response.data;
+        const newtoken = response.data.token;
         if (newtoken) {
             localStorage.setItem('token', newtoken);
         }
