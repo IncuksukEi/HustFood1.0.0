@@ -13,23 +13,27 @@ const Profile = () => {
         email: '',
         date: '',
     });
+    const [error, setError] = useState(null);
     let nameUser = formData.full_name;
 
     useEffect(() => {
+        setError(null);
         const fetchUserData = async () => {
             let token = localStorage.getItem('token');
             try {
                 const user = await getUser(token);
-                setFormData({
+                if (user.status === 200) {
+                    setFormData({
                     full_nameame: user.full_nameame,
                     phone: user.phone,
                     email: user.email,
                     gender: user.gender,
                     date: user.date
-                });
-                nameUser = user.full_name;
+                    });
+                    nameUser = user.full_name;
+                }
             } catch (error) {
-                console.error('Error fetching user data:', error);
+                setError(error);
             }
         };
         fetchUserData();
@@ -127,6 +131,11 @@ const Profile = () => {
                                     />
                                 </div>
                             </div>
+                            {error && (
+                                <div className="pro_error-message">
+                                    <p>{error.response.data.message}</p>
+                                </div>
+                            )}
                             <button type="submit" className="pro_update-button" onClick={handleSubmit}>
                                 Cập nhật tài khoản
                             </button>

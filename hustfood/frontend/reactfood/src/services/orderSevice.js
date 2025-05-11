@@ -7,7 +7,7 @@ export const getAllOrders = async (token) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        return response.data;
+        return response;
     } catch (error) {
         throw error;
     }
@@ -21,7 +21,7 @@ export const addOrder = async (token, data) => {
             },
             body: data,
         });
-        return response.status;
+        return response;
     } catch (error) {
         throw error;
     }

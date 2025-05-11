@@ -11,10 +11,13 @@ const Cart = () => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   useEffect(() => {
+    setError(null);
     const fetchCartItems = async () => {
       try {
         const cartItems = await getAllCartItems();
+        if (cartItems.status === 200) {
         setItems(cartItems);
+        }
       } catch (error) {
         setError(error);
       }
@@ -39,6 +42,14 @@ const Cart = () => {
 
   const handleCheckout = () => {
     navigate('/pay'); // Redirect to payment page
+  }
+
+  if (error) {
+    return (
+      <div className="error-message">
+        <p>{error.response.data.message}</p>
+      </div>
+    );
   }
 
   return (

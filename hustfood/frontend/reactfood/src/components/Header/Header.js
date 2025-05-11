@@ -37,12 +37,15 @@ const Header = () => {
 
   useEffect(() => {
     const fetchCartItems = async () => {
+      setError(null);
       try {
         const token = localStorage.getItem('token');
         const items = await getAllCartItems(token);
-        setCartItems(items);
+        if (items.status === 200) {
+          setCartItems(items.data);
+        }
       } catch (error) {
-        setError(error.message);
+        setError(error);
       }
     };
     /*fetchCartItems();*/
@@ -68,12 +71,7 @@ const Header = () => {
   const handleSocialClick = (platform) => {
     const socialMediaLinks = getSocialMediaLinks();
     const url = socialMediaLinks[platform]; 
-  
-    if (url) {
       window.open(url, '_blank');
-    } else {
-      setError(error.message);
-    }
   };
 
   // xử lý khi nhấp vào trợ giúp
@@ -95,11 +93,7 @@ const Header = () => {
 
   // xử lý khi nhấp vào tài khoản người dùng
   const handleUserMenuClick = async () => {
-    try {
         navigate('/profile');
-    } catch (error) {
-      setError(error.message);
-    }
   };
 
   // xử lý tìm kiếm
@@ -125,12 +119,13 @@ const Header = () => {
 
   // xử lý khi xoá sản phẩm trong giỏ hàng
   const handleCartItemRemove = async (itemId) => {
+    setError(null);
     try {
       const token = localStorage.getItem('token');
-      await removeCartItem(token, itemId);
+      response = await removeCartItem(token, itemId);
       setCartItems((prev) => prev.filter((item) => item.id !== itemId));
     } catch (error) {
-      setError(error.message);
+      setError(error);
     }
   };
 
@@ -147,13 +142,14 @@ const Header = () => {
 
   // update all cart items
   const handleUpdateAllCartItems = async () => {
+    setError(null);
     try {
       const data = cartItems.map((item) => ({product_id: item.product_id, quantity: item.quantity}));
       const token = localStorage.getItem('token');
       await updateAllCartItem(token, data);
       setCartItems((prev) => prev.map((item) => item));
     } catch (error) {
-      setError(error.message);
+      setError(error);
     }
   };
 
@@ -326,6 +322,11 @@ const Header = () => {
             </div>
           </div>
         </div>
+        {error && (
+          <div className="error-message">
+            <p>{error.response.data.message}</p>
+          </div>
+        )}
       </header>
       <AuthModal 
         isOpen={showAuthModal} 

@@ -7,7 +7,7 @@ export const getUser = async (token) => {
                 Authorization: `Bearer ${token}`
             }
         });
-        return response.data;
+        return response;
     } catch (error) {
         throw error;
     }
@@ -21,7 +21,7 @@ export const updateUser = async (token, data) => {
             },
             body: data
         });
-        return response.status;
+        return response;
     } catch (error) {
         throw error;
     }
@@ -38,11 +38,8 @@ export const updateUserPassword = async (token, password, newPassword) => {
                 newPassword: newPassword
              }
         });
-        const newtoken = response.data.token;
-        if (newtoken) {
-            localStorage.setItem('token', newtoken);
-        }
-        return token;
+            localStorage.setItem('token', response);
+        return response;
     } catch (error) {
         throw error;
     }

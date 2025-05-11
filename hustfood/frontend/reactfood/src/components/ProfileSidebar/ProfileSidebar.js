@@ -5,23 +5,22 @@ import { logoutUser } from '../../services/authService';
 
 const ProfileSidebar = (nameUser) => {
     const [active, setActive] = useState('profile');
+    const [error, setError] = useState(null);
     useEffect(() => {
         setActive(window.location.pathname.split('/')[1]);
     },[]);
 
     const handleLogout = async () => {
+        setError(null);
         try {
             const response = await logoutUser();
-            if (response === 200) {
+            if (response.status === 200) {
                 localStorage.removeItem('token');
                 window.location.href = '/login';
-            } else {
-                alert('Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại sau.');
             }
         }
         catch (error) {
-            console.error('Error logging out:', error);
-            alert('Đã xảy ra lỗi khi đăng xuất. Vui lòng thử lại sau.');
+            setError(error);
         }
     }
 
@@ -36,6 +35,11 @@ const ProfileSidebar = (nameUser) => {
                             {/*nameUser*/}
                         </h2>
                         <p>
+                            {error && (
+                                <div className="error-message">
+                                    <p>{error.response.data.message}</p>
+                                </div>
+                            )}
                             <div className="logout-link" onClick={handleLogout}>
                                 Đăng xuất
                             </div>
