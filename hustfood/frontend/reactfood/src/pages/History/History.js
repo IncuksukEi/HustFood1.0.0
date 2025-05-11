@@ -9,6 +9,7 @@ const fakeData = [
     {
         order_id: 1,
         order_date: '2023-10-01',
+        total_price: 55000,
         products: [
             {
                 name: 'Bánh mì',
@@ -25,11 +26,11 @@ const fakeData = [
                 price: 15000,
             }
         ],
-        total_price: 55000
     },
     {
         order_id: 2,
         order_date: '2023-10-02',
+        total_price: 100000,
         products: [
             {
                 name: 'Phở bò',
@@ -39,7 +40,6 @@ const fakeData = [
                 price: 100000,
             }
         ],
-        total_price: 100000
     }
 ];
 
