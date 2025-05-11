@@ -3,6 +3,7 @@ package com.hustfood.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "orderdetails")
@@ -22,17 +23,18 @@ public class OrderDetail {
     @Column(nullable = false)
     private Integer quantity;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal price;
-
     @Column(name = "total_price", precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
-    @ManyToOne
+    // Sửa lỗi vòng lặp: thêm JsonBackReference ở đây
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    @JsonBackReference
     private Order order;
 
-    @ManyToOne
+    // Nếu không cần trả Product trong JSON thì dùng JsonIgnore thay
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    @JsonBackReference
     private Product product;
 }

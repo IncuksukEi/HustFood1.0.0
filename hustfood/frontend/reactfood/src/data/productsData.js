@@ -1,26 +1,26 @@
-import comboGa from '../assets/images/products/comGa.jpg';
-import comGaRan from '../assets/images/products/comGaran.jpg';
-import comPhiLe from '../assets/images/products/comPhile.jpg';
-import garan from '../assets/images/products/garan.jpg';
-import gaVien from '../assets/images/products/gaVien.jpg';
-import khoaiTayChien from '../assets/images/products/khoaiTaychien.jpg';
-import khoaiTayMuiCau from '../assets/images/products/khoaitayMuicau.jpg';
-import khoaiTayNghien from '../assets/images/products/khoaiTaynghien.jpg';
-import miYga from '../assets/images/products/miYga.jpg';
-import phoMaiVien from '../assets/images/products/phomaiVien.jpg';
-import saladHat from '../assets/images/products/saladHat.jpg';
-import baCanhGa from '../assets/images/products/baCanhGa.jpg';
-import baCathanh from '../assets/images/products/baCathanh.jpg';
-import bapCaitron from '../assets/images/products/bapCaitron.jpg';
-import burgerGa from '../assets/images/products/burgerGa.jpg';
-import miengGa from '../assets/images/products/2miengGa.jpg';
+import comGa from '../assets/images/products/com_ga.jpg';
+import comGaRan from '../assets/images/products/com_ga_ran.jpg';
+import comPhiLe from '../assets/images/products/com_phi_le.jpg';
+import gaRan from '../assets/images/products/ga_ran.jpg';
+import gaVien from '../assets/images/products/ga_vien.jpg';
+import khoaiTayChien from '../assets/images/products/khoai_tay_chien.jpg';
+import khoaiTayMuiCau from '../assets/images/products/khoai_tay_mui_cau.jpg';
+import khoaiTayNghien from '../assets/images/products/khoai_tay_nghien.jpg';
+import miYGa from '../assets/images/products/mi_y_ga.jpg';
+import phoMaiVien from '../assets/images/products/pho_mai_vien.jpg';
+import saladHat from '../assets/images/products/salad_hat.jpg';
+import baCanhGa from '../assets/images/products/ba_canh_ga.jpg';
+import baMiengGaKhongXuong from '../assets/images/products/ba_mieng_ga_khong_xuong.jpg';
+import bapCaiTron from '../assets/images/products/bap_cai_tron.jpg';
+import burgerGa from '../assets/images/products/burger_ga.jpg';
+import haiMiengGa from '../assets/images/products/hai_mieng_ga.jpg';
 
 const productsData = [
     {
       product_id: 1,
       name: "Cơm gà",
       price: "45.000",
-      url_img: comboGa,
+      url_img: comGa,
       description: "Cơm gà thơm ngon, đậm đà hương vị.",
       quantity: 6
     },
@@ -44,7 +44,7 @@ const productsData = [
       product_id: 4,
       name: "1 Miếng Gà Rán",
       price: "35.000",
-      url_img: garan,
+      url_img: gaRan,
       description: "1 Miếng Gà Giòn Cay/Gà Truyền Thống/Gà Giòn Không Cay",
       quantity: 1
     },
@@ -84,7 +84,7 @@ const productsData = [
       product_id: 9,
       name: "Mỳ Ý",
       price: "40.000",
-      url_img: miYga,
+      url_img: miYGa,
       description: "Mỳ Ý sốt gà đậm đà, hấp dẫn.",
       quantity: 7
     },
@@ -116,7 +116,7 @@ const productsData = [
       product_id: 13,
       name: "Ba Miếng Gà Không Xương",
       price: "69.000",
-      url_img: baCathanh,
+      url_img: baMiengGaKhongXuong,
       description: "3 Miếng Gà Không Xương Giòn Cay/Truyền Thống",
       quantity: 9
     },
@@ -124,7 +124,7 @@ const productsData = [
       product_id: 14,
       name: "Bắp cải trộn",
       price: "15.000",
-      url_img: bapCaitron,
+      url_img: bapCaiTron,
       description: "Bắp cải trộn tươi ngon, giòn rụm.",
       quantity: 4
     },
@@ -140,7 +140,7 @@ const productsData = [
       product_id: 16,
       name: "Hai Miếng Gà Rán",
       price: "68.000",
-      url_img: miengGa,
+      url_img: haiMiengGa,
       description: "2 Miếng Gà Giòn Cay/Gà Truyền Thống/Gà Giòn Không Cay",
       quantity: 3
     } 
