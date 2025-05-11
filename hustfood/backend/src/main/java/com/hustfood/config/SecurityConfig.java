@@ -1,5 +1,6 @@
 package com.hustfood.config;
 
+import com.hustfood.security.JwtAuthenticationFilter;
 import com.hustfood.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,15 +12,19 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService,
+                          JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.customUserDetailsService = customUserDetailsService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -30,17 +35,15 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/products/**",
                                 "/api/categories/**",
-                                "/api/users/**",
-                                "/api/cart/**",
-                                "/api/inventory/**",
-                                "/api/orders/**",
-                                "/api/orderdetails/**",
                                 "/api/auth/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .userDetailsService(customUserDetailsService)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .userDetailsService(customUserDetailsService);
+
+        // Thêm JWT filter vào trước filter xác thực mặc định
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
