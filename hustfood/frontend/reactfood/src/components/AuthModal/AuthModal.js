@@ -7,6 +7,7 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
     const [modeA, setModeA] = useState(modeInit);
     const [isChecked, setIsChecked] = useState(false);
     const [isFirstTime, setIsFirstTime] = useState(true);
+    const [error, setError] = useState(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const nameRef = useRef(null);
@@ -17,35 +18,48 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setError(null);
         const email = emailRef.current.value;
         const password = passwordRef.current.value; 
         if (!email || !password) {
-            alert('Xin vui lòng điền đầy đủ các trường thông tin!');
+            setError({
+                response: {
+                    data: {
+                        message: 'Xin vui lòng điền đầy đủ các trường thông tin!'
+                    }
+            }});
             return;
+        } else {
+            setError(null);
         }
         try {
             const response = await loginUser(email, password);
-            if (response) {
-                alert('Đăng nhập thành công!');
+            if (response.status === 200) {
                 onLoginSuccess();
                 onClose();
-            } else {
-                alert('Đăng nhập thất bại!');
             }
         } catch (error) {
-            alert('Lỗi đăng nhập!');
+            setError(error);
         }
     }
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setError(null);
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         const name = nameRef.current.value;
         const phone = phoneRef.current.value;
         if (!email || !password || !name || !phone) {
-            alert('Xin vui lòng điền đầy đủ các trường thông tin!');
+            setError({
+                response: {
+                    data: {
+                        message: 'Xin vui lòng điền đầy đủ các trường thông tin!'
+                    }
+            }});
             return;
+        } else {
+            setError(null);
         }
         if (!isChecked) {
             setIsChecked(false);
@@ -54,14 +68,11 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
         }
         try {
             const response = await registerUser(name, phone, email, password);
-            if (response === 200) {
-                alert('Đăng ký thành công!');
+            if (response.status === 200) {
                 onClose();
-            } else {
-                alert('Đăng ký thất bại!');
             }
         } catch (error) {
-            alert('Lỗi đăng ký!');
+            setError(error);
         }
     }
 
@@ -74,6 +85,12 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
             <div className="modal__body">
                 <div className="auth-form">
                     <div className="auth-form__container">
+                        {error && (
+                            <div className="auth-form__error">
+                                <i className="fas fa-exclamation-circle"></i>
+                                <span>{error.response.data.message}</span>
+                            </div>
+                        )}
                         <h3 className="auth-form__heading">
                             {modeA === 'login' ? 'LOGIN' : 'SIGN UP'}
                         </h3>

@@ -11,6 +11,7 @@ const Reset = () => {
         newPassword: '',
         confirmPassword: ''
     });
+    const [error, setError] = useState(null);
 
     const handleChange = (e) => {
         setFormData({
@@ -21,19 +22,27 @@ const Reset = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
         if (formData.newPassword !== formData.confirmPassword) {
-            alert('Mật khẩu mới không khớp. Vui lòng thử lại.');
+            setError({response:{
+                data: { message: 'Mật khẩu mới không khớp. Vui lòng thử lại.' }
+            }});
             return;
         }
         try {
             let token = localStorage.getItem('token');
             const { password, newPassword } = formData;
             const response = await updateUserPassword(token, password, newPassword);
-            if (response === 'password wrong'){
-                alert('Mật khẩu hiện tại không đúng. Vui lòng thử lại.');
+            if (response.status === 200) {
+                alert('Đặt lại mật khẩu thành công');
+                setFormData({
+                    password: '',
+                    newPassword: '',
+                    confirmPassword: ''
+                });
             }
         } catch (error) {
-            alert('Đã xảy ra lỗi khi đặt lại mật khẩu. Vui lòng thử lại sau.');
+            setError(error);
         }
     };
 
@@ -76,6 +85,11 @@ const Reset = () => {
                                     placeholder='Xác nhận mật khẩu mới'
                                 />
                             </div>
+                            {error && (
+                                <div className="error-message">
+                                    <p>{error.response.data.message}</p>
+                                </div>
+                            )}
                             <button type="submit" className="reset-button">
                                 Đặt lại mật khẩu
                             </button>

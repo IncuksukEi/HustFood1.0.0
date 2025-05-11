@@ -45,19 +45,31 @@ const fakeData = [
 
 const History = () => {
     const [orders, setOrders] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
+        setError(null);
         const fetchOrders = async () => {
             try {
                 const response = await getAllOrders();
-                setOrders(response.data);
+                if (response.status === 200) {
+                    setOrders(response.data);
+                }
             } catch (error) {
-                console.error('Error fetching orders:', error);
+                setError(error);
             }
         };
         /*fetchOrders();*/
         setOrders(fakeData);
     }, []);
+    
+    if (error) {
+        return (
+            <div className="error-message">
+                <p>{error.response.data.message}</p>
+            </div>
+        );
+    }
 
     return (
         <div className="app-container">

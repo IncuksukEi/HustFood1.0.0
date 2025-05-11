@@ -7,7 +7,7 @@ export const getAllCartItems = async (token) => {
                 Authorization: `Bearer ${token}`
             }
         });
-        return response.data;
+        return response;
     } catch (error) {
         throw error;
     }
@@ -20,7 +20,7 @@ export const removeCartItem = async (token, productId) => {
             Authorization: `Bearer ${token}`
         }
       });
-      return response.status;
+      return response;
     } catch (error) {
       throw error;
     }
@@ -34,7 +34,7 @@ export const updateAllCartItem = async (token, data) => {
             },
             body: data
         });
-        return response.status;
+        return response;
     } catch (error) {
         throw error;
     }
@@ -48,7 +48,7 @@ export const addCartItem = async (token, data) => {
             },
             body: data
         });
-        return response.status;
+        return response;
     } catch (error) {
         throw error;
     }

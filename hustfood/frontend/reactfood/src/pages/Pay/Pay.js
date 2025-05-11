@@ -17,29 +17,27 @@ const Pay = () => {
 
     useEffect(() => {
         const fetchCartItems = async () => {
+            setError(null);
             try {
                 const token = localStorage.getItem('token');
                 const cartItems = await getAllCartItems(token);
                 setCartItems(cartItems);
             } catch (error) {
-                console.error('Error fetching cart items:', error);
+                setError(error);
             }
         };
         fetchCartItems();
     }, []);
 
     const handlePay = async (e) => {
+        setError(null);
         setMess(null);
         e.preventDefault();
         const token = localStorage.getItem('token');
         try {
             const response = await addOrder(token, cartItems);
-            if (response === 200) {
+            if (response.status === 200) {
                setMess('Đặt hàng thành công');
-               setError(null);
-            } else {
-                setMess('Đặt hàng thất bại');
-                setError('Đặt hàng thất bại');
             }
         } catch (error) {
             setMess('Đặt hàng thất bại: ' + error.message);
@@ -58,6 +56,14 @@ const Pay = () => {
         e.preventDefault();
         console.log('Payment Data:', paymentData);
     };
+
+    if (error) {
+        return (
+            <div className="error-message">
+                <p>{error.response.data.message}</p>
+            </div>
+        );
+    }
 
     return (
         <>

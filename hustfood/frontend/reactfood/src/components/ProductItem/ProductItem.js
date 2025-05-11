@@ -1,15 +1,18 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProductItem.css";
 import { addCartItem } from "../../services/cartService";
 
 const ProductItem = ({ product_id, name, price, url_img, description, queryToBack }) => {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   const handleImageClick = () => {
     navigate(`/product?product_id=${product_id}&q=${queryToBack}`);
   }
 
   const handleAddToCart = async () => {
+    setError(null);
     const token = localStorage.getItem("token");
     if (!token) {
       alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
@@ -21,13 +24,10 @@ const ProductItem = ({ product_id, name, price, url_img, description, queryToBac
     };
     try {
       const response = await addCartItem(cartItem, token);
-      if (response === 200) {
-        alert("Thêm sản phẩm vào giỏ hàng thành công!");
-      } else {
-        alert("Thêm sản phẩm vào giỏ hàng thất bại.");
+      if (response.status === 200) {
       }
     } catch (error) {
-      alert("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.");
+      setError(error);
     }
   }
 
@@ -49,6 +49,11 @@ const ProductItem = ({ product_id, name, price, url_img, description, queryToBac
             {description}
           </span>
         </div>
+        {error && (
+          <div className="error-message">
+            <p>{error.response.data.message}</p>
+          </div>
+        )}
         <button className="home-product-item__add-btn" onClick={handleAddToCart}>
           Thêm
         </button>

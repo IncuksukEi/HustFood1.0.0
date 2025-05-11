@@ -10,16 +10,25 @@ import { addCartItem } from '../../services/cartService';
 const Product = () => {
     const [quantity, setQuantity] = useState(1);
     const [product, setProduct] = useState(null);
+    const [error, setError] = useState(null);
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q');
 
 
     useEffect(() => {
+        setError(null);
         const productIdParam = searchParams.get('product_id');
         const handleProductId = async () => {
             if (productIdParam) {
-                const productFound = await getProductById(productIdParam);
-                setProduct(productFound);
+                try {
+                    const productFound = await getProductById(productIdParam);
+                
+                    if (productFound.status === 200) {
+                        setProduct(productFound.data);
+                    }
+                } catch (error) {
+                    setError(error);
+                }
             }
         }
         /*handleProductId();*/
@@ -27,6 +36,7 @@ const Product = () => {
     }, []);
 
     const handleAddToCart = async () => {
+        setError(null);
         const token = localStorage.getItem('token');
         if (token) {
             const data = {
@@ -34,9 +44,12 @@ const Product = () => {
                 quantity: quantity
             };
             try {
-                await addCartItem(token, data);
+                response = await addCartItem(token, data);
+                if (response.status === 200) {
+                    alert('Thêm sản phẩm vào giỏ hàng thành công');
+                }
             } catch (error) {
-                console.error('Error adding product to cart:', error);
+                setError(error);
             }
         } else {
             console.error('User not authenticated');
@@ -80,6 +93,11 @@ const Product = () => {
                                 <span>{quantity}</span>
                                 <button onClick={() => setQuantity(quantity + 1)}>+</button>
                             </div>
+                            {error && (
+                                <div className="error-message">
+                                    <p>{error.response.data.message}</p>
+                                </div>
+                            )}
                             <button className="add-to-cart" onClick={handleAddToCart}>Thêm</button>
                         </div>
                     </div>

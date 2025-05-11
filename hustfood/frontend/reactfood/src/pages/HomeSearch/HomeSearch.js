@@ -20,9 +20,11 @@ function HomeSearch() {
     try {
       setError(null);
       const data = await getProducts(query);
-      setSearchResults(data);
+      if (data.status === 200) {
+        setSearchResults(data.data);
+      }
     } catch (error) {
-      setError('Error fetching search results: ' + error.message);
+      setError(error);
     }
   }, []);
   
@@ -53,6 +55,15 @@ function HomeSearch() {
       window.removeEventListener('searchQueryChanged', handleSearchChange);
     };
   }, [setSearchParams]);
+
+  // Xử lý lỗi
+  if (error) {
+    return (
+      <div className="error-message">
+        <p>{error.response.data.message}</p>
+      </div>
+    );
+  }
 
   return (
     <>
