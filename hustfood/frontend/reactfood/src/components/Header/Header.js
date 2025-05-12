@@ -20,8 +20,6 @@ import {
   faFacebook,
   faInstagram
 } from '@fortawesome/free-brands-svg-icons';
-import productsData from '../../data/productsData';
-import { getImageUrl } from '../../utils/imageUtils';
 
 
 const Header = () => {
@@ -60,7 +58,7 @@ const Header = () => {
     };
     const token = localStorage.getItem('token');
     token ? fetchCartItems() : setCartItems([]);
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isCartOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -286,7 +284,7 @@ const Header = () => {
                       {cartItems.map((item) => (
                         <li className="header__cart-item">
                           <img
-                            src={getImageUrl(item.urlImg)}
+                            src={item.urlImg}
                             alt=""
                             className="header__cart-img"
                           />

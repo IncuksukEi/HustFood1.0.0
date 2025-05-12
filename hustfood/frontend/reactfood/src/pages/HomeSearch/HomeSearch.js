@@ -8,6 +8,7 @@ import "../../styles/base.css";
 import ProductList from '../../components/ProductItem/ProductList';
 import productsData from "../../data/productsData";
 import { getProducts } from '../../services/productService';
+import { getImageUrl } from '../../utils/imageUtils';
 
 
 function HomeSearch() {
@@ -20,9 +21,7 @@ function HomeSearch() {
     try {
       setError(null);
       const data = await getProducts(query);
-      if (data.status === 200) {
         setSearchResults(data.data);
-      }
     } catch (error) {
       setError(error);
     }
@@ -81,7 +80,13 @@ function HomeSearch() {
                     <p>Không tìm thấy sản phẩm phù hợp</p>
                   </div>
                 ) : (
-                  <ProductList products={searchResults} queryToBack={queryToBack}/>
+                  <ProductList 
+                    products={searchResults.map((result) => ({
+                      ...result,
+                      urlImg: result.urlImg
+                    }))} 
+                    queryToBack={queryToBack}
+                  />
                 )}
               </div>
             </div>
