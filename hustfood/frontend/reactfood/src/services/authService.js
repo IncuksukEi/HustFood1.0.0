@@ -1,8 +1,15 @@
 import axios from 'axios';
 
-export const logoutUser = async () => {
+export const logoutUser = async (token) => {
     try {
-      const response = await axios.post(`http://localhost:8080/api/auth/logout`);
+      const response = await axios.post(`http://localhost:8080/api/auth/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response;
     } catch (error) {
       throw error;
@@ -19,11 +26,12 @@ export const loginUser = async (email, password) => {
     }
   };
 
-export const registerUser = async (full_name, phone, email, password) => {
+export const registerUser = async (fullName, phone, email, password) => {
     try {
-      const response = await axios.post(`http://localhost:8080/api/auth/singup`, { full_name, phone, email, password });
+      const response = await axios.post(`http://localhost:8080/api/auth/signup`, { fullName, phone, email, password });
       return response;
     } catch (error) {
+      console.error('Error during registration:', error);
       throw error;
     }
   };

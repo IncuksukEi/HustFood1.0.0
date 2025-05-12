@@ -50,17 +50,24 @@ const History = () => {
     useEffect(() => {
         setError(null);
         const fetchOrders = async () => {
+            const token = localStorage.getItem('token');
             try {
-                const response = await getAllOrders();
+                const response = await getAllOrders(token);
                 if (response.status === 200) {
                     setOrders(response.data);
                 }
             } catch (error) {
-                setError(error);
+                const errorData = error.response?.data;
+                setError({
+                    response: {
+                        data: {
+                            message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                        }
+                    }
+                });
             }
         };
-        /*fetchOrders();*/
-        setOrders(fakeData);
+        fetchOrders();
     }, []);
     
     if (error) {

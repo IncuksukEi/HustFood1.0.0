@@ -1,0 +1,11 @@
+chcp 65001
+mysql -u root -p
+
+SET NAMES 'utf8mb4';
+source D:/SOFTWARE/HustFood1.0.0/hustfood/sql/mysql/hustfood.sql;
+source D:/SOFTWARE/HustFood1.0.0/hustfood/sql/mysql/categories.sql;
+source D:/SOFTWARE/HustFood1.0.0/hustfood/sql/mysql/products.sql;
+source D:/SOFTWARE/HustFood1.0.0/hustfood/sql/mysql/users.sql;
+source D:/SOFTWARE/HustFood1.0.0/hustfood/sql/mysql/cart.sql;
+source D:/SOFTWARE/HustFood1.0.0/hustfood/sql/mysql/orders.sql;
+source D:/SOFTWARE/HustFood1.0.0/hustfood/sql/mysql/orderdetails.sql;

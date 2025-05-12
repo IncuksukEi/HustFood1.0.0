@@ -13,10 +13,11 @@ const ProfileSidebar = (nameUser) => {
     const handleLogout = async () => {
         setError(null);
         try {
-            const response = await logoutUser();
+            const token = localStorage.getItem('token');
+            const response = await logoutUser(token);
             if (response.status === 200) {
                 localStorage.removeItem('token');
-                window.location.href = '/login';
+                window.location.href = '/';
             }
         }
         catch (error) {
