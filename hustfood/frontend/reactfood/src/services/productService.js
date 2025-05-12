@@ -1,33 +1,21 @@
 import axios from 'axios';
 
-export const getProducts = async () => {
+export const getProducts = async (query) => {
     try{
-        // list 10
-        // name
-        // description
-        // price
-        // image_url
-        // category_id
-        // rating
-        // sold_quantity
-        const response = await axios.get('https://api.example.com/products'); // Replace with your API endpoint
-        return response.data; // Assuming the API returns a JSON array of products
+        const response = await axios.get(`http://localhost:8080/products/search?q=${query}`);
+        return response;
     }
     catch (error) {
-        console.error('Error fetching products:', error);
-        throw error; // Rethrow the error for further handling if needed
+        throw error; 
     }
 }
 
-export const getBillboardImages = async () => {
+export const getProductById = async (productId) => {
     try {
-        // list 5
-        // url_img
-        // name
-        const response = await axios.get('https://api.example.com/billboards'); 
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching billboard images:', error);
+        const response = await axios.get(`http://localhost:8080/api/products/${productId}`);
+        return response;
+    }
+    catch (error){
         throw error;
     }
 }
