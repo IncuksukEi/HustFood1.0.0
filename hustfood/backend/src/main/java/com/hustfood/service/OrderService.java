@@ -2,6 +2,9 @@ package com.hustfood.service;
 
 import com.hustfood.entity.*;
 import com.hustfood.repository.*;
+
+import jakarta.transaction.Transactional;  /*thêm cái này*/
+
 import com.hustfood.dto.OrderResponseDTO;
 import com.hustfood.dto.OrderDetailResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Service
+@Transactional /* thêm cái này*/
 public class OrderService {
 
     @Autowired
