@@ -2,6 +2,8 @@ package com.hustfood.service;
 
 import com.hustfood.entity.*;
 import com.hustfood.repository.*;
+import com.hustfood.dto.OrderResponseDTO;
+import com.hustfood.dto.OrderDetailResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,5 +64,36 @@ public class OrderService {
 
     public List<Order> getOrdersByUser(Long userId) {
         return orderRepository.findByUserId(userId);
+    }
+
+    public List<OrderResponseDTO> getOrdersWithDetailsByUser(Long userId) {
+        List<Order> orders = orderRepository.findByUserId(userId);
+        List<OrderResponseDTO> result = new ArrayList<>();
+
+        for (Order order : orders) {
+            OrderResponseDTO dto = new OrderResponseDTO();
+            dto.setOrderId(order.getOrderId());
+            dto.setTotalPrice(order.getTotalPrice());
+
+            List<OrderDetailResponseDTO> productList = new ArrayList<>();
+
+            for (OrderDetail detail : order.getOrderDetails()) {
+                Product product = detail.getProduct();
+
+                OrderDetailResponseDTO pDto = new OrderDetailResponseDTO();
+                pDto.setName(product.getName());
+                pDto.setDescription(product.getDescription());
+                pDto.setUrlImg(product.getUrlImg());
+                pDto.setPrice(product.getPrice());
+                pDto.setQuantity(detail.getQuantity());
+
+                productList.add(pDto);
+            }
+
+            dto.setProducts(productList);
+            result.add(dto);
+        }
+
+        return result;
     }
 }
