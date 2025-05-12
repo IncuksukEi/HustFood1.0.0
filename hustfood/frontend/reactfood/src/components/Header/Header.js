@@ -21,6 +21,7 @@ import {
   faInstagram
 } from '@fortawesome/free-brands-svg-icons';
 import productsData from '../../data/productsData';
+import { getImageUrl } from '../../utils/imageUtils';
 
 
 const Header = () => {
@@ -29,7 +30,9 @@ const Header = () => {
   const [error, setError] = useState(null);
   const [mode, setMode] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('token') ? true : false;
+  });
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -45,12 +48,19 @@ const Header = () => {
           setCartItems(items.data);
         }
       } catch (error) {
-        setError(error);
+          const errorData = error.response?.data;
+            setError({
+                response: {
+                    data: {
+                        message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                    }
+                }
+            });
       }
     };
-    /*fetchCartItems();*/
-    setCartItems(productsData);
-  }, []);
+    const token = localStorage.getItem('token');
+    token ? fetchCartItems() : setCartItems([]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -132,7 +142,7 @@ const Header = () => {
   // Add new handler for quantity updates
   const handleUpdateQuantity = (itemId, change) => {
     setCartItems(prev => prev.map(item => {
-      if (item.product_id === itemId) {
+      if (item.productId === itemId) {
         const newQuantity = item.quantity + change;
         return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
       }
@@ -144,7 +154,7 @@ const Header = () => {
   const handleUpdateAllCartItems = async () => {
     setError(null);
     try {
-      const data = cartItems.map((item) => ({product_id: item.product_id, quantity: item.quantity}));
+      const data = cartItems.map((item) => ({product_id: item.productId, quantity: item.quantity}));
       const token = localStorage.getItem('token');
       await updateAllCartItem(token, data);
       setCartItems((prev) => prev.map((item) => item));
@@ -274,9 +284,9 @@ const Header = () => {
                     <h4 className="header__cart-heading">Sản phẩm đã thêm</h4>
                     <ul className="header__cart-list-item">
                       {cartItems.map((item) => (
-                        <li key={item.product_id} className="header__cart-item">
+                        <li className="header__cart-item">
                           <img
-                            src={item.url_img}
+                            src={getImageUrl(item.urlImg)}
                             alt=""
                             className="header__cart-img"
                           />
@@ -286,7 +296,7 @@ const Header = () => {
                               <div className="header__cart-item-quantity">
                                 <button 
                                   className="header__cart-item-quantity-btn"
-                                  onClick={() => handleUpdateQuantity(item.product_id, -1)}
+                                  onClick={() => handleUpdateQuantity(item.productId, -1)}
                                   disabled={item.quantity <= 1}
                                 >
                                   -
@@ -294,7 +304,7 @@ const Header = () => {
                                 <span className="header__cart-item-qnt">{item.quantity}</span>
                                 <button 
                                   className="header__cart-item-quantity-btn"
-                                  onClick={() => handleUpdateQuantity(item.product_id, 1)}
+                                  onClick={() => handleUpdateQuantity(item.productId, 1)}
                                 >
                                   +
                                 </button>
@@ -304,7 +314,7 @@ const Header = () => {
                             <div className="header__cart-item-body">
                               <button
                                 className="header__cart-item-remove"
-                                onClick={() => handleCartItemRemove(item.id)}
+                                onClick={() => handleCartItemRemove(item.productId)}
                               >
                                 Xóa
                               </button>

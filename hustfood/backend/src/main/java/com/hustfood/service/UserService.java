@@ -4,7 +4,6 @@ import com.hustfood.dto.SignupRequest;
 import com.hustfood.dto.UserProfileDTO;
 import com.hustfood.entity.User;
 import com.hustfood.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class UserService {
 
     @Autowired
@@ -33,6 +31,7 @@ public class UserService {
         return userRepository.findByPhone(phone);
     }
 
+    // Lấy thông tin profile của user
     public UserProfileDTO getProfile(User user) {
         UserProfileDTO dto = new UserProfileDTO();
         dto.setEmail(user.getEmail());
@@ -43,20 +42,28 @@ public class UserService {
         return dto;
     }
 
+    // Cập nhật thông tin người dùng
     public void updateUser(User user, UserProfileDTO dto) {
         if (dto.getFullName() != null) user.setFullName(dto.getFullName());
         if (dto.getPhone() != null) user.setPhone(dto.getPhone());
-        if (dto.getGender() != null) {
+
+        // Cập nhật gender
+        if (dto.getGender() != null && !dto.getGender().isBlank()) {
             try {
-                user.setGender(User.Gender.valueOf(dto.getGender().toLowerCase()));
+                String normalizedGender = dto.getGender().toUpperCase().trim();
+                user.setGender(User.Gender.valueOf(normalizedGender));
             } catch (IllegalArgumentException e) {
-                // Giữ nguyên nếu giá trị không hợp lệ
+                // Không cập nhật nếu giá trị gender không hợp lệ
+                System.out.println("Invalid gender value: " + dto.getGender());
             }
         }
+
         if (dto.getBirthDate() != null) user.setBirthDate(dto.getBirthDate());
+
         userRepository.save(user);
     }
 
+    // Đăng ký user mới
     public User registerUser(SignupRequest request) {
         User user = new User();
         user.setFullName(request.getFullName());
@@ -66,8 +73,18 @@ public class UserService {
 
         user.setRole(User.Role.CUSTOMER);
         user.setStatus(User.Status.ACTIVE);
-        user.setGender(User.Gender.OTHER);
+        user.setGender(User.Gender.OTHER); // Mặc định gender là OTHER
 
         return userRepository.save(user);
+    }
+
+    // Đổi mật khẩu người dùng
+    public void resetPassword(User user, String oldPassword, String newPassword) throws Exception {
+        if (!passwordEncoder.matches(oldPassword, user.getHashedPassword())) {
+            throw new Exception("Incorrect old password");
+        }
+
+        user.setHashedPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }

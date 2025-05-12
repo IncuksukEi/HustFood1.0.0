@@ -19,10 +19,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
+    private final TokenBlacklistService tokenBlacklistService;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, CustomUserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil,
+                                   CustomUserDetailsService userDetailsService,
+                                   TokenBlacklistService tokenBlacklistService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
+        this.tokenBlacklistService = tokenBlacklistService;
     }
 
     @Override
@@ -31,7 +35,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = jwtUtil.extractToken(request);
-            if (jwtUtil.isTokenValid(token)) {
+            if (token != null && jwtUtil.isTokenValid(token)
+                    && !tokenBlacklistService.isTokenBlacklisted(token)) {
                 String email = jwtUtil.extractEmailFromToken(token);
                 var userDetails = userDetailsService.loadUserByUsername(email);
 
@@ -41,9 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-        } catch (Exception ignored){
-            // Không set authentication nếu token không hợp lệ hoặc không có token
-        }
+        } catch (Exception ignored) {}
 
         filterChain.doFilter(request, response);
     }

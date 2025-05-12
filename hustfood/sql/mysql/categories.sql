@@ -1,4 +1,3 @@
-\encoding 'UTF8'
 INSERT INTO categories (category_id, catename, description, query) VALUES
 (1, 'Ưu đãi', 'Các sản phẩm ưu đãi', 'uu-dai'),
 (2, 'Món mới', 'Các món mới ra mắt', 'mon-moi'),
