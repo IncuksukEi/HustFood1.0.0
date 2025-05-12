@@ -1,5 +1,6 @@
 package com.hustfood.controller;
 
+import com.hustfood.dto.OrderResponseDTO;
 import com.hustfood.entity.Order;
 import com.hustfood.service.OrderService;
 import com.hustfood.util.JwtUtil;
@@ -28,11 +29,10 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 
-    // GET /api/orders - Lấy tất cả đơn hàng theo user
     @GetMapping
-    public ResponseEntity<List<Order>> getOrders(HttpServletRequest request) {
+    public ResponseEntity<List<OrderResponseDTO>> getOrders(HttpServletRequest request) {
         Long userId = jwtUtil.getUserIdFromRequest(request);
-        List<Order> orders = orderService.getOrdersByUser(userId);
+        List<OrderResponseDTO> orders = orderService.getOrdersWithDetailsByUser(userId);
         return ResponseEntity.ok(orders);
     }
 }

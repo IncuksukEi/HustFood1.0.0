@@ -5,44 +5,6 @@ import ProfileSidebar from '../../components/ProfileSidebar/ProfileSidebar';
 import './History.css';
 import { getAllOrders } from '../../services/orderSevice';
 
-const fakeData = [
-    {
-        order_id: 1,
-        order_date: '2023-10-01',
-        total_price: 55000,
-        products: [
-            {
-                name: 'Bánh mì',
-                description: 'Bánh mì thịt',
-                url_img: 'banh-mi.jpg',
-                quantity: 2,
-                price: 40000,
-            },
-            {
-                name: 'Cà phê',
-                description: 'Cà phê đen',
-                url_img: 'cafe.jpg',
-                quantity: 1,
-                price: 15000,
-            }
-        ],
-    },
-    {
-        order_id: 2,
-        order_date: '2023-10-02',
-        total_price: 100000,
-        products: [
-            {
-                name: 'Phở bò',
-                description: 'Phở bò tái',
-                url_img: 'pho-bo.jpg',
-                quantity: 2,
-                price: 100000,
-            }
-        ],
-    }
-];
-
 const History = () => {
     const [orders, setOrders] = useState([]);
     const [error, setError] = useState(null);
@@ -53,9 +15,7 @@ const History = () => {
             const token = localStorage.getItem('token');
             try {
                 const response = await getAllOrders(token);
-                if (response.status === 200) {
                     setOrders(response.data);
-                }
             } catch (error) {
                 const errorData = error.response?.data;
                 setError({
@@ -87,12 +47,9 @@ const History = () => {
                     <div className="history-container">
                         <div className="orders-list">
                             {orders.map((order) => (
-                                <div className="order-card" key={order.order_id}>
+                                <div className="order-card" key={order.orderId}>
                                     <div className="order-header">
-                                        <h2>Đơn hàng #{order.order_id}</h2>
-                                    </div>
-                                    <div className="order-info">
-                                        <span className="order-date">Ngày đặt: {order.order_date}</span>
+                                        <h2>ID : 00{order.orderId}</h2>
                                     </div>
                                     <div className="order-items">
                                         <div className="item-header">
@@ -110,7 +67,7 @@ const History = () => {
                                     </div>
                                     <div className="order-total">
                                         <span>Tổng cộng:</span>
-                                        <span className="total-amount">{order.total_price.toLocaleString('vi-VN')}đ</span>
+                                        <span className="total-amount">{order.totalPrice.toLocaleString('vi-VN')}đ</span>
                                     </div>
                                 </div>
                             ))}

@@ -19,6 +19,8 @@ public class Category {
 
     private String description;
 
+    private String query;
+
     @OneToMany
     @JoinColumn(name = "category_id")
     @JsonIgnore
