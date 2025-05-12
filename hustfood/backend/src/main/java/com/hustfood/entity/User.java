@@ -47,7 +47,7 @@ public class User {
     private Status status = Status.ACTIVE;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('male', 'female', 'other') DEFAULT 'other'")
+    @Column(columnDefinition = "ENUM('MALE', 'FEMALE', 'OTHER') DEFAULT 'OTHER'")
     private Gender gender;
 
     @JsonIgnore

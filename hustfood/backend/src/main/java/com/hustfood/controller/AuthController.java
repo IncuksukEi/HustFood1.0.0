@@ -3,6 +3,7 @@ package com.hustfood.controller;
 import com.hustfood.dto.*;
 import com.hustfood.entity.User;
 import com.hustfood.repository.UserRepository;
+import com.hustfood.security.TokenBlacklistService;
 import com.hustfood.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -25,6 +26,9 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TokenBlacklistService tokenBlacklistService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
@@ -51,20 +55,22 @@ public class AuthController {
         newUser.setEmail(req.getEmail());
         newUser.setPhone(req.getPhone());
         newUser.setHashedPassword(passwordEncoder.encode(req.getPassword()));
-        newUser.setRole(User.Role.CUSTOMER); // set mặc định
-        newUser.setStatus(User.Status.ACTIVE); // set mặc định
-        newUser.setGender(User.Gender.OTHER); // set mặc định
+        newUser.setRole(User.Role.CUSTOMER);
+        newUser.setStatus(User.Status.ACTIVE);
+        newUser.setGender(User.Gender.OTHER);
 
         userRepository.save(newUser);
-
-        // Nếu muốn gửi token sau khi đăng ký:
-        String token = jwtUtil.generateToken(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new LoginResponse(token));
+        return ResponseEntity.status(HttpStatus.CREATED).body("Registration successful");
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout() {
-        // JWT là stateless nên không cần xử lý nhiều
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().body("Missing token");
+        }
+
+        String token = authHeader.substring(7);
+        tokenBlacklistService.blacklistToken(token);
+        return ResponseEntity.ok("Logged out successfully");
     }
 }
