@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Category.css';
 
 // Import images
+import offerImg from '../../assets/images/categories/khuyen-mai.jpg';
 import newDishImg from '../../assets/images/categories/mon-moi.jpg';
 import singleComboImg from '../../assets/images/categories/combo-1-nguoi.jpg';
 import groupComboImg from '../../assets/images/categories/combo-nhom.jpg';
@@ -12,13 +13,14 @@ import snacksImg from '../../assets/images/categories/thuc-an-nhe.jpg';
 import drinksImg from '../../assets/images/categories/do-uong.jpg';
 
 const categories = [
-  { id: 1, name: 'Món Mới', image: newDishImg, query: 'mon-moi' },
-  { id: 2, name: 'Combo 1 Người', image: singleComboImg, query: 'combo-1-nguoi' },
-  { id: 3, name: 'Combo Nhóm', image: groupComboImg, query: 'combo-nhom' },
-  { id: 4, name: 'Gà Rán - Gà Quay', image: chickenImg, query: 'ga-ran' },
-  { id: 5, name: 'Burger - Cơm - Mì Ý', image: burgerImg, query: 'burger' },
-  { id: 6, name: 'Thức Ăn Nhẹ', image: snacksImg, query: 'thuc-an-nhe' },
-  { id: 7, name: 'Thức Uống & Tráng Miệng', image: drinksImg, query: 'do-uong' }
+  { id: 1, name: 'Ưu đãi', image:offerImg, query: 'uu-dai' },
+  { id: 2, name: 'Món Mới', image: newDishImg, query: 'mon-moi' },
+  { id: 3, name: 'Combo 1 Người', image: singleComboImg, query: 'combo-1-nguoi' },
+  { id: 4, name: 'Combo Nhóm', image: groupComboImg, query: 'combo-nhom' },
+  { id: 5, name: 'Gà Rán - Gà Quay', image: chickenImg, query: 'ga-ran' },
+  { id: 6, name: 'Burger - Cơm - Mì Ý', image: burgerImg, query: 'burger' },
+  { id: 7, name: 'Thức Ăn Nhẹ', image: snacksImg, query: 'thuc-an-nhe' },
+  { id: 8, name: 'Thức Uống & Tráng Miệng', image: drinksImg, query: 'do-uong' }
 ];
 
 const Category = () => {

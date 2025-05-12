@@ -1,100 +1,107 @@
-.profile_content {
-  padding: 12px 0 12px 0;
-}
-.profile_container {
-  width: 600px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background: var(--white-color);
-}
-.profile_title {
-  font-size: 20px;
-  font-weight: bold;
+.pro_profile-page {
+  display: flex;
+  margin: 20px auto;
+  max-width: 1200px;
+  min-height: 50px;
+  background-color: #ffff;
 }
 
-.profile_subtitle {
-  font-size: 14px;
-  color: gray;
-  margin-bottom: 8px;
-  margin-top: 8px;
+.pro_profile_content {
+  padding: 12px 0;
 }
 
-.profile_label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
+.pro_detail-container {
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  padding: 20px 50px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 30%;
+  margin-left: 85px;
+}
+
+.pro_detail-container h1 {
+  font-size: 24px;
+  color: #202124;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.pro_detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: none;
+}
+
+.pro_form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.pro_form-row .pro_form-group {
+  flex: 1;
+}
+
+.pro_form-group {
+  max-height: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: none;
+  margin-bottom: 10px;
+}
+
+.pro_form-group label {
   font-size: 12px;
+  font-weight: 500;
+  color: #202124;
 }
 
-.profile_input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.profile_email,
-.profile_phone {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.profile_change {
-  color: blue;
-  cursor: pointer;
-}
-
-.profile_gender_wrapper {
-  display: flex;
-  align-items: center; /* Căn giữa theo chiều dọc */
-  gap: 15px; /* Khoảng cách giữa "Giới tính" và các lựa chọn */
-}
-
-.profile_gender {
-  display: flex;
-  gap: 10px; /* Khoảng cách giữa các lựa chọn */
-}
-
-.profile_gender label {
-  display: flex;
-  align-items: center;
-  gap: 5px; /* Khoảng cách giữa radio button và chữ */
-  cursor: pointer;
-  position: relative;
-  top: 5px; /* Đẩy các radio button + chữ xuống một chút */
-}
-
-.profile_dob {
-  display: flex;
-  gap: 5px; /* Tạo khoảng cách giữa các ô */
-}
-
-.profile_dob input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  border-radius: 2px;
-  width: 33%; /* Điều chỉnh độ rộng */
-  height: 25px;
-  margin-top: 10px;
-}
-
-.profile_button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 15px;
-  background: var(--primary-color);
-  color: white;
-  font-size: 16px;
+.pro_form-group input,
+.pro_form-group select {
+  padding: 5px;
+  margin-bottom: 10px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  border-radius: 0px;
+  font-size: 10px;
+  transition: border-color 0.2s ease;
+  border-bottom: 1px solid #ccc;
 }
 
-.profile_button:hover {
-  background: #c0392b;
+.pro_form-group input:focus,
+.pro_form-group select:focus {
+  border-color: #e4002b;
+  outline: none;
+}
+
+.pro_update-button {
+  background: #e4002b;
+  color: white;
+  border: none;
+  padding: 10px 5px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 5px;
+}
+
+.pro_update-button:hover {
+  background: #c1001f;
+}
+
+.pro_update-button:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 600px) {
+  .pro_detail-container {
+    padding: 20px;
+  }
+
+  .pro_form-row {
+    flex-direction: column;
+    gap: 20px;
+  }
 }

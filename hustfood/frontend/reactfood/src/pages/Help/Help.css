@@ -1,0 +1,45 @@
+/* src/pages/Help.css */
+.help-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.help-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #c8102e;
+  text-align: center;
+}
+
+.intro {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.faq-item {
+  background-color: #fff4f4;
+  border-left: 5px solid #c8102e;
+  padding: 1rem 1.5rem;
+  border-radius: 5px;
+}
+
+.faq-question {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.faq-answer {
+  font-size: 1.5rem;
+  line-height: 1.5;
+}

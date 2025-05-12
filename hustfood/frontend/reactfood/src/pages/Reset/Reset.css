@@ -1,0 +1,85 @@
+.reset-page {
+  display: flex;
+  margin: 20px auto;
+  max-width: 1200px;
+  min-height: 50px;
+  background-color: #ffff;
+}
+
+.reset-content {
+  flex: 1;
+  padding: 0 20px;
+  display: flex;
+  justify-content: left;
+}
+
+.reset-container {
+  width: 100%;
+  max-width: 380px;
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 65px;
+}
+
+.reset-container h1 {
+  font-size: 24px;
+  color: #202124;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.reset-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: -9px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #202124;
+  font-weight: 500;
+}
+
+.form-group input {
+  padding: 12px;
+  border: none;
+  border-radius: 0px;
+  font-size: 13px;
+  transition: border-color 0.2s ease;
+  border-bottom: 1px solid #ccc;
+}
+
+.form-group input:focus {
+  border-color: #e4002b;
+  outline: none;
+}
+
+.reset-button {
+  background: #e4002b;
+  color: white;
+  border: none;
+  padding: 10px 5px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 5px;
+}
+
+.reset-button:hover {
+  background: #c1001f;
+}
+
+.reset-button:active {
+  transform: scale(0.98);
+}

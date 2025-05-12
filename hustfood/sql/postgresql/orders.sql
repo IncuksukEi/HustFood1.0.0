@@ -1,0 +1,22 @@
+INSERT INTO orders (order_id, user_id, status, total_price)
+VALUES
+    (1, 1, 'PENDING', 100000),
+    (2, 2, 'CONFIRMED', 200000),
+    (3, 3, 'CANCELLED', 150000),
+    (4, 4, 'PENDING', 300000),
+    (5, 5, 'SHIPPED', 250000),
+    (6, 6, 'CANCELLED', 180000),
+    (7, 7, 'PENDING', 220000),
+    (8, 8, 'CONFIRMED', 270000),
+    (9, 9, 'SHIPPED', 320000),
+    (10, 10, 'PENDING', 400000),
+    (11, 2, 'CONFIRMED', 500000),
+    (12, 2, 'CANCELLED', 600000),
+    (13, 4, 'PENDING', 700000),
+    (14, 5, 'SHIPPED', 800000),
+    (15, 3, 'CANCELLED', 900000),
+    (16, 8, 'PENDING', 1000000),
+    (17, 6, 'CONFIRMED', 1100000),
+    (18, 6, 'SHIPPED', 1200000),
+    (19, 3, 'PENDING', 1300000),
+    (20, 10, 'CONFIRMED', 1400000);

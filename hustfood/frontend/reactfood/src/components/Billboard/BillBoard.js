@@ -1,26 +1,13 @@
-import React, { useState, useEffect } from 'react';
-//import { getBillboardImages } from '../../services/productService';
+import React, { useState } from 'react';
+import  { useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './BillBoard.css';
 import { billboardData } from '../../data/billBoradData';
 
 const BillBoard = () => {
-    const [images, setImages] = useState([]);
+    const navigate = useNavigate();
+    const images = billboardData;
     const [currentIndex, setCurrentIndex] = useState(0);
-
-    useEffect(() => {
-        /*const fetchImages = async () => {
-            try {
-                const data = await getBillboardImages();
-                setImages(data);
-            } catch (error) {
-                console.error('Error fetching billboard images:', error);
-            }
-        };
-        fetchImages();*/
-        setImages(billboardData); // Sử dụng dữ liệu tạm thời từ billboardData
-
-    }, []);
 
     const nextSlide = () => {
         setCurrentIndex((prevIndex) => 
@@ -34,13 +21,10 @@ const BillBoard = () => {
         );
     };
 
-    // Fallback image khi API chưa hoạt động
-    const defaultImage = {
-        url_img: "kfc-banner.jpg",
-        name: "KFC Special Offer",
+    const handleImageClick = (currentIndex) => {
+        const link = `/search?q=${images[currentIndex].query}`;
+        navigate(link);
     };
-
-    const displayedImages = images.length > 0 ? images : [defaultImage];
 
     return (
         <div className="billboard-container">
@@ -50,9 +34,10 @@ const BillBoard = () => {
             
             <div className="billboard-content">
                 <img 
-                    src={displayedImages[currentIndex].url_img} 
-                    alt={displayedImages[currentIndex].name}
+                    src={images[currentIndex].url_img} 
+                    alt={images[currentIndex].name}
                     className="billboard-image"
+                    onClick={() => handleImageClick(currentIndex)}
                 />
             </div>
 
@@ -61,7 +46,7 @@ const BillBoard = () => {
             </button>
             
             <div className="dots">
-                {displayedImages.map((_, index) => (
+                {images.map((_, index) => (
                     <span 
                         key={index} 
                         className={`dot ${index === currentIndex ? 'active' : ''}`}

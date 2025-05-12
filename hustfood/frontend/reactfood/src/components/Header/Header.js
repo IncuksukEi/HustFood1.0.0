@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './Header.css';
-import '../../styles/base.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './Header.css';
+import '../../styles/base.css';
+import noCartImage from '../../assets/images/img/no_cart.png'; // Adjust the path as needed
+import logo from '../../assets/images/img/logo.png';
+import avt from '../../assets/images/img/avt.jpg';
+import { getSocialMediaLinks } from '../../services/mediaService';
+import { removeCartItem } from '../../services/cartService';
+import { getAllCartItems } from '../../services/cartService'; 
+import { updateAllCartItem } from '../../services/cartService';
+import AuthModal from '../AuthModal/AuthModal';
 import {
-  faCheck,
-  faBell,
   faCircleQuestion,
   faMagnifyingGlass,
   faCartShopping,
@@ -14,61 +20,40 @@ import {
   faFacebook,
   faInstagram
 } from '@fortawesome/free-brands-svg-icons';
-import noCartImage from '../../assets/images/img/no_cart.png'; // Adjust the path as needed
-import logo from '../../assets/images/img/logo.png';
-import avt from '../../assets/images/img/avt.jpg';
-import {
-  logoutUser,
-  performSearch,
-  removeCartItem,
-  getSocialMediaLinks,
-  fetchLatestProducts,
-} from '../../services/headerService';
-import AuthModal from '../AuthModal/AuthModal';
+import productsData from '../../data/productsData';
+
 
 const Header = () => {
   const location = useLocation();
-  // State for dropdowns
-  const [isNotifyOpen, setIsNotifyOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [mode, setMode] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   const [cartItems, setCartItems] = useState([]);
-  const [notifications, setNotifications] = useState([]);
-
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
-
-  // Refs for click-outside detection
-  const notifyRef = useRef(null);
-  const userMenuRef = useRef(null);
   const cartRef = useRef(null);
 
-  // Fetch notifications and cart items on mount
   useEffect(() => {
-    const loadData = async () => {
+    const fetchCartItems = async () => {
+      setError(null);
       try {
-        const cartData = await fetchLatestProducts();
-        setNotifications(cartData);
+        const token = localStorage.getItem('token');
+        const items = await getAllCartItems(token);
+        if (items.status === 200) {
+          setCartItems(items.data);
+        }
       } catch (error) {
-        console.error('Error loading data:', error);
+        setError(error);
       }
     };
-
-    loadData();
+    /*fetchCartItems();*/
+    setCartItems(productsData);
   }, []);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (notifyRef.current && !notifyRef.current.contains(event.target)) {
-        setIsNotifyOpen(false);
-      }
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-        setIsUserMenuOpen(false);
-      }
       if (cartRef.current && !cartRef.current.contains(event.target)) {
         setIsCartOpen(false);
       }
@@ -76,9 +61,6 @@ const Header = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-  /////////////////////////////////
-
-  const navigate = useNavigate();
 
   // chuyển đổi giữa người mua và người bán
   const handleSwitchToSeller = () => {
@@ -87,66 +69,31 @@ const Header = () => {
 
   // đi đến các trang mạng xã hội
   const handleSocialClick = (platform) => {
-    const socialMediaLinks = getSocialMediaLinks(); // Lấy các liên kết mạng xã hội từ headerService.js
-    const url = socialMediaLinks[platform]; // Lấy URL tương ứng với nền tảng (Facebook hoặc Instagram)
-  
-    if (url) {
-      window.open(url, '_blank'); // Mở liên kết trong một tab mới
-    } else {
-      console.error(`No URL found for platform: ${platform}`);
-    }
-  };
-
-  // xử lý khi nhấp vào thông báo
-  const handleNotifyClick = async (itemId) => {
-    try {
-      if (itemId === 'all') {
-        navigate('/notifications'); // Chuyển hướng đến trang thông báo
-        // đánh dấu tất cả thông báo là đã xem
-        setNotifications((prev) =>
-          prev.map((item) => ({ ...item, viewed: true })) // Cập nhật trạng thái thông báo
-        );
-      } else {
-        navigate(`/product/${itemId}`);
-        setNotifications((prev) =>
-          prev.map((item) =>
-            item.id === itemId ? { ...item, viewed: true } : item
-          )
-        );
-      }
-    } catch (error) {
-      console.error('Error handling notification click:', error);
-    }
+    const socialMediaLinks = getSocialMediaLinks();
+    const url = socialMediaLinks[platform]; 
+      window.open(url, '_blank');
   };
 
   // xử lý khi nhấp vào trợ giúp
   const handleHelpClick = () => {
-    navigate('/help'); // Chuyển hướng đến trang trợ giúp
+    navigate('/help');
   };
 
   // xử lý khi nhấp vào đăng ký
   const handleRegisterClick = () => {
+    setMode('signup');
     setShowAuthModal(true);
   };
 
   // xử lý khi nhấp vào đăng nhập
   const handleLoginClick = () => {
+    setMode('login');
     setShowAuthModal(true);
   };
 
   // xử lý khi nhấp vào tài khoản người dùng
-  const handleUserMenuClick = async (action) => {
-    try {
-      if (action === 'profile') {
-        navigate('/profile'); // Chuyển hướng đến trang hồ sơ người dùng
-      } else if (action === 'orders') {
-        navigate('/cart'); // Chuyển hướng đến trang đơn hàng
-      } else if (action === 'logout') {
-        await logoutUser();
-      }
-    } catch (error) {
-      console.error('Error handling user menu action:', error);
-    }
+  const handleUserMenuClick = async () => {
+        navigate('/profile');
   };
 
   // xử lý tìm kiếm
@@ -170,19 +117,45 @@ const Header = () => {
     }
   };
 
-  // xử lý khi nhấp vào sản phẩm trong giỏ hàng
+  // xử lý khi xoá sản phẩm trong giỏ hàng
   const handleCartItemRemove = async (itemId) => {
+    setError(null);
     try {
-      await removeCartItem(itemId);
+      const token = localStorage.getItem('token');
+      const response = await removeCartItem(token, itemId);
       setCartItems((prev) => prev.filter((item) => item.id !== itemId));
     } catch (error) {
-      console.error('Error removing cart item:', error);
+      setError(error);
+    }
+  };
+
+  // Add new handler for quantity updates
+  const handleUpdateQuantity = (itemId, change) => {
+    setCartItems(prev => prev.map(item => {
+      if (item.product_id === itemId) {
+        const newQuantity = item.quantity + change;
+        return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
+      }
+      return item;
+    }));
+  };
+
+  // update all cart items
+  const handleUpdateAllCartItems = async () => {
+    setError(null);
+    try {
+      const data = cartItems.map((item) => ({product_id: item.product_id, quantity: item.quantity}));
+      const token = localStorage.getItem('token');
+      await updateAllCartItem(token, data);
+      setCartItems((prev) => prev.map((item) => item));
+    } catch (error) {
+      setError(error);
     }
   };
 
   // xử lý khi nhấp vào giỏ hàng
   const handleViewCart = () => {
-    navigate('/cart'); // Chuyển hướng đến trang giỏ hàng
+    navigate('/cart');
   };
 
   return (
@@ -196,11 +169,9 @@ const Header = () => {
                 <ul className="header__navbar-option">
                   <li className="header__navbar-option-item header__navbar-option-item--active">
                     <span>Kênh người mua</span>
-                    <FontAwesomeIcon icon={faCheck} />
                   </li>
                   <li className="header__navbar-option-item" onClick={handleSwitchToSeller}>
-                      <span>Kênh người bán</span>
-                      <FontAwesomeIcon icon={faCheck} />
+                    <span>Kênh người bán</span>
                   </li>
                 </ul>
               </li>
@@ -215,48 +186,6 @@ const Header = () => {
               </li>
             </ul>
             <ul className="header__navbar-list">
-              <li
-                className="header__navbar-item header__navbar-item--has-notify"
-                ref={notifyRef}
-                onClick={() => setIsNotifyOpen(!isNotifyOpen)}
-                role="button"
-                aria-expanded={isNotifyOpen}
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && setIsNotifyOpen(!isNotifyOpen)}
-              >
-                <div className="header__navbar-item-link">
-                  <FontAwesomeIcon icon={faBell} className="header__navbar-icon" />
-                  THÔNG BÁO
-                </div>
-                {isNotifyOpen && (
-                  <div className="header__notify">
-                    <header className="header__notify-header">
-                      <h3>Thông báo mới nhận</h3>
-                    </header>
-                    <ul className="header__notify-list">
-                      {notifications.map((item) => (
-                        <li
-                          key={item.id}
-                          className={`header__notify-item ${item.viewed ? 'header__notify-item--viewed' : ''}`}
-                        >
-                          <button className="header__notify-link" onClick={() => handleNotifyClick(item.id)}>
-                            <img src={item.img} alt="" className="header__notify-img" />
-                            <div className="header__notify-info">
-                              <span className="header__notify-name">{item.name}</span>
-                              <span className="header__notify-descriotion">{item.description}</span>
-                            </div>
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                    <footer className="header__notify-footer">
-                      <div className="header__notify-footer-btn" onClick={() => handleNotifyClick('all')}>
-                        Xem tất cả
-                      </div>
-                    </footer>
-                  </div>
-                )}
-              </li>
               <li className="header__navbar-item">
                 <div className="header__navbar-item-link" onClick={handleHelpClick}>
                   <FontAwesomeIcon icon={faCircleQuestion} className="header__navbar-icon" />
@@ -273,34 +202,19 @@ const Header = () => {
                   </li>
                 </div>
               ) : (
-                <div className="user__check" ref={userMenuRef}>
+                <div className="user__check">
                   <li
                     className="header__navbar-item header__navbar-user"
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    onClick={() => handleUserMenuClick()}
                     role="button"
-                    aria-expanded={isUserMenuOpen}
                     tabIndex={0}
-                    onKeyDown={(e) => e.key === 'Enter' && setIsUserMenuOpen(!isUserMenuOpen)}
                   >
                     <img
                       src={avt}
                       alt=""
                       className="header__navbar-user-img"
                     />
-                    <span className="header__navbar-user-name">Người dùng</span>
-                    {isUserMenuOpen && (
-                      <ul className="header__navbar-user-menu">
-                        <li className="header__navbar-user-item">
-                          <div onClick={() => handleUserMenuClick('profile')}>Tài khoản của tôi</div>
-                        </li>
-                        <li className="header__navbar-user-item">
-                          <div onClick={() => handleUserMenuClick('orders')}>Đơn mua</div>
-                        </li>
-                        <li className="header__navbar-user-item header__navbar-user-item--separate">
-                          <div onClick={() => handleUserMenuClick('logout')}>Đăng xuất</div>
-                        </li>
-                      </ul>
-                    )}
+                    <span className="header__navbar-user-name">NGƯỜI DÙNG</span>
                   </li>
                 </div>
               )}
@@ -315,7 +229,7 @@ const Header = () => {
                 <span>
                   <a href="/" className="header__logo-link">
                     <img src={logo} alt="Hust's Food" id="fastfood" />
-                    HUST FOOD
+                    <span className="header__logo-text">HUST FOOD</span>
                   </a>
                 </span>
               </div>
@@ -334,17 +248,6 @@ const Header = () => {
                     }
                   }}
                 />
-                <div className="header__search-history">
-                  <h3 className="header__search-history-heading">Lịch sử tìm kiếm</h3>
-                  <ul className="header__search-history-list">
-                    <li className="header__search-history-item">
-                      <div onClick={() => handleSearch('Project ăn liền')}>Project ăn liền</div>
-                    </li>
-                    <li className="header__search-history-item">
-                      <div onClick={() => handleSearch('Project free')}>Project free</div>
-                    </li>
-                  </ul>
-                </div>
               </div>
               <button className="header__search-btn" onClick={() => handleSearch(searchQuery)}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} className="header__search-btn-icon" />
@@ -354,7 +257,10 @@ const Header = () => {
               <div className="header__cart-wrap">
                 <div
                   className="header__cart-icon"
-                  onClick={() => setIsCartOpen(!isCartOpen)}
+                  onClick={() => {
+                    isCartOpen && handleUpdateAllCartItems();
+                    setIsCartOpen(!isCartOpen);
+                  }}
                 >
                   <FontAwesomeIcon icon={faCartShopping} />
                 </div>
@@ -368,23 +274,34 @@ const Header = () => {
                     <h4 className="header__cart-heading">Sản phẩm đã thêm</h4>
                     <ul className="header__cart-list-item">
                       {cartItems.map((item) => (
-                        <li key={item.id} className="header__cart-item">
+                        <li key={item.product_id} className="header__cart-item">
                           <img
-                            src="https://down-vn.img.susercontent.com/file/92ed62261c9121f7808e0b1915cf7c99.webp"
+                            src={item.url_img}
                             alt=""
                             className="header__cart-img"
                           />
                           <div className="header__cart-item-info">
                             <div className="header__cart-item-head">
                               <h5 className="header__cart-item-name">{item.name}</h5>
-                              <span className="header__cart-item-price-wrap">
-                                <span className="header__cart-item-price">{item.price}</span>
-                                <span className="header__cart-item-multiply">x</span>
+                              <div className="header__cart-item-quantity">
+                                <button 
+                                  className="header__cart-item-quantity-btn"
+                                  onClick={() => handleUpdateQuantity(item.product_id, -1)}
+                                  disabled={item.quantity <= 1}
+                                >
+                                  -
+                                </button>
                                 <span className="header__cart-item-qnt">{item.quantity}</span>
-                              </span>
+                                <button 
+                                  className="header__cart-item-quantity-btn"
+                                  onClick={() => handleUpdateQuantity(item.product_id, 1)}
+                                >
+                                  +
+                                </button>
+                              </div>
+                              <span className="header__cart-item-price">{item.price}</span>
                             </div>
                             <div className="header__cart-item-body">
-                              <div className="header__cart-item-description">Phân loại: {item.category}</div>
                               <button
                                 className="header__cart-item-remove"
                                 onClick={() => handleCartItemRemove(item.id)}
@@ -405,10 +322,20 @@ const Header = () => {
             </div>
           </div>
         </div>
+        {error && (
+          <div className="error-message">
+            <p>{error.response.data.message}</p>
+          </div>
+        )}
       </header>
       <AuthModal 
         isOpen={showAuthModal} 
         onClose={() => setShowAuthModal(false)}
+        modeInit={mode}
+        onChangeMode={(newMode) => setMode(newMode)}
+        onLoginSuccess={() => {
+          setIsAuthenticated(true);
+        }}
       />
     </>
   );
