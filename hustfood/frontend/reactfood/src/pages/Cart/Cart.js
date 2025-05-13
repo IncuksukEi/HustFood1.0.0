@@ -37,7 +37,7 @@ const Cart = () => {
           await handleUpdateAllCartItems();
       };
       updateCart();
-    }, [needUpdate]);
+    }, [needUpdate, items]);
 
   const updateQuantity = (id, change) => {
     setItems(items.map(item => {
