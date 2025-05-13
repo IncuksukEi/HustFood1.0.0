@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './Pay.css';
@@ -6,6 +7,7 @@ import { addOrder } from '../../services/orderSevice';
 import { getAllCartItems } from '../../services/cartService';
 
 const Pay = () => {
+    const navigate = useNavigate();
     const [paymentData, setPaymentData] = useState({
         deliveryAddress: '',
         paymentMethod: 'cod'
@@ -38,6 +40,7 @@ const Pay = () => {
             const response = await addOrder(token, cartItems);
             if (response.status === 200) {
                setMess('Đặt hàng thành công');
+               navigate('/history');
             }
         } catch (error) {
             setMess('Đặt hàng thất bại: ');
@@ -52,10 +55,6 @@ const Pay = () => {
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Payment Data:', paymentData);
-    };
 
     if (error) {
         return (
@@ -72,7 +71,7 @@ const Pay = () => {
                 <div className="checkout_container">
                     <div className="checkout_content">
                         <h2>Thanh toán</h2>
-                        <form onSubmit={handleSubmit} className="checkout_form">
+                        <for className="checkout_form">
                             <div className="checkout_form-group">
                                 <label>Địa chỉ nhận hàng</label>
                                 <textarea
@@ -117,7 +116,7 @@ const Pay = () => {
                             <button type="submit" className="checkout_submit-btn" onClick={handlePay}>
                                 Xác nhận đặt hàng
                             </button>
-                        </form>
+                        </for>
                     </div>
                 </div>
             </div>
