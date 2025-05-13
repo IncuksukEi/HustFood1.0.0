@@ -1,7 +1,11 @@
 package com.hustfood.service;
 
+import com.hustfood.dto.OrderRequestDTO;
+import com.hustfood.dto.OrderResponseDTO;
+import com.hustfood.dto.OrderDetailResponseDTO;
 import com.hustfood.entity.*;
 import com.hustfood.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Service
+@Transactional
 public class OrderService {
 
     @Autowired
@@ -23,7 +28,7 @@ public class OrderService {
     @Autowired
     private CartRepository cartRepository;
 
-    public void placeOrder(Long userId, List<Map<String, Object>> items) {
+    public void placeOrder(Long userId, OrderRequestDTO orderRequest) {
         BigDecimal total = BigDecimal.ZERO;
         List<OrderDetail> detailList = new ArrayList<>();
 
@@ -31,9 +36,9 @@ public class OrderService {
         Order order = new Order();
         order.setUserId(userId);
 
-        for (Map<String, Object> item : items) {
-            Long productId = Long.valueOf(item.get("product_id").toString());
-            Integer quantity = Integer.valueOf(item.get("quantity").toString());
+        for (OrderRequestDTO.OrderItemDTO item : orderRequest.getItems()) {
+            Long productId = item.getProductId();
+            Integer quantity = item.getQuantity();
 
             Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm ID: " + productId));
@@ -62,5 +67,36 @@ public class OrderService {
 
     public List<Order> getOrdersByUser(Long userId) {
         return orderRepository.findByUserId(userId);
+    }
+
+    public List<OrderResponseDTO> getOrdersWithDetailsByUser(Long userId) {
+        List<Order> orders = orderRepository.findByUserId(userId);
+        List<OrderResponseDTO> result = new ArrayList<>();
+
+        for (Order order : orders) {
+            OrderResponseDTO dto = new OrderResponseDTO();
+            dto.setOrderId(order.getOrderId());
+            dto.setTotalPrice(order.getTotalPrice());
+
+            List<OrderDetailResponseDTO> productList = new ArrayList<>();
+
+            for (OrderDetail detail : order.getOrderDetails()) {
+                Product product = detail.getProduct();
+
+                OrderDetailResponseDTO pDto = new OrderDetailResponseDTO();
+                pDto.setName(product.getName());
+                pDto.setDescription(product.getDescription());
+                pDto.setUrlImg(product.getUrlImg());
+                pDto.setPrice(product.getPrice());
+                pDto.setQuantity(detail.getQuantity());
+
+                productList.add(pDto);
+            }
+
+            dto.setProducts(productList);
+            result.add(dto);
+        }
+
+        return result;
     }
 }
