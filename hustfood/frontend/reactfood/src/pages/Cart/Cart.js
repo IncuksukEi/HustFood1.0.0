@@ -10,6 +10,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
+  const [needUpdate, setNeedUpdate] = useState(false);
   useEffect(() => {
     setError(null);
     const fetchCartItems = async () => {
@@ -31,6 +32,13 @@ const Cart = () => {
     fetchCartItems();
   }, [])
 
+  useEffect(() => {
+      const updateCart = async () => {
+          await handleUpdateAllCartItems();
+      };
+      updateCart();
+    }, [needUpdate]);
+
   const updateQuantity = (id, change) => {
     setItems(items.map(item => {
       if (item.productId === id) {
@@ -39,6 +47,7 @@ const Cart = () => {
       }
       return item;
     }));
+    setNeedUpdate(true);
   };
 
   const handleUpdateAllCartItems = async () => {
@@ -50,6 +59,7 @@ const Cart = () => {
         setItems((prev) => prev.map((item) => item));
       } catch (error) {
         setError(error);
+        throw error;
       }
     };
 

@@ -34,6 +34,7 @@ const Header = () => {
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [needUpdate, setNeedUpdate] = useState(false);
   const cartRef = useRef(null);
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const Header = () => {
       setError(null);
       try {
         const token = localStorage.getItem('token');
+        console.log(token);
         const items = await getAllCartItems(token);
         if (items.status === 200) {
           setCartItems(items.data);
@@ -69,6 +71,16 @@ const Header = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+
+    const updateCart = async () => {
+        console.log('Updating cart...');
+        await handleUpdateAllCartItems();
+        setNeedUpdate(false);
+    };
+    updateCart();
+  }, [needUpdate]);
 
   // chuyển đổi giữa người mua và người bán
   const handleSwitchToSeller = () => {
@@ -130,7 +142,7 @@ const Header = () => {
     setError(null);
     try {
       const token = localStorage.getItem('token');
-      const response = await removeCartItem(token, itemId);
+      await removeCartItem(token, itemId);
       setCartItems((prev) => prev.filter((item) => item.id !== itemId));
     } catch (error) {
       setError(error);
@@ -146,18 +158,28 @@ const Header = () => {
       }
       return item;
     }));
+    setNeedUpdate(true);
   };
 
   // update all cart items
   const handleUpdateAllCartItems = async () => {
     setError(null);
     try {
+      if (!cartItems.length) return;
       const data = cartItems.map((item) => ({product_id: item.productId, quantity: item.quantity}));
       const token = localStorage.getItem('token');
       await updateAllCartItem(token, data);
-      setCartItems((prev) => prev.map((item) => item));
+
     } catch (error) {
-      setError(error);
+        const errorData = error.response?.data;
+        setError({
+            response: {
+                data: {
+                    message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                }
+            }
+        });
+        throw error;
     }
   };
 
@@ -266,7 +288,6 @@ const Header = () => {
                 <div
                   className="header__cart-icon"
                   onClick={() => {
-                    isCartOpen && handleUpdateAllCartItems();
                     setIsCartOpen(!isCartOpen);
                   }}
                 >
@@ -302,7 +323,10 @@ const Header = () => {
                                 <span className="header__cart-item-qnt">{item.quantity}</span>
                                 <button 
                                   className="header__cart-item-quantity-btn"
-                                  onClick={() => handleUpdateQuantity(item.productId, 1)}
+                                  onClick={() => {
+                                    console.log('Button clicked'); // Thêm log để kiểm tra
+                                    handleUpdateQuantity(item.productId, 1);
+                                  }}
                                 >
                                   +
                                 </button>

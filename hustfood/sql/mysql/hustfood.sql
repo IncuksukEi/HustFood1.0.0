@@ -8,7 +8,7 @@ USE hustfood;
 -- 1. Bảng categories
 CREATE TABLE categories (
     category_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    cateName VARCHAR(255),
+    cate_name VARCHAR(255),
     query VARCHAR(30),
     description VARCHAR(255)
 );
@@ -21,7 +21,7 @@ CREATE TABLE users (
     phone VARCHAR(15),
     hashed_password VARCHAR(255),
     role ENUM('ADMIN', 'CUSTOMER') NOT NULL,
-    birthDate DATE,
+    birth_date DATE,
     gender ENUM('MALE', 'FEMALE', 'OTHER')
 );
 
@@ -32,7 +32,7 @@ CREATE TABLE products (
     description VARCHAR(255),
     price DECIMAL(10,2),
     category_id BIGINT ChECK(category_id BETWEEN 5 AND 8),
-	  category_id_combo BIGINT CHECK(category_id_combo BETWEEN 3 AND 4),
+	category_id_combo BIGINT CHECK(category_id_combo BETWEEN 3 AND 4),
     category_id_uu_dai BIGINT CHECK(category_id_uu_dai = 1 OR category_id_uu_dai IS NULL),
     stock INT,
     sold_quantity INT,
@@ -66,7 +66,8 @@ CREATE TABLE cart (
     product_id BIGINT,
     quantity INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    UNIQUE KEY unique_user_product (user_id, product_id)
 );
 
 -- 7. Bảng inventory

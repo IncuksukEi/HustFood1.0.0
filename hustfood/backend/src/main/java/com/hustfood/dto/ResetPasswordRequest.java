@@ -2,16 +2,16 @@ package com.hustfood.dto;
 
 public class ResetPasswordRequest {
 
-    private String password;
+    private String oldPassword;
     private String newPassword;
 
     // Getters và Setters
-    public String getPassword() {
-        return password;
+    public String getOldPassword() {
+        return oldPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public String getNewPassword() {

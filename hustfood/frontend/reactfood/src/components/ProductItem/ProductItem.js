@@ -19,11 +19,11 @@ const ProductItem = ({ productId, name, price, urlImg, description, queryToBack 
       return;
     }
     const cartItem = {
-      productId,
+      product_id: productId,
       quantity: 1
     };
     try {
-      const response = await addCartItem(cartItem, token);
+      const response = await addCartItem(token, cartItem);
       if (response.status === 200) {
       }
     } catch (error) {
