@@ -1,4 +1,4 @@
-INSERT INTO categories (category_id, catename, description, query) VALUES
+INSERT INTO categories (category_id, cate_name, description, query) VALUES
 (1, 'Ưu đãi', 'Các sản phẩm ưu đãi', 'uu-dai'),
 (2, 'Món mới', 'Các món mới ra mắt', 'mon-moi'),
 (3, 'Combo 1 Người', 'Combo dành cho 1 người', 'combo-1-nguoi'),

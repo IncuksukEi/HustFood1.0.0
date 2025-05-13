@@ -31,8 +31,8 @@ export const updateUser = async (token, data) => {
 export const updateUserPassword = async (token, password, newpassword) => {
     try {
         const response = await axios.post('http://localhost:8080/api/user/reset-password', {
-            password,
-            newpassword
+            oldPassword: password,
+            newPassword: newpassword
             }, {
             headers: {
                 Authorization: `Bearer ${token}`

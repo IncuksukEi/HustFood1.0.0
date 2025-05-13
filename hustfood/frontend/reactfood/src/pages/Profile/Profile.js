@@ -126,9 +126,9 @@ const Profile = () => {
                                         value={formData.gender}
                                         onChange={handleChange}
                                     >
-                                        <option value="male">Nam</option>
-                                        <option value="female">Nữ</option>
-                                        <option value="other">Khác</option>
+                                        <option value="MALE">Nam</option>
+                                        <option value="FEMALE">Nữ</option>
+                                        <option value="OTHER">Khác</option>
                                     </select>
                                 </div>
                                 <div className="pro_form-group">

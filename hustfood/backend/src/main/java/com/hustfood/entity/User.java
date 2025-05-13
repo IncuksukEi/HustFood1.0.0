@@ -32,7 +32,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String phone;
 
-    @Column(name = "birthDate")
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Column(name = "hashed_password", nullable = false)
