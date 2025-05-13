@@ -1,7 +1,9 @@
 package com.hustfood.controller;
 
+import com.hustfood.dto.ResetPasswordRequest;
 import com.hustfood.dto.UserProfileDTO;
 import com.hustfood.entity.User;
+import com.hustfood.exception.ErrorResponse;
 import com.hustfood.service.UserService;
 import com.hustfood.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,5 +53,23 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
                 .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(
+            HttpServletRequest request,
+            @RequestBody ResetPasswordRequest resetRequest) {
+        try {
+            User user = jwtUtil.extractUserFromRequest(request);
+            userService.resetPassword(
+                user,
+                resetRequest.getOldPassword(),
+                resetRequest.getNewPassword()
+            );
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                .body(new ErrorResponse(400, "Bad Request", e.getMessage(), request.getRequestURI()));
+        }
     }
 }

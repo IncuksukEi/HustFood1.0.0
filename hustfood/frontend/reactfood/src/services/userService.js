@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const getUser = async (token) => {
+    console.log('Sending request with token:', token);
     try {
         const response = await axios.get('http://localhost:8080/api/user/profile',{
             headers: {
@@ -9,17 +10,17 @@ export const getUser = async (token) => {
         });
         return response;
     } catch (error) {
+        console.error('Error fetching user data:', error);
         throw error;
     }
 }
 
 export const updateUser = async (token, data) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/user/update',{
+        const response = await axios.post('http://localhost:8080/api/user/update', data, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
-            body: data
         });
         return response;
     } catch (error) {
@@ -27,16 +28,15 @@ export const updateUser = async (token, data) => {
     }
 }
 
-export const updateUserPassword = async (token, password, newPassword) => {
+export const updateUserPassword = async (token, password, newpassword) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/user/reset-password',{
+        const response = await axios.post('http://localhost:8080/api/user/reset-password', {
+            oldPassword: password,
+            newPassword: newpassword
+            }, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
-            body: { 
-                password: password,
-                newPassword: newPassword
-             }
         });
             localStorage.setItem('token', response);
         return response;

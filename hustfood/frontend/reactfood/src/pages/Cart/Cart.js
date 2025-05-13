@@ -3,44 +3,72 @@ import { useNavigate } from 'react-router-dom';
 import './Cart.css';
 import Header from '../../components/Header/Header'; 
 import Footer from '../../components/Footer/Footer';
-import productsData from '../../data/productsData';
 import { getAllCartItems } from '../../services/cartService';
+import { updateAllCartItem } from '../../services/cartService';
 
 const Cart = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
+  const [needUpdate, setNeedUpdate] = useState(false);
   useEffect(() => {
     setError(null);
     const fetchCartItems = async () => {
       try {
-        const cartItems = await getAllCartItems();
-        if (cartItems.status === 200) {
-        setItems(cartItems);
-        }
+        const token = localStorage.getItem('token');
+        const cartItems = await getAllCartItems(token);
+        setItems(cartItems.data);
       } catch (error) {
-        setError(error);
+          const errorData = error.response?.data;
+            setError({
+                response: {
+                    data: {
+                        message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                    }
+                }
+            });
       }
     };
-    /*fetchCartItems();*/
-    setItems(productsData); // Mock data for testing
+    fetchCartItems();
   }, [])
+
+  useEffect(() => {
+      const updateCart = async () => {
+          await handleUpdateAllCartItems();
+      };
+      updateCart();
+    }, [needUpdate]);
 
   const updateQuantity = (id, change) => {
     setItems(items.map(item => {
-      if (item.product_id === id) {
+      if (item.productId === id) {
         const newQuantity = Math.max(1, item.quantity + change);
         return { ...item, quantity: newQuantity };
       }
       return item;
     }));
+    setNeedUpdate(true);
   };
+
+  const handleUpdateAllCartItems = async () => {
+      setError(null);
+      try {
+        const data = items.map((item) => ({product_id: item.productId, quantity: item.quantity}));
+        const token = localStorage.getItem('token');
+        await updateAllCartItem(token, data);
+        setItems((prev) => prev.map((item) => item));
+      } catch (error) {
+        setError(error);
+        throw error;
+      }
+    };
 
   const calculateTotal = () => {
     return items.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
   const handleCheckout = () => {
+    handleUpdateAllCartItems();
     navigate('/pay'); // Redirect to payment page
   }
 
@@ -63,18 +91,18 @@ const Cart = () => {
           </div>
           
           {items.map(item => (
-            <div key={item.product_id} className="cart-item">
+            <div className="cart-item">
               <div className="item-image">
-                <img src={item.url_img} alt={item.name} />
+                <img src={item.urlImg} alt={item.name} />
               </div>
               <div className="item-details">
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
               </div>
               <div className="item-quantity">
-                <button onClick={() => updateQuantity(item.product_id, -1)}>-</button>
+                <button onClick={() => updateQuantity(item.productId, -1)}>-</button>
                 <span>{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.product_id, 1)}>+</button>
+                <button onClick={() => updateQuantity(item.productId, 1)}>+</button>
               </div>
               <div className="item-price">
                 {(item.price * item.quantity).toFixed(3)}đ
