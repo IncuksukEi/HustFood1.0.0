@@ -1,10 +1,13 @@
 package com.hustfood.repository;
 
 import com.hustfood.entity.Product;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+
+import lombok.val;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
@@ -16,4 +19,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p ORDER BY p.soldQuantity DESC")
     List<Product> findTopSellingProducts();
+
+    @Query(value="SELECT p.* FROM Products p JOIN Categories c ON LOWER(p.category_id_combo) = LOWER(c.category_id) WHERE c.query = ?1", nativeQuery = true)
+    List<Product> findByCategoryCombo(String query);
+
+    @Query(value="SELECT p.* FROM Products p JOIN Categories c ON LOWER(p.category_id_uu_dai) = LOWER(c.category_id) WHERE c.query = ?1", nativeQuery = true)
+    List<Product> findByCategoryUuDai(String query);
+
+    @Query(value="SELECT * FROM Products LIMIT 12", nativeQuery = true)
+    List<Product> findByCategoryMonMoi();
 }

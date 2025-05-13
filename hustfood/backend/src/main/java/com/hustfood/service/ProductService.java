@@ -28,8 +28,20 @@ public class ProductService {
         List<Product> products;
 
         if (FIXED_CATEGORIES.contains(q)) {
-            // Nếu từ khoá trùng tên loại cố định, tìm theo category.query
-            products = productRepository.findByCategoryQuery(q);
+            if (q.equals("combo-1-nguoi") || q.equals("combo-nhom")) {
+                // Nếu từ khoá là combo, tìm theo category.combo
+                products = productRepository.findByCategoryCombo(q);
+            } else if (q.equals("mon-moi")) {
+                // Nếu từ khoá là món mới, tìm theo category.mon_moi
+                products = productRepository.findByCategoryMonMoi();
+            } else if (q.equals("uu-dai")) {
+                // Nếu từ khoá là ưu đãi, tìm theo category.uu_dai
+                products = productRepository.findByCategoryUuDai(q);
+            } else {
+                // Nếu từ khoá là loại cố định khác, tìm theo category.query
+                products = productRepository.findByCategoryQuery(q);
+            }
+        
         } else {
             // Nếu không, tìm theo tên sản phẩm hoặc mô tả
             products = productRepository.searchProductsByKeyword(q);
