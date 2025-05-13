@@ -4,7 +4,6 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './Product.css';
 import {getProductById} from '../../services/productService';
-import productsData from '../../data/productsData';
 import { addCartItem } from '../../services/cartService';
 
 const Product = () => {
@@ -24,6 +23,7 @@ const Product = () => {
                     const productFound = await getProductById(productIdParam);
                 
                     if (productFound.status === 200) {
+                        console.log(productFound.data);
                         setProduct(productFound.data);
                     }
                 } catch (error) {
@@ -31,8 +31,7 @@ const Product = () => {
                 }
             }
         }
-        /*handleProductId();*/
-        setProduct(productsData[productIdParam - 1]);
+        handleProductId();
     }, []);
 
     const handleAddToCart = async () => {
@@ -40,7 +39,7 @@ const Product = () => {
         const token = localStorage.getItem('token');
         if (token) {
             const data = {
-                product_id: product.id,
+                product_id: product.productId,
                 quantity: quantity
             };
             try {
@@ -77,7 +76,7 @@ const Product = () => {
                         ←
                     </Link>
                     <div className="product-left">
-                        <img src={product.url_img} alt={product.name} className="product-image" />
+                        <img src={product.urlImg} alt={product.name} className="product-image" />
                     </div>
                     <div className="product-right">
                         <div className="product-header">

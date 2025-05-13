@@ -9,6 +9,7 @@ export const getAllCartItems = async (token) => {
         });
         return response;
     } catch (error) {
+        console.error('Error fetching cart items:', error);
         throw error;
     }
 }
@@ -28,11 +29,10 @@ export const removeCartItem = async (token, productId) => {
 
 export const updateAllCartItem = async (token, data) => {
     try {
-        const response = await axios.put(`http://localhost:8080/api/cart/update`,{
+        const response = await axios.post(`http://localhost:8080/api/cart/update`, data,{
             headers: {
                 Authorization: `Bearer ${token}`
             },
-            body: data
         });
         return response;
     } catch (error) {
@@ -42,11 +42,10 @@ export const updateAllCartItem = async (token, data) => {
 
 export const addCartItem = async (token, data) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/cart/add', {
+        const response = await axios.post('http://localhost:8080/api/cart/add', data, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
-            body: data
         });
         return response;
     } catch (error) {

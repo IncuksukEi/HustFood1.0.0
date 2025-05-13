@@ -14,7 +14,7 @@ const Profile = () => {
         date: '',
     });
     const [error, setError] = useState(null);
-    let nameUser = formData.full_name;
+    const [nameUser, setNameUser] = useState('');
 
     useEffect(() => {
         setError(null);
@@ -22,18 +22,26 @@ const Profile = () => {
             let token = localStorage.getItem('token');
             try {
                 const user = await getUser(token);
-                if (user.status === 200) {
+                if (user && user.data) {
                     setFormData({
-                    full_nameame: user.full_nameame,
-                    phone: user.phone,
-                    email: user.email,
-                    gender: user.gender,
-                    date: user.date
+                    full_name: user.data.fullName,
+                    phone: user.data.phone,
+                    email: user.data.email,
+                    gender: user.data.gender,
+                    date: user.data.birthDate
                     });
-                    nameUser = user.full_name;
+                    setNameUser(user.data.fullName);
+                    console.log(user.data);
                 }
             } catch (error) {
-                setError(error);
+                const errorData = error.response?.data;
+                setError({
+                    response: {
+                        data: {
+                            message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                        }
+                    }
+                });
             }
         };
         fetchUserData();
@@ -50,20 +58,23 @@ const Profile = () => {
             e.preventDefault();
             let token = localStorage.getItem('token');
             const updatedData = {
-                full_nameame: formData.full_name,
+                fullName: formData.full_name,
                 phone: formData.phone,
                 gender: formData.gender,
-                date: formData.date
+                birthDate: formData.date
             };
             try {
                 const response = await updateUser(token, updatedData);
-                if (response === 200) {
-                    alert('Cập nhật tài khoản thành công');
-                } else {
-                    alert('Đã xảy ra lỗi khi cập nhật tài khoản. Vui lòng thử lại sau.');
-                }
+                window.location.reload();
             } catch (error) {
-                alert('Đã xảy ra lỗi khi cập nhật tài khoản. Vui lòng thử lại sau.');
+                const errorData = error.response?.data;
+                setError({
+                    response: {
+                        data: {
+                            message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                        }
+                    }
+                });
             }
         }
 
@@ -115,15 +126,16 @@ const Profile = () => {
                                         value={formData.gender}
                                         onChange={handleChange}
                                     >
-                                        <option value="male">Nam</option>
-                                        <option value="female">Nữ</option>
-                                        <option value="other">Khác</option>
+                                        <option value="MALE">Nam</option>
+                                        <option value="FEMALE">Nữ</option>
+                                        <option value="OTHER">Khác</option>
                                     </select>
                                 </div>
                                 <div className="pro_form-group">
                                     <label>Ngày sinh</label>
                                     <input
-                                        type="date"
+                                        type="text"
+                                        placeholder="YYYY-MM-DD"
                                         name="date"
                                         value={formData.date}
                                         onChange={handleChange}

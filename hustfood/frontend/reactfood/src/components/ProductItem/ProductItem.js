@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import "./ProductItem.css";
 import { addCartItem } from "../../services/cartService";
 
-const ProductItem = ({ product_id, name, price, url_img, description, queryToBack }) => {
+const ProductItem = ({ productId, name, price, urlImg, description, queryToBack }) => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
   const handleImageClick = () => {
-    navigate(`/product?product_id=${product_id}&q=${queryToBack}`);
+    navigate(`/product?product_id=${productId}&q=${queryToBack}`);
   }
 
   const handleAddToCart = async () => {
@@ -19,11 +19,11 @@ const ProductItem = ({ product_id, name, price, url_img, description, queryToBac
       return;
     }
     const cartItem = {
-      product_id,
+      product_id: productId,
       quantity: 1
     };
     try {
-      const response = await addCartItem(cartItem, token);
+      const response = await addCartItem(token, cartItem);
       if (response.status === 200) {
       }
     } catch (error) {
@@ -35,9 +35,9 @@ const ProductItem = ({ product_id, name, price, url_img, description, queryToBac
     <div className="grid__column-2-4">
       <div className="home-product-item">
         <div
-          key={product_id}
+          key={productId}
           className="home-product-item__img"
-          style={{ backgroundImage: `url(${url_img})` }}
+          style={{ backgroundImage: `url(${urlImg})` }}
           onClick={() => handleImageClick()}
         ></div>
         <h4 className="home-product-item__name">{name}</h4>

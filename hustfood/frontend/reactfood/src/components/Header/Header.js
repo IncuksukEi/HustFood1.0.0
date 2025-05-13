@@ -20,7 +20,6 @@ import {
   faFacebook,
   faInstagram
 } from '@fortawesome/free-brands-svg-icons';
-import productsData from '../../data/productsData';
 
 
 const Header = () => {
@@ -29,10 +28,13 @@ const Header = () => {
   const [error, setError] = useState(null);
   const [mode, setMode] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('token') ? true : false;
+  });
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [needUpdate, setNeedUpdate] = useState(false);
   const cartRef = useRef(null);
 
   useEffect(() => {
@@ -40,17 +42,25 @@ const Header = () => {
       setError(null);
       try {
         const token = localStorage.getItem('token');
+        console.log(token);
         const items = await getAllCartItems(token);
         if (items.status === 200) {
           setCartItems(items.data);
         }
       } catch (error) {
-        setError(error);
+          const errorData = error.response?.data;
+            setError({
+                response: {
+                    data: {
+                        message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                    }
+                }
+            });
       }
     };
-    /*fetchCartItems();*/
-    setCartItems(productsData);
-  }, []);
+    const token = localStorage.getItem('token');
+    token ? fetchCartItems() : setCartItems([]);
+  }, [isAuthenticated, isCartOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -61,6 +71,16 @@ const Header = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+
+    const updateCart = async () => {
+        console.log('Updating cart...');
+        await handleUpdateAllCartItems();
+        setNeedUpdate(false);
+    };
+    updateCart();
+  }, [needUpdate]);
 
   // chuyển đổi giữa người mua và người bán
   const handleSwitchToSeller = () => {
@@ -122,7 +142,7 @@ const Header = () => {
     setError(null);
     try {
       const token = localStorage.getItem('token');
-      const response = await removeCartItem(token, itemId);
+      await removeCartItem(token, itemId);
       setCartItems((prev) => prev.filter((item) => item.id !== itemId));
     } catch (error) {
       setError(error);
@@ -132,24 +152,34 @@ const Header = () => {
   // Add new handler for quantity updates
   const handleUpdateQuantity = (itemId, change) => {
     setCartItems(prev => prev.map(item => {
-      if (item.product_id === itemId) {
+      if (item.productId === itemId) {
         const newQuantity = item.quantity + change;
         return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
       }
       return item;
     }));
+    setNeedUpdate(true);
   };
 
   // update all cart items
   const handleUpdateAllCartItems = async () => {
     setError(null);
     try {
-      const data = cartItems.map((item) => ({product_id: item.product_id, quantity: item.quantity}));
+      if (!cartItems.length) return;
+      const data = cartItems.map((item) => ({product_id: item.productId, quantity: item.quantity}));
       const token = localStorage.getItem('token');
       await updateAllCartItem(token, data);
-      setCartItems((prev) => prev.map((item) => item));
+
     } catch (error) {
-      setError(error);
+        const errorData = error.response?.data;
+        setError({
+            response: {
+                data: {
+                    message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                }
+            }
+        });
+        throw error;
     }
   };
 
@@ -258,7 +288,6 @@ const Header = () => {
                 <div
                   className="header__cart-icon"
                   onClick={() => {
-                    isCartOpen && handleUpdateAllCartItems();
                     setIsCartOpen(!isCartOpen);
                   }}
                 >
@@ -274,9 +303,9 @@ const Header = () => {
                     <h4 className="header__cart-heading">Sản phẩm đã thêm</h4>
                     <ul className="header__cart-list-item">
                       {cartItems.map((item) => (
-                        <li key={item.product_id} className="header__cart-item">
+                        <li className="header__cart-item">
                           <img
-                            src={item.url_img}
+                            src={item.urlImg}
                             alt=""
                             className="header__cart-img"
                           />
@@ -286,7 +315,7 @@ const Header = () => {
                               <div className="header__cart-item-quantity">
                                 <button 
                                   className="header__cart-item-quantity-btn"
-                                  onClick={() => handleUpdateQuantity(item.product_id, -1)}
+                                  onClick={() => handleUpdateQuantity(item.productId, -1)}
                                   disabled={item.quantity <= 1}
                                 >
                                   -
@@ -294,7 +323,10 @@ const Header = () => {
                                 <span className="header__cart-item-qnt">{item.quantity}</span>
                                 <button 
                                   className="header__cart-item-quantity-btn"
-                                  onClick={() => handleUpdateQuantity(item.product_id, 1)}
+                                  onClick={() => {
+                                    console.log('Button clicked'); // Thêm log để kiểm tra
+                                    handleUpdateQuantity(item.productId, 1);
+                                  }}
                                 >
                                   +
                                 </button>
@@ -304,7 +336,7 @@ const Header = () => {
                             <div className="header__cart-item-body">
                               <button
                                 className="header__cart-item-remove"
-                                onClick={() => handleCartItemRemove(item.id)}
+                                onClick={() => handleCartItemRemove(item.productId)}
                               >
                                 Xóa
                               </button>

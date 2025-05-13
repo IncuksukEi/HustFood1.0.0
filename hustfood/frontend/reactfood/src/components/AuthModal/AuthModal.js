@@ -48,9 +48,9 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
         setError(null);
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
-        const name = nameRef.current.value;
+        const fullName = nameRef.current.value;
         const phone = phoneRef.current.value;
-        if (!email || !password || !name || !phone) {
+        if (!email || !password || !fullName || !phone) {
             setError({
                 response: {
                     data: {
@@ -58,8 +58,6 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
                     }
             }});
             return;
-        } else {
-            setError(null);
         }
         if (!isChecked) {
             setIsChecked(false);
@@ -67,12 +65,19 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
             return;
         }
         try {
-            const response = await registerUser(name, phone, email, password);
-            if (response.status === 200) {
+            const response = await registerUser(fullName, phone, email, password);
+            if (response.status === 201) {
                 onClose();
             }
         } catch (error) {
-            setError(error);
+            const errorData = error.response?.data;
+            setError({
+                response: {
+                    data: {
+                        message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                    }
+                }
+            });
         }
     }
 
