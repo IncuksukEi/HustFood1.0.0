@@ -80,7 +80,7 @@ const Header = () => {
         setNeedUpdate(false);
     };
     updateCart();
-  }, [needUpdate]);
+  }, [needUpdate, cartItems]);
 
   // chuyển đổi giữa người mua và người bán
   const handleSwitchToSeller = () => {
