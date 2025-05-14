@@ -37,6 +37,7 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
             if (response.status === 200) {
                 onLoginSuccess();
                 onClose();
+                window.location.reload();
             }
         } catch (error) {
             setError(error);

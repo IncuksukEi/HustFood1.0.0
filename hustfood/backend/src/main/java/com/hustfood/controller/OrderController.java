@@ -1,5 +1,6 @@
 package com.hustfood.controller;
 
+import com.hustfood.dto.OrderRequestDTO;
 import com.hustfood.dto.OrderResponseDTO;
 import com.hustfood.entity.Order;
 import com.hustfood.service.OrderService;
@@ -23,9 +24,9 @@ public class OrderController {
 
     // POST /api/orders - Tạo đơn hàng
     @PostMapping
-    public ResponseEntity<Void> placeOrder(HttpServletRequest request, @RequestBody List<Map<String, Object>> items) {
+    public ResponseEntity<Void> placeOrder(HttpServletRequest request, @RequestBody OrderRequestDTO orderRequest) {
         Long userId = jwtUtil.getUserIdFromRequest(request);
-        orderService.placeOrder(userId, items);
+        orderService.placeOrder(userId, orderRequest);
         return ResponseEntity.ok().build();
     }
 

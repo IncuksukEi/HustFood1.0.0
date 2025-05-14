@@ -8,6 +8,7 @@ import { getAllOrders } from '../../services/orderSevice';
 const History = () => {
     const [orders, setOrders] = useState([]);
     const [error, setError] = useState(null);
+    const [isOrderEmpty, setIsOrderEmpty] = useState(false);
 
     useEffect(() => {
         setError(null);
@@ -15,6 +16,10 @@ const History = () => {
             const token = localStorage.getItem('token');
             try {
                 const response = await getAllOrders(token);
+                if (response.data.length === 0) {
+                    setIsOrderEmpty(true);
+                    return;
+                }
                     setOrders(response.data);
             } catch (error) {
                 const errorData = error.response?.data;
@@ -29,20 +34,22 @@ const History = () => {
         };
         fetchOrders();
     }, []);
-    
-    if (error) {
-        return (
-            <div className="error-message">
-                <p>{error.response.data.message}</p>
-            </div>
-        );
-    }
 
     return (
         <div className="app-container">
             <Header />
             <div className="history-page">
                 <ProfileSidebar />
+                {error && (
+                    <div className="error-message">
+                        <p>{error.response.data.message}</p>
+                    </div>
+                )}
+                {isOrderEmpty && (
+                    <div className="empty-order-message">
+                        <p>Không có đơn hàng nào</p>
+                    </div>
+                )}
                 <div className="history-content">
                     <div className="history-container">
                         <div className="orders-list">

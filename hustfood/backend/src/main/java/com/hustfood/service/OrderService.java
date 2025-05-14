@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 
 import com.hustfood.dto.OrderResponseDTO;
 import com.hustfood.dto.OrderDetailResponseDTO;
+import com.hustfood.dto.OrderRequestDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class OrderService {
     @Autowired
     private CartRepository cartRepository;
 
-    public void placeOrder(Long userId, List<Map<String, Object>> items) {
+    public void placeOrder(Long userId, OrderRequestDTO orderRequest) {
         BigDecimal total = BigDecimal.ZERO;
         List<OrderDetail> detailList = new ArrayList<>();
 
@@ -37,9 +39,9 @@ public class OrderService {
         Order order = new Order();
         order.setUserId(userId);
 
-        for (Map<String, Object> item : items) {
-            Long productId = Long.valueOf(item.get("product_id").toString());
-            Integer quantity = Integer.valueOf(item.get("quantity").toString());
+        for (OrderRequestDTO.OrderItemDTO item : orderRequest.getItems()) {
+            Long productId = item.getProductId();
+            Integer quantity = item.getQuantity();
 
             Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm ID: " + productId));
@@ -88,7 +90,7 @@ public class OrderService {
                 pDto.setName(product.getName());
                 pDto.setDescription(product.getDescription());
                 pDto.setUrlImg(product.getUrlImg());
-                pDto.setPrice(product.getPrice());
+                pDto.setPrice(product.getPrice().multiply(BigDecimal.valueOf(detail.getQuantity())));
                 pDto.setQuantity(detail.getQuantity());
 
                 productList.add(pDto);

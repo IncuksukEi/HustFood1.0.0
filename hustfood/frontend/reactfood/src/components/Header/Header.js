@@ -82,6 +82,36 @@ const Header = () => {
     updateCart();
   }, [needUpdate, cartItems]);
 
+  useEffect(() => {
+    const handleHeaderUpdate = () => {
+      const fetchCartItems = async () => {
+        setError(null);
+        try {
+          const token = localStorage.getItem('token');
+          const items = await getAllCartItems(token);
+          if (items.status === 200) {
+            setCartItems(items.data);
+          }
+        } catch (error) {
+          const errorData = error.response?.data;
+          setError({
+            response: {
+              data: {
+                message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+              }
+            }
+          });
+        }
+      };
+      fetchCartItems();
+    };
+
+    window.addEventListener('updateHeader', handleHeaderUpdate);
+    return () => {
+      window.removeEventListener('updateHeader', handleHeaderUpdate);
+    };
+  }, []);
+
   // chuyển đổi giữa người mua và người bán
   const handleSwitchToSeller = () => {
     navigate('/management');
@@ -142,8 +172,12 @@ const Header = () => {
     setError(null);
     try {
       const token = localStorage.getItem('token');
-      await removeCartItem(token, itemId);
-      setCartItems((prev) => prev.filter((item) => item.id !== itemId));
+      const response = await removeCartItem(token, itemId);
+      if (response.status === 200) {
+            setCartItems((prev) => prev.filter((item) => item.productId !== itemId));
+            // Dispatch event để cập nhật header
+            window.dispatchEvent(new Event('updateHeader'));
+        }
     } catch (error) {
       setError(error);
     }
@@ -169,7 +203,6 @@ const Header = () => {
       const data = cartItems.map((item) => ({product_id: item.productId, quantity: item.quantity}));
       const token = localStorage.getItem('token');
       await updateAllCartItem(token, data);
-
     } catch (error) {
         const errorData = error.response?.data;
         setError({

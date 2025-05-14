@@ -15,7 +15,7 @@ export const getAllOrders = async (token) => {
 
 export const addOrder = async (token, data) => {
     try {
-        const response = await axios.post("http://localhost:8080/api/order/add", data, {
+        const response = await axios.post("http://localhost:8080/api/orders", data, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

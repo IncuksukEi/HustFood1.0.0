@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./ProductItem.css";
 import { addCartItem } from "../../services/cartService";
 
-const ProductItem = ({ productId, name, price, urlImg, description, queryToBack }) => {
+const ProductItem = ({ productId, name, price, urlImg, description, queryToBack, onCartChange }) => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
@@ -25,6 +25,9 @@ const ProductItem = ({ productId, name, price, urlImg, description, queryToBack 
     try {
       const response = await addCartItem(token, cartItem);
       if (response.status === 200) {
+        if (onCartChange) {
+          onCartChange();
+        }
       }
     } catch (error) {
       setError(error);
