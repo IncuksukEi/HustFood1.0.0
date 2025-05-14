@@ -56,6 +56,31 @@ const Profile = () => {
     
         const handleSubmit = async (e) => {
             e.preventDefault();
+            setError(null);
+            if (!formData.full_name || !formData.phone) {
+                setError({
+                    response: {
+                        data: {
+                            message: 'Xin vui lòng điền đầy đủ các trường thông tin!'
+                        }
+                    }
+                });
+                return;
+            }
+
+            // Kiểm tra định dạng date
+            const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+            if (formData.date && !dateRegex.test(formData.date)) {
+                setError({
+                    response: {
+                        data: {
+                            message: 'Ngày sinh phải có định dạng YYYY-MM-DD!'
+                        }
+                    }
+                });
+                return;
+            }
+
             let token = localStorage.getItem('token');
             const updatedData = {
                 fullName: formData.full_name,

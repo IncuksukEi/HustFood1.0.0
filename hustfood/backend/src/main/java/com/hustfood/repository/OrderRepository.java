@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query("SELECT o FROM Order o WHERE o.userId = :userId")
+    @Query(value = "SELECT * FROM orders WHERE user_id = ?1 ORDER BY order_id DESC", nativeQuery = true)
     List<Order> findByUserId(@Param("userId") Long userId);
 
     @Query("SELECT o FROM Order o WHERE o.status = :status")
