@@ -37,7 +37,7 @@ const Cart = () => {
           await handleUpdateAllCartItems();
       };
       updateCart();
-    }, [needUpdate]);
+    }, [needUpdate, items]);
 
   const updateQuantity = (id, change) => {
     setItems(items.map(item => {
@@ -66,6 +66,13 @@ const Cart = () => {
   const calculateTotal = () => {
     return items.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    }).format(amount);
+};
 
   const handleCheckout = () => {
     handleUpdateAllCartItems();
@@ -105,7 +112,7 @@ const Cart = () => {
                 <button onClick={() => updateQuantity(item.productId, 1)}>+</button>
               </div>
               <div className="item-price">
-                {(item.price * item.quantity).toFixed(3)}đ
+                {formatCurrency(item.price * item.quantity)}
               </div>
             </div>
           ))}
@@ -118,7 +125,7 @@ const Cart = () => {
           <div className="summary-details">
             <div className="summary-row">
               <span>SỐ LƯỢNG: {items.length}</span>
-              <span>{calculateTotal().toFixed(3)}đ</span>
+              <span>{formatCurrency(calculateTotal())}</span>
             </div>
             <div className="shipping">
               <select defaultValue="standard">
@@ -132,7 +139,7 @@ const Cart = () => {
             </div>
             <div className="total-cost">
               <span>Tổng</span>
-              <span>{(calculateTotal() + 5.00).toFixed(3)}đ</span>
+              <span>{formatCurrency(calculateTotal() + 5000)}</span>
             </div>
             <button className="checkout-button" onClick={handleCheckout}>THANH TOÁN</button>
           </div>

@@ -2,6 +2,7 @@ package com.hustfood.controller;
 
 import com.hustfood.dto.OrderRequestDTO;
 import com.hustfood.dto.OrderResponseDTO;
+import com.hustfood.entity.Order;
 import com.hustfood.service.OrderService;
 import com.hustfood.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -29,7 +30,6 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 
-    // GET /api/orders - Lấy danh sách đơn hàng
     @GetMapping
     public ResponseEntity<List<OrderResponseDTO>> getOrders(HttpServletRequest request) {
         Long userId = jwtUtil.getUserIdFromRequest(request);

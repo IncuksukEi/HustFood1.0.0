@@ -23,12 +23,12 @@ const Pay = () => {
             try {
                 const token = localStorage.getItem('token');
                 const cartItems = await getAllCartItems(token);
-                setCartItems(cartItems);
+                setCartItems(cartItems.data);
             } catch (error) {
                 setError(error);
             }
         };
-        /*fetchCartItems();*/
+        fetchCartItems();
     }, []);
 
     const handlePay = async (e) => {
@@ -37,7 +37,17 @@ const Pay = () => {
         e.preventDefault();
         const token = localStorage.getItem('token');
         try {
-            const response = await addOrder(token, cartItems);
+            const orderData = {
+                items: cartItems.map(item => ({
+                    productId: item.productId,
+                    name: item.name,
+                    description: item.description,
+                    urlImg: item.urlImg,
+                    price: item.price,
+                    quantity: item.quantity
+                }))
+            };
+            const response = await addOrder(token, orderData);
             if (response.status === 200) {
                setMess('Đặt hàng thành công');
                navigate('/history');
