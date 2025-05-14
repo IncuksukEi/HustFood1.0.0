@@ -52,7 +52,6 @@ public class User {
 
     public enum Role { CUSTOMER, ADMIN }
 
-    public enum Status { ACTIVE, BANNED }
     public enum Gender { MALE, FEMALE, OTHER }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
