@@ -19,7 +19,8 @@ public class ProductService {
     private ProductRepository productRepository;
 
     private static final List<String> FIXED_CATEGORIES = List.of(
-            "fruit", "vegetable", "drink", "meat", "rice", "noodle", "snack", "other"
+            "uu-dai", "mon-moi", "combo-1-nguoi", "combo-nhom",
+            "ga-ran", "burger", "thuc-an-nhe", "do-uong"
     );
 
     public List<ProductResponseDTO> searchProducts(String query) {
@@ -27,8 +28,22 @@ public class ProductService {
         List<Product> products;
 
         if (FIXED_CATEGORIES.contains(q)) {
-            products = productRepository.findByCategoryNameIgnoreCase(q);
+            if (q.equals("combo-1-nguoi") || q.equals("combo-nhom")) {
+                // Nếu từ khoá là combo, tìm theo category.combo
+                products = productRepository.findByCategoryCombo(q);
+            } else if (q.equals("mon-moi")) {
+                // Nếu từ khoá là món mới, tìm theo category.mon_moi
+                products = productRepository.findByCategoryMonMoi();
+            } else if (q.equals("uu-dai")) {
+                // Nếu từ khoá là ưu đãi, tìm theo category.uu_dai
+                products = productRepository.findByCategoryUuDai(q);
+            } else {
+                // Nếu từ khoá là loại cố định khác, tìm theo category.query
+                products = productRepository.findByCategoryQuery(q);
+            }
+
         } else {
+            // Nếu không, tìm theo tên sản phẩm hoặc mô tả
             products = productRepository.searchProductsByKeyword(q);
         }
 
