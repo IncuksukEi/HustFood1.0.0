@@ -38,7 +38,6 @@ export const updateUserPassword = async (token, password, newpassword) => {
                 Authorization: `Bearer ${token}`
             },
         });
-            localStorage.setItem('token', response);
         return response;
     } catch (error) {
         throw error;
