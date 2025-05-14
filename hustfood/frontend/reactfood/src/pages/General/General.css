@@ -1,0 +1,31 @@
+.general-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff8e1;
+  border-radius: 10px;
+  font-family: "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+.general-container h1 {
+  color: #e65100;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.general-container h2 {
+  color: #ef6c00;
+  margin-top: 25px;
+  border-bottom: 2px solid #ffe0b2;
+  padding-bottom: 5px;
+}
+
+.general-container ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.general-container li {
+  margin: 8px 0;
+}

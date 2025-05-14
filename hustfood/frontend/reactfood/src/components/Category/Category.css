@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&display=swap");
+.category-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.category-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: black;
+  font-family: Oswald;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Thay đổi thành 4 cột cố định */
+  gap: 20px;
+}
+
+.category-item {
+  cursor: pointer;
+  transition: transform 0.2s;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.category-item:hover {
+  transform: translateY(-5px);
+}
+
+.category-image-container {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.category-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.category-name {
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 550;
+  background: #fff;
+  border: 1px solid #eee;
+}

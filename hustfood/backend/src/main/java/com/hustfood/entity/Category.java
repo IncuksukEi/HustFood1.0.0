@@ -3,6 +3,7 @@ package com.hustfood.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "categories")
@@ -13,28 +14,16 @@ public class Category {
     @Column(name = "category_id")
     private Long categoryId;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(name="cate_name", nullable = false)
+    private String cateName;
 
     private String description;
 
-    @Column(name = "parent_id")
-    private Long parentId;
-
-    @Column(columnDefinition = "JSON")
-    private String attributes;
-
-    private Integer priority;
-
-    private String value;
-
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE'")
-    private Status status = Status.ACTIVE;
+    private String query;
 
     @OneToMany
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private List<Product> products;
 
-    public enum Status { ACTIVE, INACTIVE }
 }

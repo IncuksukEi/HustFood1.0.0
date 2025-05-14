@@ -25,7 +25,7 @@ HustFood là một hệ thống quản lý bán hàng online dành cho quán ăn
 #### 1. Cấu hình Backend
 1. Clone repository:
    ```sh
-   git clone https://github.com/your-repo/hustfood.git
+   https://github.com/IncuksukEi/HustFood1.0.0.git
    cd hustfood/backend
    ```
 2. Cấu hình database trong `application.properties`:

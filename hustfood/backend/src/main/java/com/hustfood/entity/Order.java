@@ -1,14 +1,20 @@
 package com.hustfood.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
@@ -16,6 +22,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JsonManagedReference // quản lý serialization cho quan hệ với User
     private User user;
 
     @Column(name = "user_id", nullable = false)
@@ -28,11 +35,21 @@ public class Order {
     @Column(columnDefinition = "ENUM('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED') DEFAULT 'PENDING'")
     private Status status = Status.PENDING;
 
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference // quản lý serialization cho quan hệ với OrderDetail
     private List<OrderDetail> orderDetails;
 
-    @OneToMany(mappedBy = "orderId")
-    private List<Payment> payments;
+    public enum Status {
+        PENDING, CONFIRMED, SHIPPED, CANCELLED
+    }
 
-    public enum Status { PENDING, CONFIRMED, SHIPPED, CANCELLED }
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", userId=" + userId +
+                ", totalPrice=" + totalPrice +
+                ", status=" + status +
+                '}';
+    }
 }
