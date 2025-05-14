@@ -72,7 +72,6 @@ public class UserService {
         user.setHashedPassword(passwordEncoder.encode(request.getPassword()));
 
         user.setRole(User.Role.CUSTOMER);
-        user.setStatus(User.Status.ACTIVE);
         user.setGender(User.Gender.OTHER); // Mặc định gender là OTHER
 
         return userRepository.save(user);

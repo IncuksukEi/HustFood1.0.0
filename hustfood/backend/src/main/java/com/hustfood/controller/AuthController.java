@@ -56,7 +56,6 @@ public class AuthController {
         newUser.setPhone(req.getPhone());
         newUser.setHashedPassword(passwordEncoder.encode(req.getPassword()));
         newUser.setRole(User.Role.CUSTOMER);
-        newUser.setStatus(User.Status.ACTIVE);
         newUser.setGender(User.Gender.OTHER);
 
         userRepository.save(newUser);

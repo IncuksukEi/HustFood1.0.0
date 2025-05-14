@@ -43,10 +43,6 @@ public class User {
     private Role role = Role.CUSTOMER;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('ACTIVE', 'BANNED') DEFAULT 'ACTIVE'")
-    private Status status = Status.ACTIVE;
-
-    @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('MALE', 'FEMALE', 'OTHER') DEFAULT 'OTHER'")
     private Gender gender;
 
@@ -72,7 +68,6 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", birthDate=" + birthDate +
                 ", role=" + role +
-                ", status=" + status +
                 ", gender=" + gender +
                 '}';
     }
