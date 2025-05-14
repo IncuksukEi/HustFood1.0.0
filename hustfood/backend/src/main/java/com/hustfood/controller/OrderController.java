@@ -2,7 +2,6 @@ package com.hustfood.controller;
 
 import com.hustfood.dto.OrderRequestDTO;
 import com.hustfood.dto.OrderResponseDTO;
-import com.hustfood.entity.Order;
 import com.hustfood.service.OrderService;
 import com.hustfood.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
