@@ -41,7 +41,7 @@ public class ProductService {
                 // Nếu từ khoá là loại cố định khác, tìm theo category.query
                 products = productRepository.findByCategoryQuery(q);
             }
-        
+
         } else {
             // Nếu không, tìm theo tên sản phẩm hoặc mô tả
             products = productRepository.searchProductsByKeyword(q);
