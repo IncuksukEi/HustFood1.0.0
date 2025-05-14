@@ -86,6 +86,11 @@ function HomeSearch() {
                       urlImg: result.urlImg
                     }))} 
                     queryToBack={queryToBack}
+                    onCartChange={() => {
+                      // Trigger header update by forcing a re-render
+                      const event = new Event('updateHeader');
+                      window.dispatchEvent(event);
+                    }}
                   />
                 )}
               </div>

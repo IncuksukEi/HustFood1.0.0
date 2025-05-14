@@ -45,7 +45,7 @@ const Product = () => {
             try {
                 const response = await addCartItem(token, data);
                 if (response.status === 200) {
-                    alert('Thêm sản phẩm vào giỏ hàng thành công');
+                    window.dispatchEvent(new Event('updateHeader'));
                 }
             } catch (error) {
                 setError(error);

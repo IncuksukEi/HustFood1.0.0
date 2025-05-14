@@ -1,11 +1,14 @@
 package com.hustfood.service;
 
-import com.hustfood.dto.OrderRequestDTO;
-import com.hustfood.dto.OrderResponseDTO;
-import com.hustfood.dto.OrderDetailResponseDTO;
 import com.hustfood.entity.*;
 import com.hustfood.repository.*;
+
 import jakarta.transaction.Transactional;
+
+import com.hustfood.dto.OrderResponseDTO;
+import com.hustfood.dto.OrderDetailResponseDTO;
+import com.hustfood.dto.OrderRequestDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,7 +90,7 @@ public class OrderService {
                 pDto.setName(product.getName());
                 pDto.setDescription(product.getDescription());
                 pDto.setUrlImg(product.getUrlImg());
-                pDto.setPrice(product.getPrice());
+                pDto.setPrice(product.getPrice().multiply(BigDecimal.valueOf(detail.getQuantity())));
                 pDto.setQuantity(detail.getQuantity());
 
                 productList.add(pDto);
