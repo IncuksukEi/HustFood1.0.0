@@ -62,14 +62,14 @@ public class UserController {
         try {
             User user = jwtUtil.extractUserFromRequest(request);
             userService.resetPassword(
-                user,
-                resetRequest.getOldPassword(),
-                resetRequest.getNewPassword()
+                    user,
+                    resetRequest.getOldPassword(),
+                    resetRequest.getNewPassword()
             );
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(new ErrorResponse(400, "Bad Request", e.getMessage(), request.getRequestURI()));
+                    .body(new ErrorResponse(400, "Bad Request", e.getMessage(), request.getRequestURI()));
         }
     }
 }
