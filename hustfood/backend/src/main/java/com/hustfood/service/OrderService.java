@@ -1,5 +1,6 @@
 package com.hustfood.service;
 
+import com.hustfood.dto.ProductSalesDTO;
 import com.hustfood.entity.*;
 import com.hustfood.repository.*;
 
@@ -35,13 +36,17 @@ public class OrderService {
     UserRepository userRepository;
 
     public void placeOrder(Long userId, OrderRequestDTO orderRequest) {
+        if (orderRequest.getItems() == null || orderRequest.getItems().isEmpty()) {
+            throw new IllegalStateException("Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm trước khi đặt hàng.");
+        }
+
         BigDecimal total = BigDecimal.ZERO;
         List<OrderDetail> detailList = new ArrayList<>();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID: " + userId));
 
-        //Lấy địa chỉ từ request nếu có, ngược lại dùng địa chỉ của user
+        // Lấy địa chỉ từ request nếu có, ngược lại dùng địa chỉ của user
         String orderAddress = (orderRequest.getAddress() != null && !orderRequest.getAddress().trim().isEmpty())
                 ? orderRequest.getAddress()
                 : user.getAddress();
@@ -119,5 +124,28 @@ public class OrderService {
         }
 
         return result;
+    }
+    // Lọc tổng số tiền nhận được
+    public BigDecimal getTotalRevenue() {
+        return orderRepository.getTotalRevenue();
+    }
+    // Lọc tổng số tiền đơn hàng bị hủy
+    public Map<String, Object> getCancelledOrdersStats() {
+        Object[] result = orderRepository.getCancelledOrdersStats();
+        Long totalCancelledOrders = (Long) result[0];
+        BigDecimal cancelledValue = (BigDecimal) result[1];
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("totalCancelledOrders", totalCancelledOrders);
+        response.put("cancelledValue", cancelledValue);
+        return response;
+    }
+    // Doanh thu combo
+    public BigDecimal getComboRevenue() {
+        return orderDetailRepository.getComboRevenue();
+    }
+    // Sản phẩm kèm theo doanh thu
+    public List<ProductSalesDTO> getProductSalesReport() {
+        return orderDetailRepository.getProductSalesReport();
     }
 }
