@@ -15,7 +15,6 @@ const Profile = () => {
         address: '',
     });
     const [error, setError] = useState(null);
-    const [nameUser, setNameUser] = useState('');
 
     useEffect(() => {
         setError(null);
@@ -32,9 +31,9 @@ const Profile = () => {
                     date: user.data.birthDate,
                     address: user.data.address,
                     });
-                    setNameUser(user.data.fullName);
                     console.log(user.data);
                 }
+                localStorage.setItem('nameUser', user.data.fullName);
             } catch (error) {
                 const errorData = error.response?.data;
                 setError({
@@ -110,7 +109,7 @@ const Profile = () => {
         <>
         <Header />
         <div className="pro_profile-page">
-            <ProfileSidebar nameUser={nameUser}/>
+            <ProfileSidebar />
             <div className="pro_profile-content">
                 <div className="pro_detail-content">
                     <div className="pro_detail-container">

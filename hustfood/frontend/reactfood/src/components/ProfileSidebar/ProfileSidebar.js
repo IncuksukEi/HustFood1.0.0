@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './ProfileSidebar.css';
 import { logoutUser } from '../../services/authService';
 
-const ProfileSidebar = (nameUser) => {
+const ProfileSidebar = () => {
     const [active, setActive] = useState('profile');
     const [error, setError] = useState(null);
     useEffect(() => {
@@ -26,6 +26,7 @@ const ProfileSidebar = (nameUser) => {
     }
 
     const navigate = useNavigate();
+    const name = localStorage.getItem('nameUser');
     return (
         <div className="block-left">
             <div className="account-left">
@@ -33,7 +34,7 @@ const ProfileSidebar = (nameUser) => {
                     <div className="profile-info">
                         <h2>
                             Xin chào, <br />
-                            {/*nameUser*/}
+                            {name}
                         </h2>
                         <p>
                             {error && (
