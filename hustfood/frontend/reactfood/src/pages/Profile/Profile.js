@@ -12,6 +12,7 @@ const Profile = () => {
         phone: '',
         email: '',
         date: '',
+        address: '',
     });
     const [error, setError] = useState(null);
     const [nameUser, setNameUser] = useState('');
@@ -28,7 +29,8 @@ const Profile = () => {
                     phone: user.data.phone,
                     email: user.data.email,
                     gender: user.data.gender,
-                    date: user.data.birthDate
+                    date: user.data.birthDate,
+                    address: user.data.address,
                     });
                     setNameUser(user.data.fullName);
                     console.log(user.data);
@@ -86,7 +88,8 @@ const Profile = () => {
                 fullName: formData.full_name,
                 phone: formData.phone,
                 gender: formData.gender,
-                birthDate: formData.date
+                birthDate: formData.date,
+                address: formData.address,
             };
             try {
                 const response = await updateUser(token, updatedData);
@@ -139,6 +142,16 @@ const Profile = () => {
                                     type="email"
                                     name="email"
                                     value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className="pro_form-group">
+                                <label>Email</label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    value={formData.address}
                                     onChange={handleChange}
                                     required
                                 />
