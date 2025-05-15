@@ -96,7 +96,7 @@ public class OrderService {
             dto.setTotalPrice(order.getTotalPrice());
 
             dto.setOrderAddress(order.getOrderAddress());
-            dto.setOrderTime(order.getOrderTime()); 
+            dto.setOrderTime(order.getOrderTime());
             dto.setStatus(order.getStatus().name());
 
             List<OrderDetailResponseDTO> productList = new ArrayList<>();
