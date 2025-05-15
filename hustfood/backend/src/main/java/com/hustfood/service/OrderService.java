@@ -31,13 +31,25 @@ public class OrderService {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     public void placeOrder(Long userId, OrderRequestDTO orderRequest) {
         BigDecimal total = BigDecimal.ZERO;
         List<OrderDetail> detailList = new ArrayList<>();
 
-        // Tạo Order
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID: " + userId));
+
+        //Lấy địa chỉ từ request nếu có, ngược lại dùng địa chỉ của user
+        String orderAddress = (orderRequest.getAddress() != null && !orderRequest.getAddress().trim().isEmpty())
+                ? orderRequest.getAddress()
+                : user.getAddress();
+
         Order order = new Order();
         order.setUserId(userId);
+        order.setOrderAddress(orderAddress);
+        // KHÔNG set orderTime — để DB tự xử lý
 
         for (OrderRequestDTO.OrderItemDTO item : orderRequest.getItems()) {
             Long productId = item.getProductId();
@@ -64,9 +76,11 @@ public class OrderService {
             orderDetailRepository.save(detail);
         }
 
-        // Xoá giỏ hàng
         cartRepository.deleteByUserId(userId);
     }
+
+
+
 
     public List<Order> getOrdersByUser(Long userId) {
         return orderRepository.findByUserId(userId);
@@ -80,6 +94,10 @@ public class OrderService {
             OrderResponseDTO dto = new OrderResponseDTO();
             dto.setOrderId(order.getOrderId());
             dto.setTotalPrice(order.getTotalPrice());
+
+            dto.setOrderAddress(order.getOrderAddress());
+            dto.setOrderTime(order.getOrderTime()); 
+            dto.setStatus(order.getStatus().name());
 
             List<OrderDetailResponseDTO> productList = new ArrayList<>();
 

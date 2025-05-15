@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class OrderRequestDTO {
     private List<OrderItemDTO> items;
+    private String address;
 
     @Data
     public static class OrderItemDTO {
