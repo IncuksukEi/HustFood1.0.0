@@ -81,7 +81,7 @@ const Product = () => {
                     <div className="product-right">
                         <div className="product-header">
                             <h1>{product.name}</h1>
-                            <span className="product-price">{product.price}đ</span>
+                            <span className="product-price">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}</span>
                         </div>
                         <div className="product-description">
                             {product.description}

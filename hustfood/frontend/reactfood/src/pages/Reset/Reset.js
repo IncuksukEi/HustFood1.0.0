@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ProfileSidebar from '../../components/ProfileSidebar/ProfileSidebar';
@@ -12,12 +14,24 @@ const Reset = () => {
         confirmPassword: ''
     });
     const [error, setError] = useState(null);
+    const [showPasswords, setShowPasswords] = useState({
+        password: false,
+        newPassword: false,
+        confirmPassword: false
+    });
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
+    };
+
+    const togglePasswordVisibility = (field) => {
+        setShowPasswords(prev => ({
+            ...prev,
+            [field]: !prev[field]
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -57,33 +71,54 @@ const Reset = () => {
                         <form onSubmit={handleSubmit} className="reset-form">
                             <div className="form-group">
                                 <input
-                                    type="password"
+                                    type={showPasswords.password ? "text" : "password"}
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
                                     required
                                     placeholder='Mật khẩu hiện tại'
                                 />
+                                <button
+                                    type="button"
+                                    className="password-toggle-icon"
+                                    onClick={() => togglePasswordVisibility('password')}
+                                >
+                                    <div className="reset-icon-fa"><FontAwesomeIcon icon={showPasswords.password ? faEyeSlash : faEye} /></div>
+                                </button>
                             </div>
                             <div className="form-group">
                                 <input
-                                    type="password"
+                                    type={showPasswords.newPassword ? "text" : "password"}
                                     name="newPassword"
                                     value={formData.newPassword}
                                     onChange={handleChange}
                                     required
                                     placeholder='Mật khẩu mới'
                                 />
+                                <button
+                                    type="button"
+                                    className="password-toggle-icon"
+                                    onClick={() => togglePasswordVisibility('newPassword')}
+                                >
+                                    <div className="reset-icon-fa"><FontAwesomeIcon icon={showPasswords.password ? faEyeSlash : faEye} /></div>
+                                </button>
                             </div>
                             <div className="form-group">
                                 <input
-                                    type="password"
+                                    type={showPasswords.confirmPassword ? "text" : "password"}
                                     name="confirmPassword"
                                     value={formData.confirmPassword}
                                     onChange={handleChange}
                                     required
                                     placeholder='Xác nhận mật khẩu mới'
                                 />
+                                <button
+                                    type="button"
+                                    className="password-toggle-icon"
+                                    onClick={() => togglePasswordVisibility('confirmPassword')}
+                                >
+                                    <div className="reset-icon-fa"><FontAwesomeIcon icon={showPasswords.password ? faEyeSlash : faEye} /></div>
+                                </button>
                             </div>
                             {error && (
                                 <div className="error-message">
