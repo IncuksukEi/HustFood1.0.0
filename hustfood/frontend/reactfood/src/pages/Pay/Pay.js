@@ -35,6 +35,10 @@ const Pay = () => {
         setError(null);
         setMess(null);
         e.preventDefault();
+        if (!paymentData.deliveryAddress) {
+            setMess('Vui lòng nhập địa chỉ nhận hàng');
+            return;
+        }
         const token = localStorage.getItem('token');
         try {
             const orderData = {
