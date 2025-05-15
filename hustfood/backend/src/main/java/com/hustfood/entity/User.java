@@ -38,6 +38,9 @@ public class User {
     @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
 
+    @Column(name = "address")
+    private String address;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('USER', 'ADMIN') DEFAULT 'USER'")
     private Role role = Role.CUSTOMER;
