@@ -11,6 +11,8 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -46,8 +48,21 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest req) {
-        if (userRepository.findByEmail(req.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
+
+        if (userRepository.existsByEmail(req.getEmail())) {
+            return ResponseEntity.status(409)
+                    .body(Map.of(
+                            "errorCode", "EMAIL_EXISTS",
+                            "message", "Email already in use"
+                    ));
+        }
+
+        if (userRepository.existsByPhone(req.getPhone())) {
+            return ResponseEntity.status(422)
+                    .body(Map.of(
+                            "errorCode", "PHONE_EXISTS",
+                            "message", "Phone number already in use"
+                    ));
         }
 
         User newUser = new User();
@@ -59,7 +74,9 @@ public class AuthController {
         newUser.setGender(User.Gender.OTHER);
 
         userRepository.save(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Registration successful");
+        
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Registration successful");
     }
 
     @PostMapping("/logout")
