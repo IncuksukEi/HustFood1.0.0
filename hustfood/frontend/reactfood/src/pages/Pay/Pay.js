@@ -42,8 +42,8 @@ const Pay = () => {
         const token = localStorage.getItem('token');
         try {
             const orderData = {
+                //address: paymentData.deliveryAddress,
                 items: cartItems.map(item => ({
-                    //address: paymentData.deliveryAddress,
                     productId: item.productId,
                     name: item.name,
                     description: item.description,
