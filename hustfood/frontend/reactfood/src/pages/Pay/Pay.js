@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './Pay.css';
 import { addOrder } from '../../services/orderSevice';
 import { getAllCartItems } from '../../services/cartService';
+import { getUser } from '../../services/userService';
 
 const Pay = () => {
     const navigate = useNavigate();
@@ -31,6 +32,20 @@ const Pay = () => {
         fetchCartItems();
     }, []);
 
+    const handleGetDefaultAddress = async () => {
+        setError(null);
+        try {
+            const token = localStorage.getItem('token');
+            const user = await getUser(token);
+            setPaymentData({
+                ...paymentData,
+                deliveryAddress: user.data.address
+            });
+        } catch (error) {
+            setError(error);
+        }
+    }
+
     const handlePay = async (e) => {
         setError(null);
         setMess(null);
@@ -42,7 +57,7 @@ const Pay = () => {
         const token = localStorage.getItem('token');
         try {
             const orderData = {
-                //address: paymentData.deliveryAddress,
+                address: paymentData.deliveryAddress,
                 items: cartItems.map(item => ({
                     productId: item.productId,
                     name: item.name,
@@ -88,7 +103,10 @@ const Pay = () => {
                         <h2>Thanh toán</h2>
                         <for className="checkout_form">
                             <div className="checkout_form-group">
-                                <label>Địa chỉ nhận hàng</label>
+                                <div className="checkout_form-group-label">
+                                    <label>Địa chỉ nhận hàng</label>
+                                    <label className="default_address" onClick={handleGetDefaultAddress}>Dùng địa chỉ mặc định</label>
+                                </div>
                                 <textarea
                                     name="deliveryAddress"
                                     value={paymentData.deliveryAddress}

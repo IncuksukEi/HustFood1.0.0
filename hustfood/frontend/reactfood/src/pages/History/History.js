@@ -57,9 +57,9 @@ const History = () => {
                                 <div className="order-card" key={order.orderId}>
                                     <div className="order-header">
                                         <h2 className="order-id">ID : 00{order.orderId}</h2>
-                                        <div className="order-date">{order.orderDate}</div>
+                                        <h2 className="order-status">{order.status}</h2>
                                     </div>
-                                    <h2 className="order-status">{order.status}</h2>
+                                    <div className="order-date">{order.orderTime}</div>
                                     <div className="order-items">
                                         <div className="item-header">
                                             <span className="col name">Tên sản phẩm</span>

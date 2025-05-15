@@ -187,8 +187,8 @@
 
 /* Đưa status về bên phải */
 .order-status {
-  font-size: 1.1em;
-  color: #0b8043;
+  font-size: 1.4rem !important;
+  color: #0b8043 !important;
   white-space: nowrap;
   text-align: right;
   margin: 0;
