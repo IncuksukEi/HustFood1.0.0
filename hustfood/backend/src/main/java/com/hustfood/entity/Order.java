@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -34,6 +35,12 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED') DEFAULT 'PENDING'")
     private Status status = Status.PENDING;
+
+    @Column(name = "order_address")
+    private String orderAddress;
+
+    @Column(name = "order_time", insertable = false, updatable = false)
+    private LocalDateTime orderTime;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference // quản lý serialization cho quan hệ với OrderDetail

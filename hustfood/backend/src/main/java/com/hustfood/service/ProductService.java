@@ -1,5 +1,7 @@
 package com.hustfood.service;
 
+import com.hustfood.dto.ProductCreateRequest;
+import com.hustfood.dto.ProductListResponse;
 import com.hustfood.dto.ProductResponseDTO;
 import com.hustfood.entity.Product;
 import com.hustfood.exception.ProductNotFoundException;
@@ -41,7 +43,7 @@ public class ProductService {
                 // Nếu từ khoá là loại cố định khác, tìm theo category.query
                 products = productRepository.findByCategoryQuery(q);
             }
-        
+
         } else {
             // Nếu không, tìm theo tên sản phẩm hoặc mô tả
             products = productRepository.searchProductsByKeyword(q);
@@ -90,5 +92,34 @@ public class ProductService {
         dto.setUrlImg(product.getUrlImg());
         dto.setPrice(product.getPrice());
         return dto;
+    }
+    // GET - Lấy danh sách sản phẩm (cho admin)
+    public List<ProductListResponse> getAllProductsForAdmin() {
+        return productRepository.findAll().stream().map(product -> {
+            ProductListResponse dto = new ProductListResponse();
+            dto.setProductId(product.getProductId());
+            dto.setName(product.getName());
+            dto.setPrice(product.getPrice());
+            dto.setStock(product.getStock());
+            dto.setSoldQuantity(product.getSoldQuantity());
+            dto.setCategoryId(product.getCategoryId());
+            dto.setUrlImg(product.getUrlImg());
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    // POST - Tạo sản phẩm mới
+    public Long createProduct(ProductCreateRequest request) {
+        Product product = new Product();
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setStock(request.getStock());
+        product.setCategoryId(request.getCategoryId());
+        product.setCategory_id_uu_dai(request.getCategory_id_uu_dai());
+        product.setCategory_id_combo(request.getCategory_id_combo());
+        product.setUrlImg(request.getUrlImg());
+
+        return productRepository.save(product).getProductId();
     }
 }

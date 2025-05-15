@@ -37,17 +37,20 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Public APIs
                         .requestMatchers(
                                 "/api/products/**",
                                 "/api/categories/**",
                                 "/api/auth/**"
                         ).permitAll()
+                        // Admin-only APIs
+                        .requestMatchers("/api/admin/products/**").hasRole("ADMIN")
+                        // All others require authentication
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .userDetailsService(customUserDetailsService);
 
-        // Thêm JWT filter vào trước filter xác thực mặc định
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

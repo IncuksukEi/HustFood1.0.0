@@ -38,13 +38,12 @@ public class User {
     @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
 
+    @Column(name = "address")
+    private String address;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('USER', 'ADMIN') DEFAULT 'USER'")
     private Role role = Role.CUSTOMER;
-
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('ACTIVE', 'BANNED') DEFAULT 'ACTIVE'")
-    private Status status = Status.ACTIVE;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('MALE', 'FEMALE', 'OTHER') DEFAULT 'OTHER'")
@@ -56,7 +55,6 @@ public class User {
 
     public enum Role { CUSTOMER, ADMIN }
 
-    public enum Status { ACTIVE, BANNED }
     public enum Gender { MALE, FEMALE, OTHER }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -72,7 +70,6 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", birthDate=" + birthDate +
                 ", role=" + role +
-                ", status=" + status +
                 ", gender=" + gender +
                 '}';
     }
