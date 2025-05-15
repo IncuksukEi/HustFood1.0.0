@@ -39,6 +39,7 @@ const Pay = () => {
         try {
             const orderData = {
                 items: cartItems.map(item => ({
+                    //address: paymentData.deliveryAddress,
                     productId: item.productId,
                     name: item.name,
                     description: item.description,
