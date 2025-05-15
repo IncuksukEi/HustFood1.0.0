@@ -1,5 +1,6 @@
 package com.hustfood.service;
 
+import com.hustfood.dto.ProductSalesDTO;
 import com.hustfood.entity.*;
 import com.hustfood.repository.*;
 
@@ -119,5 +120,28 @@ public class OrderService {
         }
 
         return result;
+    }
+    // Lọc tổng số tiền nhận được
+    public BigDecimal getTotalRevenue() {
+        return orderRepository.getTotalRevenue();
+    }
+    // Lọc tổng số tiền đơn hàng bị hủy
+    public Map<String, Object> getCancelledOrdersStats() {
+        Object[] result = orderRepository.getCancelledOrdersStats();
+        Long totalCancelledOrders = (Long) result[0];
+        BigDecimal cancelledValue = (BigDecimal) result[1];
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("totalCancelledOrders", totalCancelledOrders);
+        response.put("cancelledValue", cancelledValue);
+        return response;
+    }
+    // Doanh thu combo
+    public BigDecimal getComboRevenue() {
+        return orderDetailRepository.getComboRevenue();
+    }
+    // Sản phẩm kèm theo doanh thu
+    public List<ProductSalesDTO> getProductSalesReport() {
+        return orderDetailRepository.getProductSalesReport();
     }
 }
