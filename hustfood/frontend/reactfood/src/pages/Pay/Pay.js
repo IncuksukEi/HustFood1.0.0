@@ -54,6 +54,10 @@ const Pay = () => {
             setMess('Vui lòng nhập địa chỉ nhận hàng');
             return;
         }
+        if (cartItems.length === 0) {
+            setMess('Giỏ hàng trống');
+            return;
+        }
         const token = localStorage.getItem('token');
         try {
             const orderData = {
