@@ -23,10 +23,17 @@ public class OrderController {
 
     // POST /api/orders - Tạo đơn hàng
     @PostMapping
-    public ResponseEntity<Void> placeOrder(HttpServletRequest request, @RequestBody OrderRequestDTO orderRequest) {
+    public ResponseEntity<?> placeOrder(HttpServletRequest request, @RequestBody OrderRequestDTO orderRequest) {
         Long userId = jwtUtil.getUserIdFromRequest(request);
-        orderService.placeOrder(userId, orderRequest);
-        return ResponseEntity.ok().build();
+
+        try {
+            orderService.placeOrder(userId, orderRequest);
+            return ResponseEntity.ok().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.internalServerError().body(Collections.singletonMap("error", e.getMessage()));
+        }
     }
 
     @GetMapping
