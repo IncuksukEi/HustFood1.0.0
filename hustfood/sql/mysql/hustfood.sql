@@ -18,7 +18,7 @@ CREATE TABLE users (
     user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     full_name VARCHAR(255),
     email VARCHAR(255),
-    phone VARCHAR(15),
+    phone VARCHAR(15) UNIQUE,
     hashed_password VARCHAR(255),
     role ENUM('ADMIN', 'CUSTOMER') NOT NULL,
     birth_date DATE,

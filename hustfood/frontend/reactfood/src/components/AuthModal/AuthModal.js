@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import './AuthModal.css';
 import { loginUser } from '../../services/authService';
 import { registerUser } from '../../services/authService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) => { 
     const [modeA, setModeA] = useState(modeInit);
@@ -12,6 +14,7 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
     const passwordRef = useRef(null);
     const nameRef = useRef(null);
     const phoneRef = useRef(null);
+    const [showPassword, setShowPassword] = useState(false);
     useEffect(() => {setModeA(modeInit)}, [modeInit]);
     useEffect(() => {setIsChecked(false)}, [isOpen]);
     useEffect(() => {setIsFirstTime(true)}, [isOpen]);
@@ -82,6 +85,9 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
         }
     }
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     if (!isOpen) return null;
 
@@ -115,8 +121,20 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
                         <div className="auth-form__group">
                             <input type="email" className="auth-form__input" placeholder="Địa chỉ email của bạn *" ref={emailRef}/>
                         </div>
-                        <div className="auth-form__group">
-                            <input type="password" className="auth-form__input" placeholder="Mật khẩu *" ref={passwordRef}/>
+                        <div className="auth-form__group password-input-container">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                className="auth-form__input"
+                                placeholder="Mật khẩu *"
+                                ref={passwordRef}
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle-icon"
+                                onClick={togglePasswordVisibility}
+                            >
+                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                            </button>
                         </div>
 
                         {modeA === 'signup' && (
