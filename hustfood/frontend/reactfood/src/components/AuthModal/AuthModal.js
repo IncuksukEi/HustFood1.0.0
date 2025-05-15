@@ -44,6 +44,16 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
             }
         } catch (error) {
             setError(error);
+            if (error.response.status === 401) {
+                setError({
+                    response: {
+                        data: {
+                            message: 'Email hoặc mật khẩu không đúng!'
+                        }
+                    }
+                });
+                return;
+            }
         }
     }
 
@@ -74,14 +84,26 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
                 onClose();
             }
         } catch (error) {
-            const errorData = error.response?.data;
-            setError({
-                response: {
-                    data: {
-                        message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+            setError(error);
+            if (error.response.status === 409) {
+                setError({
+                    response: {
+                        data: {
+                            message: 'Email đã tồn tại!'
+                        }
                     }
-                }
-            });
+                });
+                return;
+            } else if (error.response.status === 422) {
+                setError({
+                    response: {
+                        data: {
+                            message: 'Số điện thoại đã tồn tại!'
+                        }
+                    }
+                });
+                return;
+            }
         }
     }
 
@@ -97,12 +119,6 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
             <div className="modal__body">
                 <div className="auth-form">
                     <div className="auth-form__container">
-                        {error && (
-                            <div className="auth-form__error">
-                                <i className="fas fa-exclamation-circle"></i>
-                                <span>{error.response.data.message}</span>
-                            </div>
-                        )}
                         <h3 className="auth-form__heading">
                             {modeA === 'login' ? 'LOGIN' : 'SIGN UP'}
                         </h3>
@@ -151,7 +167,12 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
                                 <span>Hãy tích chọn đồng ý với các chính sách của chúng tôi</span>
                             </div>
                         )}
-
+                        {error && (
+                            <div className="auth-form__error">
+                                <i className="fas fa-exclamation-circle"></i>
+                                <span>{error.response.data.message}</span>
+                            </div>
+                        )}
                         <button className="auth-form__submit" onClick={modeA === 'login' ? handleLogin : handleRegister}>
                             {modeA === 'login' ? 'Đăng nhập' : 'Tạo tài khoản'}
                         </button>
@@ -171,12 +192,12 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
                             {modeA === 'login' ? (
                                 <>
                                     <span>Bạn chưa có tài khoản? </span>
-                                    <button onClick={() => {onChangeMode('signup')}}>Đăng ký</button>
+                                    <button onClick={() => {setError(null); onChangeMode('signup')}}>Đăng ký</button>
                                 </>
                             ) : (
                                 <>
                                     <span>Bạn đã có tài khoản? </span>
-                                    <button onClick={() => {onChangeMode('login')}}>Đăng nhập</button>
+                                    <button onClick={() => {setError(null); onChangeMode('login')}}>Đăng nhập</button>
                                 </>
                             )}
                         </div>

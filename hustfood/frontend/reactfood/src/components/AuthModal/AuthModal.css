@@ -31,6 +31,13 @@
   overflow: hidden;
 }
 
+.auth-form__error {
+  color: #e4200b;
+  font-size: 10px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
 .auth-form__container {
   padding: 20px 20px;
 }
