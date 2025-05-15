@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&display=swap");
 .pay-container {
   max-width: 900px;
   margin: 40px auto;
@@ -66,6 +67,7 @@
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: Oswald, sans-serif;
 }
 
 .checkout_content h2 {
@@ -93,9 +95,15 @@
   color: #202124;
 }
 
+.checkout_form-group-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .checkout_address {
   width: 100%;
-  min-height: 100px;
+  min-height: 10px;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -168,6 +176,13 @@
 
 .checkout_submit-btn:hover {
   background: #c1001f;
+}
+
+.default_address {
+  color: #e4002b !important;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: normal;
 }
 
 @media (max-width: 600px) {
