@@ -57,7 +57,11 @@ const History = () => {
                                 <div className="order-card" key={order.orderId}>
                                     <div className="order-header">
                                         <h2 className="order-id">ID : 00{order.orderId}</h2>
-                                        <h2 className="order-status">{order.status}</h2>
+                                        <h2 className={`${
+                                            order.status === 'CONFIRMED' ? 'order-status-confirmed' :
+                                            order.status === 'CANCELLED' ? 'order-status-cancelled' :
+                                            order.status === 'SHIPPED' ? 'order-status-shipped' : 'order-status'
+                                        }`}>{order.status}</h2>
                                     </div>
                                     <div className="order-date">{order.orderTime}</div>
                                     <div className="order-items">
