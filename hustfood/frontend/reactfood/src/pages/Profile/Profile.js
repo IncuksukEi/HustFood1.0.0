@@ -147,7 +147,7 @@ const Profile = () => {
                                 />
                             </div>
                             <div className="pro_form-group">
-                                <label>Email</label>
+                                <label>Địa chỉ</label>
                                 <input
                                     type="text"
                                     name="address"
