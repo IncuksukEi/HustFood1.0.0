@@ -94,7 +94,7 @@ const Cart = () => {
       <div className="cart-content">
         <div className="cart-items">
           <div className="cart-header">
-            <h2>Giỏ hàng của bạn</h2>
+            <h2 className='cart-h2'>Giỏ hàng của bạn</h2>
           </div>
           
           {items.map(item => (
@@ -121,7 +121,7 @@ const Cart = () => {
         </div>
 
         <div className="order-summary">
-          <h2>Tóm tắt đơn hàng</h2>
+          <h2 className='cart-h2'>Tóm tắt đơn hàng</h2>
           <div className="summary-details">
             <div className="summary-row">
               <span>SỐ LƯỢNG: {items.length}</span>
