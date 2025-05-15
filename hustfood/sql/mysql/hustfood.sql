@@ -46,6 +46,8 @@ CREATE TABLE orders (
     user_id BIGINT,
     status ENUM('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED'),
     total_price DECIMAL(10,2),
+    order_address VARCHAR(255),
+    order_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
