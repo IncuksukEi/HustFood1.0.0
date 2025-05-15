@@ -15,4 +15,5 @@ public class UserProfileDTO {
     private String phone;
     private String gender;
     private LocalDate birthDate;
+    private  String address;
 }

@@ -39,6 +39,7 @@ public class UserService {
         dto.setPhone(user.getPhone());
         dto.setGender(user.getGender() != null ? user.getGender().name() : null);
         dto.setBirthDate(user.getBirthDate());
+        dto.setAddress(user.getAddress());
         return dto;
     }
 
@@ -59,7 +60,7 @@ public class UserService {
         }
 
         if (dto.getBirthDate() != null) user.setBirthDate(dto.getBirthDate());
-
+        if (dto.getAddress() != null) user.setAddress(dto.getAddress());
         userRepository.save(user);
     }
 
@@ -72,7 +73,6 @@ public class UserService {
         user.setHashedPassword(passwordEncoder.encode(request.getPassword()));
 
         user.setRole(User.Role.CUSTOMER);
-        user.setStatus(User.Status.ACTIVE);
         user.setGender(User.Gender.OTHER); // Mặc định gender là OTHER
 
         return userRepository.save(user);
