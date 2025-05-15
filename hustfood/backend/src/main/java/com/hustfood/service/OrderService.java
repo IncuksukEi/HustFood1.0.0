@@ -36,13 +36,17 @@ public class OrderService {
     UserRepository userRepository;
 
     public void placeOrder(Long userId, OrderRequestDTO orderRequest) {
+        if (orderRequest.getItems() == null || orderRequest.getItems().isEmpty()) {
+            throw new IllegalStateException("Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm trước khi đặt hàng.");
+        }
+
         BigDecimal total = BigDecimal.ZERO;
         List<OrderDetail> detailList = new ArrayList<>();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID: " + userId));
 
-        //Lấy địa chỉ từ request nếu có, ngược lại dùng địa chỉ của user
+        // Lấy địa chỉ từ request nếu có, ngược lại dùng địa chỉ của user
         String orderAddress = (orderRequest.getAddress() != null && !orderRequest.getAddress().trim().isEmpty())
                 ? orderRequest.getAddress()
                 : user.getAddress();
