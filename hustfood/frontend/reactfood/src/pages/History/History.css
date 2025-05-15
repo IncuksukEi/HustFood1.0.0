@@ -189,7 +189,31 @@
 /* Đưa status về bên phải */
 .order-status {
   font-size: 1.4rem !important;
+  color: #d9cf0d !important;
+  white-space: nowrap;
+  text-align: right;
+  margin: 0;
+}
+
+.order-status-confirmed {
   color: #0b8043 !important;
+  font-size: 1.4rem !important;
+  white-space: nowrap;
+  text-align: right;
+  margin: 0;
+}
+
+.order-status-cancelled {
+  color: #d50000 !important;
+  font-size: 1.4rem !important;
+  white-space: nowrap;
+  text-align: right;
+  margin: 0;
+}
+
+.order-status-shipped {
+  color: #069af5 !important;
+  font-size: 1.4rem !important;
   white-space: nowrap;
   text-align: right;
   margin: 0;
