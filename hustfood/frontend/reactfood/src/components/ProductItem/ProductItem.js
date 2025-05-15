@@ -45,7 +45,7 @@ const ProductItem = ({ productId, name, price, urlImg, description, queryToBack,
         ></div>
         <h4 className="home-product-item__name">{name}</h4>
         <div className="home-product-item__price">
-          <span className="home-product-item__price-current">{price}đ</span>
+          <span className="home-product-item__price-current">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)}</span>
         </div>
         <div className="home-product-item__description">
           <span className="home-product-item__description-text">
