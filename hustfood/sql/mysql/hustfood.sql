@@ -22,7 +22,8 @@ CREATE TABLE users (
     hashed_password VARCHAR(255),
     role ENUM('ADMIN', 'CUSTOMER') NOT NULL,
     birth_date DATE,
-    gender ENUM('MALE', 'FEMALE', 'OTHER')
+    gender ENUM('MALE', 'FEMALE', 'OTHER'),
+    address VARCHAR(255)
 );
 
 -- 3. Bảng products
