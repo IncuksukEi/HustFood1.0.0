@@ -40,8 +40,6 @@ public class Product {
     @Column(columnDefinition = "INT DEFAULT 0")
     private Integer stock = 0;
 
-    @Column(columnDefinition = "DECIMAL(3,2) DEFAULT 0.0")
-    private BigDecimal rating = BigDecimal.ZERO;
 
     @Column(name = "sold_quantity", columnDefinition = "INT DEFAULT 0")
     private Integer soldQuantity = 0;
