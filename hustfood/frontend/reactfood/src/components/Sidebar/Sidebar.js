@@ -36,8 +36,9 @@ const Sidebar = () => {
             <li 
             key={category.id} 
             className={`category-item ${category.query === query ? 'category-item--active' : ''}`}
+            onClick={() => handleCategoryClick(category)}
             >
-            <span className="category-item__name" onClick={() => handleCategoryClick(category)}>{category.name}</span>
+            <span className="category-item__name">{category.name}</span>
             </li>
           ))}
           </ul>

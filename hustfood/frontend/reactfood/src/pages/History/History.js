@@ -35,6 +35,19 @@ const History = () => {
         fetchOrders();
     }, []);
 
+    const handleMappingStatus = (status) => {
+        switch (status) {
+            case 'CONFIRMED':
+                return 'Đã thanh toán';
+            case 'CANCELLED':
+                return 'Đã hủy';
+            case 'SHIPPED':
+                return 'Đang giao hàng';
+            default:
+                return 'Chờ xác nhận';
+        }
+    };
+
     return (
         <div className="app-container">
             <Header />
@@ -61,7 +74,7 @@ const History = () => {
                                             order.status === 'CONFIRMED' ? 'order-status-confirmed' :
                                             order.status === 'CANCELLED' ? 'order-status-cancelled' :
                                             order.status === 'SHIPPED' ? 'order-status-shipped' : 'order-status'
-                                        }`}>{order.status}</h2>
+                                        }`}>{handleMappingStatus(order.status)}</h2>
                                     </div>
                                     <div className="order-date">{order.orderTime}</div>
                                     <div className="order-items">

@@ -100,7 +100,7 @@ const Reset = () => {
                                     className="password-toggle-icon"
                                     onClick={() => togglePasswordVisibility('newPassword')}
                                 >
-                                    <div className="reset-icon-fa"><FontAwesomeIcon icon={showPasswords.password ? faEyeSlash : faEye} /></div>
+                                    <div className="reset-icon-fa"><FontAwesomeIcon icon={showPasswords.newPassword ? faEyeSlash : faEye} /></div>
                                 </button>
                             </div>
                             <div className="form-group">
@@ -117,7 +117,7 @@ const Reset = () => {
                                     className="password-toggle-icon"
                                     onClick={() => togglePasswordVisibility('confirmPassword')}
                                 >
-                                    <div className="reset-icon-fa"><FontAwesomeIcon icon={showPasswords.password ? faEyeSlash : faEye} /></div>
+                                    <div className="reset-icon-fa"><FontAwesomeIcon icon={showPasswords.confirmPassword ? faEyeSlash : faEye} /></div>
                                 </button>
                             </div>
                             {error && (

@@ -28,7 +28,7 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
             setError({
                 response: {
                     data: {
-                        message: 'Xin vui lòng điền đầy đủ các trường thông tin!'
+                        message: 'Xin vui lòng điền đầy đủ các trường thông tin.'
                     }
             }});
             return;
@@ -48,7 +48,7 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
                 setError({
                     response: {
                         data: {
-                            message: 'Email hoặc mật khẩu không đúng!'
+                            message: 'Email hoặc mật khẩu không đúng.'
                         }
                     }
                 });
@@ -68,9 +68,49 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
             setError({
                 response: {
                     data: {
-                        message: 'Xin vui lòng điền đầy đủ các trường thông tin!'
+                        message: 'Xin vui lòng điền đầy đủ các trường thông tin.'
                     }
             }});
+            return;
+        }
+        if (!/^\d+$/.test(phone)) {
+            setError({
+                response: {
+                    data: {
+                        message: 'Số điện thoại phải là số.'
+                    }
+                }
+            });
+            return;
+        }
+        if (!phone.startsWith('0')) {
+            setError({
+                response: {
+                    data: {
+                        message: 'Số điện thoại phải bắt đầu bằng số 0.'
+                    }
+                }
+            });
+            return;
+        }
+        if (fullName.length < 2 || fullName.length > 50) {
+            setError({
+                response: {
+                    data: {
+                        message: 'Họ tên phải có độ dài từ 2 đến 50 ký tự.'
+                    }
+                }
+            });
+            return;
+        }
+        if (phone.length < 10 || phone.length > 11) {
+            setError({
+                response: {
+                    data: {
+                        message: 'Số điện thoại phải có độ dài từ 10 đến 11 số.'
+                    }
+                }
+            });
             return;
         }
         if (!isChecked) {
@@ -89,7 +129,7 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
                 setError({
                     response: {
                         data: {
-                            message: 'Email đã tồn tại!'
+                            message: 'Email đã tồn tại.'
                         }
                     }
                 });
@@ -98,7 +138,7 @@ const AuthModal = ({ isOpen, onClose, modeInit, onChangeMode, onLoginSuccess }) 
                 setError({
                     response: {
                         data: {
-                            message: 'Số điện thoại đã tồn tại!'
+                            message: 'Số điện thoại đã tồn tại.'
                         }
                     }
                 });
