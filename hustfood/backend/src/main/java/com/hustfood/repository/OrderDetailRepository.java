@@ -40,4 +40,6 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
 """)
     List<ProductSalesDTO> getProductSalesReport();
 
+    @Query("SELECT COALESCE(SUM(od.quantity), 0) FROM OrderDetail od")
+    Long getTotalQuantitySold();
 }
