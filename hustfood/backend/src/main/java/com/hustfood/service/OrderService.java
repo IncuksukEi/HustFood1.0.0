@@ -148,4 +148,37 @@ public class OrderService {
     public List<ProductSalesDTO> getProductSalesReport() {
         return orderDetailRepository.getProductSalesReport();
     }
+    public void updateOrderStatus(Long orderId, String statusStr, User user) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
+        Order.Status newStatus;
+        try {
+            newStatus = Order.Status.valueOf(statusStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid status: " + statusStr);
+        }
+
+        Order.Status currentStatus = order.getStatus();
+
+        boolean isAdmin = user.getRole().equals(User.Role.ADMIN);
+
+        if (isAdmin) {
+            order.setStatus(newStatus);
+        } else {
+            if (!order.getUserId().equals(user.getUserId())) {
+                throw new SecurityException("You are not allowed to modify this order.");
+            }
+
+            if ((currentStatus == Order.Status.PENDING && newStatus == Order.Status.CANCELLED) ||
+                    (currentStatus == Order.Status.SHIPPED && newStatus == Order.Status.RECEIVED)) {
+                order.setStatus(newStatus);
+            } else {
+                throw new IllegalArgumentException("You are not allowed to change status from " +
+                        currentStatus + " to " + newStatus);
+            }
+        }
+
+        orderRepository.save(order);
+    }
 }

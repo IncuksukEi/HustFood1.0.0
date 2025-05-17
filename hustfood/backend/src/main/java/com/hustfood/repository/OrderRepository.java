@@ -1,5 +1,7 @@
 package com.hustfood.repository;
 
+import com.hustfood.dto.MonthlyCustomerDTO;
+import com.hustfood.dto.MonthlySalesDTO;
 import com.hustfood.entity.Order;
 import com.hustfood.entity.Order.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +27,22 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT COUNT(o), COALESCE(SUM(o.totalPrice), 0) FROM Order o WHERE o.status = com.hustfood.entity.Order.Status.CANCELLED")
     Object[] getCancelledOrdersStats();
 
+    @Query("SELECT COUNT(DISTINCT o.userId) FROM Order o WHERE o.status = 'RECEIVED'")
+    Long countDistinctUsersWithReceivedOrders();
+
+    @Query("SELECT new com.hustfood.dto.MonthlySalesDTO(MONTH(o.orderTime), SUM(od.totalPrice)) " +
+            "FROM Order o JOIN o.orderDetails od " +
+            "WHERE (:year IS NULL OR YEAR(o.orderTime) = :year) " +
+            "AND (:month IS NULL OR MONTH(o.orderTime) = :month) " +
+            "GROUP BY MONTH(o.orderTime) " +
+            "ORDER BY MONTH(o.orderTime)")
+    List<MonthlySalesDTO> findMonthlySales(@Param("year") Integer year, @Param("month") Integer month);
+
+    @Query("SELECT new com.hustfood.dto.MonthlyCustomerDTO(MONTH(o.orderTime), COUNT(DISTINCT o.userId)) " +
+            "FROM Order o " +
+            "WHERE (:year IS NULL OR YEAR(o.orderTime) = :year) " +
+            "AND (:month IS NULL OR MONTH(o.orderTime) = :month) " +
+            "GROUP BY MONTH(o.orderTime) " +
+            "ORDER BY MONTH(o.orderTime)")
+    List<MonthlyCustomerDTO> findMonthlyCustomerCounts(@Param("year") Integer year, @Param("month") Integer month);
 }

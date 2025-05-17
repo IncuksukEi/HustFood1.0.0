@@ -34,7 +34,7 @@ public class Order {
     private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED') DEFAULT 'PENDING'")
+    @Column(columnDefinition = "ENUM('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED', 'RECEIVED') DEFAULT 'PENDING'")
     private Status status = Status.PENDING;
 
     @Column(name = "order_address")
@@ -49,7 +49,7 @@ public class Order {
     private List<OrderDetail> orderDetails;
 
     public enum Status {
-        PENDING, CONFIRMED, SHIPPED, CANCELLED
+        PENDING, CONFIRMED, SHIPPED, CANCELLED, RECEIVED
     }
 
     @Override
