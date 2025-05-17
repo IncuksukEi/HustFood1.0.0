@@ -81,4 +81,10 @@ public class JwtUtil {
         String token = extractToken(request);
         return getUserIdFromToken(token);
     }
+
+    public String getUserRoleFromRequest(HttpServletRequest request) {
+        String token = extractToken(request);
+        return getClaims(token).get("role", String.class);
+    }
+
 }

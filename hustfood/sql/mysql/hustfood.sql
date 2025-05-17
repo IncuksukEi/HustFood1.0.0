@@ -44,7 +44,7 @@ CREATE TABLE products (
 CREATE TABLE orders (
     order_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT,
-    status ENUM('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED'),
+    status ENUM('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED', 'RECEIVED'),
     total_price DECIMAL(10,2),
     order_address VARCHAR(255),
     order_time DATETIME DEFAULT CURRENT_TIMESTAMP,
