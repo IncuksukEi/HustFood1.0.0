@@ -25,4 +25,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT COUNT(o), COALESCE(SUM(o.totalPrice), 0) FROM Order o WHERE o.status = com.hustfood.entity.Order.Status.CANCELLED")
     Object[] getCancelledOrdersStats();
 
+    @Query("SELECT COUNT(DISTINCT o.userId) FROM Order o WHERE o.status = 'RECEIVED'")
+    Long countDistinctUsersWithReceivedOrders();
 }
