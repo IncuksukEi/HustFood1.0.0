@@ -4,6 +4,7 @@ import Footer from '../../components/Footer/Footer';
 import ProfileSidebar from '../../components/ProfileSidebar/ProfileSidebar';
 import './History.css';
 import { getAllOrders } from '../../services/orderSevice';
+import { updateOrderStatus } from '../../services/orderSevice';
 
 const History = () => {
     const [orders, setOrders] = useState([]);
@@ -35,14 +36,50 @@ const History = () => {
         fetchOrders();
     }, []);
 
+    const handleUpdateOrderStatus = async (orderId, currentStatus) => {
+        try {
+            // Xác định status mới dựa trên status hiện tại
+            const newStatus = currentStatus === 'PENDING' ? 'CANCELLED' : 
+                            currentStatus === 'SHIPPED' ? 'RECEIVED' : currentStatus;
+            
+            const token = localStorage.getItem('token');
+            console.log(token);
+            console.log(orderId);
+            console.log(newStatus);
+
+            const response = await updateOrderStatus(token, orderId, { status: newStatus });
+            
+            if (response.status === 200) {
+                const updatedOrders = orders.map((order) => {
+                    if (order.orderId === orderId) {
+                        return { ...order, status: newStatus };
+                    }
+                    return order;
+                });
+                setOrders(updatedOrders);
+            }
+        } catch (error) {
+            const errorData = error.response?.data;
+            setError({
+                response: {
+                    data: {
+                        message: errorData?.message || 'Có lỗi xảy ra, vui lòng thử lại'
+                    }
+                }
+            });
+        }
+    };
+
     const handleMappingStatus = (status) => {
         switch (status) {
             case 'CONFIRMED':
-                return 'Đã thanh toán';
+                return 'Đã xác nhận';
             case 'CANCELLED':
                 return 'Đã hủy';
             case 'SHIPPED':
                 return 'Đang giao hàng';
+            case 'RECEIVED':
+                return 'Đã nhận hàng';
             default:
                 return 'Chờ xác nhận';
         }
@@ -51,13 +88,14 @@ const History = () => {
     return (
         <div className="app-container">
             <Header />
+            {error && (
+                <div className="error-message">
+                    <p>{error.response.data.message}</p>
+                </div>
+            )}
             <div className="history-page">
                 <ProfileSidebar />
-                {error && (
-                    <div className="error-message">
-                        <p>{error.response.data.message}</p>
-                    </div>
-                )}
+                
                 {isOrderEmpty && (
                     <div className="empty-order-message">
                         <p>Không có đơn hàng nào</p>
@@ -73,6 +111,7 @@ const History = () => {
                                         <h2 className={`${
                                             order.status === 'CONFIRMED' ? 'order-status-confirmed' :
                                             order.status === 'CANCELLED' ? 'order-status-cancelled' :
+                                            order.status === 'RECEIVED' ? 'order-status-received' :
                                             order.status === 'SHIPPED' ? 'order-status-shipped' : 'order-status'
                                         }`}>{handleMappingStatus(order.status)}</h2>
                                     </div>
@@ -92,8 +131,18 @@ const History = () => {
                                         ))}
                                     </div>
                                     <div className="order-total">
-                                        <span>Tổng cộng:</span>
-                                        <span className="total-amount">{order.totalPrice.toLocaleString('vi-VN')}đ</span>
+                                        <div className="order-actions">
+                                            {order.status === 'PENDING' && (
+                                                <button className="cancel-button" onClick={() => handleUpdateOrderStatus(order.orderId, order.status)}>Huỷ</button>
+                                            )}
+                                            {order.status === 'SHIPPED' && (
+                                                <button className="confirm-button" onClick={() => handleUpdateOrderStatus(order.orderId, order.status)}>Xác nhận</button>
+                                            )}
+                                        </div>
+                                        <div className="total-info">
+                                            <span>Tổng cộng:</span>
+                                            <span className="total-amount">{order.totalPrice.toLocaleString('vi-VN')}đ</span>
+                                        </div>
                                     </div>
                                 </div>
                             ))}

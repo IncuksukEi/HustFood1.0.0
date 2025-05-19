@@ -116,17 +116,41 @@
 
 .order-total {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
+  padding: 15px 0;
 }
 
-.total-amount {
+.order-actions {
+  flex: 1;
+}
+
+.total-info {
+  text-align: right;
   font-weight: bold;
+  color: #333;
+}
+
+.total-info .total-amount {
+  color: #ee4d2d;
+  font-size: 1.2em;
   margin-left: 10px;
-  color: #e65100;
+}
+
+.cancel-button,
+.confirm-button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  background-color: #4a4a4a;
+  margin-right: 10px;
+}
+
+.cancel-button:hover,
+.confirm-button:hover {
+  background-color: #3a3a3a;
 }
 
 .orders-list {
@@ -189,14 +213,14 @@
 /* Đưa status về bên phải */
 .order-status {
   font-size: 1.4rem !important;
-  color: #d9cf0d !important;
+  color: #e3d701 !important;
   white-space: nowrap;
   text-align: right;
   margin: 0;
 }
 
 .order-status-confirmed {
-  color: #0b8043 !important;
+  color: #ff722c !important;
   font-size: 1.4rem !important;
   white-space: nowrap;
   text-align: right;
@@ -204,7 +228,7 @@
 }
 
 .order-status-cancelled {
-  color: #d50000 !important;
+  color: #eb2424 !important;
   font-size: 1.4rem !important;
   white-space: nowrap;
   text-align: right;
@@ -212,7 +236,15 @@
 }
 
 .order-status-shipped {
-  color: #069af5 !important;
+  color: #38abf3 !important;
+  font-size: 1.4rem !important;
+  white-space: nowrap;
+  text-align: right;
+  margin: 0;
+}
+
+.order-status-received {
+  color: #21de7c !important;
   font-size: 1.4rem !important;
   white-space: nowrap;
   text-align: right;
