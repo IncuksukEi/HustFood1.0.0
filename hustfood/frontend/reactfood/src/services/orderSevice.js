@@ -25,3 +25,17 @@ export const addOrder = async (token, data) => {
         throw error;
     }
 }
+
+export const updateOrderStatus = async (token, orderId, data) => {
+    try {
+        const response = await axios.patch(`http://localhost:8080/api/orders/${orderId}/status`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+        );
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
