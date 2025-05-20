@@ -10,6 +10,11 @@ const History = () => {
     const [orders, setOrders] = useState([]);
     const [error, setError] = useState(null);
     const [isOrderEmpty, setIsOrderEmpty] = useState(false);
+    const [confirmDialog, setConfirmDialog] = useState({
+        show: false,
+        orderId: null,
+        status: null
+    });
 
     useEffect(() => {
         setError(null);
@@ -37,22 +42,25 @@ const History = () => {
     }, []);
 
     const handleUpdateOrderStatus = async (orderId, currentStatus) => {
-        try {
-            // Xác định status mới dựa trên status hiện tại
-            const newStatus = currentStatus === 'PENDING' ? 'CANCELLED' : 
-                            currentStatus === 'SHIPPED' ? 'RECEIVED' : currentStatus;
-            
-            const token = localStorage.getItem('token');
-            console.log(token);
-            console.log(orderId);
-            console.log(newStatus);
+        const newStatus = currentStatus === 'PENDING' ? 'CANCELLED' : 
+                         currentStatus === 'SHIPPED' ? 'RECEIVED' : currentStatus;
+        
+        setConfirmDialog({
+            show: true,
+            orderId: orderId,
+            status: newStatus
+        });
+    };
 
-            const response = await updateOrderStatus(token, orderId, { status: newStatus });
+    const confirmStatusUpdate = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await updateOrderStatus(token, confirmDialog.orderId, { status: confirmDialog.status });
             
             if (response.status === 200) {
                 const updatedOrders = orders.map((order) => {
-                    if (order.orderId === orderId) {
-                        return { ...order, status: newStatus };
+                    if (order.orderId === confirmDialog.orderId) {
+                        return { ...order, status: confirmDialog.status };
                     }
                     return order;
                 });
@@ -68,6 +76,7 @@ const History = () => {
                 }
             });
         }
+        setConfirmDialog({ show: false, orderId: null, status: null });
     };
 
     const handleMappingStatus = (status) => {
@@ -91,6 +100,17 @@ const History = () => {
             {error && (
                 <div className="error-message">
                     <p>{error.response.data.message}</p>
+                </div>
+            )}
+            {confirmDialog.show && (
+                <div className="confirm-dialog-overlay">
+                    <div className="confirm-dialog">
+                        <p>Bạn có chắc chắn muốn {confirmDialog.status === 'CANCELLED' ? 'huỷ' : 'xác nhận'} đơn hàng này?</p>
+                        <div className="confirm-dialog-buttons">
+                            <button className="confirm-yes" onClick={confirmStatusUpdate}>Đồng ý</button>
+                            <button className="confirm-no" onClick={() => setConfirmDialog({ show: false, orderId: null, status: null })}>Quay lại</button>
+                        </div>
+                    </div>
                 </div>
             )}
             <div className="history-page">
