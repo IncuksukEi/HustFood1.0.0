@@ -109,6 +109,10 @@
   border-radius: 8px;
   font-size: 15px;
   resize: vertical;
+  font-family: "Segoe UI", -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: -0.2px;
 }
 
 .checkout_address:focus {
@@ -120,6 +124,12 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.checkout_payment-methods input[type="radio"] + label {
+  font-family: "Segoe UI", -apple-system, sans-serif;
+  font-size: 14px;
+  letter-spacing: -0.2px;
 }
 
 .checkout_payment-option {

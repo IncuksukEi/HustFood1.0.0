@@ -11,8 +11,8 @@ const Cart = () => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [needUpdate, setNeedUpdate] = useState(false);
+
   useEffect(() => {
-    setError(null);
     const fetchCartItems = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -33,11 +33,14 @@ const Cart = () => {
   }, [])
 
   useEffect(() => {
-      const updateCart = async () => {
-          await handleUpdateAllCartItems();
-      };
-      updateCart();
-    }, [needUpdate, items]);
+      if (needUpdate) {
+        const updateCart = async () => {
+            await handleUpdateAllCartItems();
+            setNeedUpdate(false);
+        };
+        updateCart();
+      }
+    }, [needUpdate]);
 
   const updateQuantity = (id, change) => {
     setItems(items.map(item => {
@@ -51,15 +54,19 @@ const Cart = () => {
   };
 
   const handleUpdateAllCartItems = async () => {
-      setError(null);
       try {
         const data = items.map((item) => ({product_id: item.productId, quantity: item.quantity}));
         const token = localStorage.getItem('token');
         await updateAllCartItem(token, data);
-        setItems((prev) => prev.map((item) => item));
       } catch (error) {
-        setError(error);
-        throw error;
+        const errorData = error.response?.data;
+        setError({
+            response: {
+                data: {
+                    message: errorData?.message || 'Có lỗi xảy ra khi cập nhật giỏ hàng'
+                }
+            }
+        });
       }
     };
 
@@ -79,13 +86,15 @@ const Cart = () => {
     navigate('/pay'); // Redirect to payment page
   }
 
-  if (error) {
-    return (
-      <div className="error-message">
-        <p>{error.response.data.message}</p>
-      </div>
-    );
-  }
+  const handlePromoCode = () => {
+    setError({
+      response: {
+        data: {
+          message: 'Tính năng mã giảm giá sẽ sớm ra mắt'
+        }
+      }
+    });
+  };
 
   return (
     <>
@@ -135,12 +144,17 @@ const Cart = () => {
             </div>
             <div className="promo-code">
               <input type="text" placeholder="Điền mã của bạn" />
-              <button>Áp dụng</button>
+              <button onClick={handlePromoCode}>Áp dụng</button>
             </div>
             <div className="total-cost">
               <span>Tổng</span>
               <span>{formatCurrency(calculateTotal() + 5000)}</span>
             </div>
+            {error && (
+              <div className="error-message">
+                <p>{error.response.data.message}</p>
+              </div>
+            )}
             <button className="checkout-button" onClick={handleCheckout}>THANH TOÁN</button>
           </div>
         </div>
