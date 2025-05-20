@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -15,7 +15,6 @@ const Pay = () => {
     });
 
     const [cartItems, setCartItems] = useState([]);
-    const [mess, setMess] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -26,7 +25,13 @@ const Pay = () => {
                 const cartItems = await getAllCartItems(token);
                 setCartItems(cartItems.data);
             } catch (error) {
-                setError(error);
+                setError({
+                    response: {
+                        data: {
+                            message: error.response?.data?.message || 'Có lỗi xảy ra khi lấy giỏ hàng'
+                        }
+                    }
+                });
             }
         };
         fetchCartItems();
@@ -42,20 +47,49 @@ const Pay = () => {
                 deliveryAddress: user.data.address
             });
         } catch (error) {
-            setError(error);
+            setError({
+                response: {
+                    data: {
+                        message: error.response?.data?.message || 'Có lỗi xảy ra khi lấy địa chỉ'
+                    }
+                }
+            });
         }
     }
 
     const handlePay = async (e) => {
         setError(null);
-        setMess(null);
         e.preventDefault();
+
+        if (paymentData.paymentMethod === 'bank') {
+            setError({
+                response: {
+                    data: {
+                        message: 'Tính năng thanh toán qua ngân hàng sẽ sớm ra mắt'
+                    }
+                }
+            });
+            return;
+        }
+
         if (!paymentData.deliveryAddress) {
-            setMess('Vui lòng nhập địa chỉ nhận hàng');
+            setError({
+                response: {
+                    data: {
+                        message: 'Vui lòng nhập địa chỉ nhận hàng'
+                    }
+                }
+            });
             return;
         }
         if (cartItems.length === 0) {
-            setMess('Giỏ hàng trống');
+            setError({
+                response: {
+                    data: {
+                        message: 'Giỏ hàng trống'
+                    }
+                }
+            });
             return;
         }
         const token = localStorage.getItem('token');
@@ -73,12 +107,16 @@ const Pay = () => {
             };
             const response = await addOrder(token, orderData);
             if (response.status === 200) {
-               setMess('Đặt hàng thành công');
-               navigate('/history');
+                navigate('/history');
             }
         } catch (error) {
-            setMess('Đặt hàng thất bại: ');
-            setError(error);
+            setError({
+                response: {
+                    data: {
+                        message: error.response?.data?.message || 'Đặt hàng thất bại'
+                    }
+                }
+            });
         }
     }
 
@@ -89,15 +127,6 @@ const Pay = () => {
         });
     };
 
-
-    if (error) {
-        return (
-            <div className="error-message">
-                <p>{error.response.data.message}</p>
-            </div>
-        );
-    }
-
     return (
         <>
             <Header />
@@ -105,7 +134,7 @@ const Pay = () => {
                 <div className="checkout_container">
                     <div className="checkout_content">
                         <h2>Thanh toán</h2>
-                        <for className="checkout_form">
+                        <form className="checkout_form">
                             <div className="checkout_form-group">
                                 <div className="checkout_form-group-label">
                                     <label>Địa chỉ nhận hàng</label>
@@ -147,13 +176,15 @@ const Pay = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='check_mess'>
-                                {mess && <p className={`check_mess-text ${!error ? "checkout_mess-ok" : ""}`}>{mess}</p>}
-                            </div>
+                            {error && (
+                                <div className="error-message">
+                                    <p>{error.response.data.message}</p>
+                                </div>
+                            )}
                             <button type="submit" className="checkout_submit-btn" onClick={handlePay}>
                                 Xác nhận đặt hàng
                             </button>
-                        </for>
+                        </form>
                     </div>
                 </div>
             </div>

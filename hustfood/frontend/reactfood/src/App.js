@@ -13,10 +13,12 @@ import Work from './pages/Work/Work' //Chinh sach hoat dong (thuoc Footer)
 import General from './pages/General/General' //Chinh sach chung (thuoc Footer)
 import History from './pages/History/History';
 import Reset from './pages/Reset/Reset';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />                      { /*created*/ }
         <Route path="/Search" element={<HomeSearch />} />          { /*created*/ }
