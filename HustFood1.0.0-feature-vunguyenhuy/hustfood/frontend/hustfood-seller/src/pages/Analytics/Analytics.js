@@ -33,7 +33,9 @@ function Analytics() {
 
   return (
     <>
-      <input type="checkbox" id="navbar-toggle" />
+      {/* Thêm input và label để hỗ trợ toggle navbar */}
+      <input type="checkbox" id="navbar-toggle" style={{ display: "none" }} />
+      <label htmlFor="navbar-toggle" className="body-label"></label>
       <Navbar />
       <div className="main-content">
         <Header />
@@ -49,7 +51,6 @@ function Analytics() {
           </div>
         </main>
       </div>
-      <label htmlFor="navbar-toggle" className="body-label"></label>
     </>
   );
 }

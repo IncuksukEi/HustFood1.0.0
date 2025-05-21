@@ -1,15 +1,17 @@
-import React from 'react';
-import '../../assets/base.css';
-import { Link } from 'react-router-dom';
+import React from "react";
+import "../../assets/base.css";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ active }) => {
   return (
     <div className="navbar">
       <div className="navbar-brand">
         <div className="brand-flex">
-          <button className="las la-home"><a href="http://localhost:3000" className="buyer-button">
-          <span className="las la-exchange-alt"></span>
-        </a></button>
+          <button className="las la-home">
+            <a href="http://localhost:3000" className="buyer-button">
+              <span className="las la-exchange-alt"></span>
+            </a>
+          </button>
           <div className="brand-icons">
             {/* <span className="las la-bell"></span>
             <span className="las la-user-circle"></span> */}
@@ -37,20 +39,31 @@ const Navbar = ({ active }) => {
           </div>
         </div>
         <div className="navbar-menu">
-          <div className="menu-head"><span>Bảng điều khiển</span></div>
+          <div className="menu-head">
+            <span>Bảng điều khiển</span>
+          </div>
           <ul>
             <li>
-              <Link to="/dashboard" className={active === 'dashboard' ? 'active' : ''}>
-                <span className="las la-balance-scale"></span> Thống kê tài chính
+              <Link
+                to="/dashboard"
+                className={active === "dashboard" ? "active" : ""}
+              >
+                <span className="las la-balance-scale"></span> Thống kê tài
+                chính
               </Link>
             </li>
             <li>
-              <Link to="/analytics" className={active === 'analytics' ? 'active' : ''}>
+              <Link
+                to="/analytics"
+                className={active === "analytics" ? "active" : ""}
+              >
                 <span className="las la-chart-pie"></span> Phân tích
               </Link>
             </li>
           </ul>
-          <div className="menu-head"><span>Phần quản lý</span></div>
+          <div className="menu-head">
+            <span>Phần quản lý</span>
+          </div>
           <ul>
             <li>
               <Link to="/prodmana">

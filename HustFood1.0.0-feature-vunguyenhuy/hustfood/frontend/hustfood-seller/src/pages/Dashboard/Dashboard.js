@@ -10,6 +10,9 @@ import '../../assets/dashboard.css';
 export default function DashboardPage() {
   return (
     <>
+      {/* Thêm input và label để hỗ trợ toggle navbar */}
+      <input type="checkbox" id="navbar-toggle" style={{ display: "none" }} />
+      <label htmlFor="navbar-toggle" className="body-label"></label>
       <Navbar />
       <div className="main-content">
         <Header />
