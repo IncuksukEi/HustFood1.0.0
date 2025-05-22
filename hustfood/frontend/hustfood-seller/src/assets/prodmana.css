@@ -1,0 +1,191 @@
+.products {
+  margin: 2rem 0;
+  padding: 1rem;
+  background: linear-gradient(180deg, #fdfdfd, #f3f3f3);
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.products:hover {
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.1);
+}
+
+.products h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  animation: fadeInDown 0.4s ease;
+}
+
+.products button {
+  background-color: var(--color-button1, #e0f7fa);
+  color: midnightblue;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--color-menu-header, #ccc);
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.products button:hover {
+  background-color: #b2ebf2;
+  transform: scale(1.02);
+}
+
+.products table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  animation: fadeInUp 0.4s ease;
+}
+
+.products table th,
+.products table td {
+  border: 1px solid #ddd;
+  padding: 0.6rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.products table thead tr th {
+  background: #f0f0f0;
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+.products table tbody td div {
+  color: #444;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.products .table-responsive {
+  overflow-x: auto;
+}
+
+.product_actions button {
+  margin-right: 5px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.product_actions .edit {
+  background-color: #e0f7fa;
+  color: #00796b;
+  border: 1px solid #00796b;
+}
+
+.product_actions .edit:hover {
+  background-color: #b2ebf2;
+}
+
+.product_actions .delete {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #c62828;
+}
+
+.product_actions .delete:hover {
+  background-color: #ffcdd2;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.dashboard_container {
+  display: flex;
+  flex: 1;
+}
+
+.dashboard_content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.product-management {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  animation: fadeIn 0.4s ease;
+}
+
+.products_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-button {
+  background-color: #4c57ef;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-button:hover {
+  background-color: #3b44c5;
+  transform: scale(1.05);
+}
+.product-management-container {
+  padding-top: 80px; 
+}
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
