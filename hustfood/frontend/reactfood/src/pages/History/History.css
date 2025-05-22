@@ -1,0 +1,297 @@
+.history-page {
+  display: flex;
+  margin: 20px auto;
+  max-width: 1200px;
+  height: calc(100vh - 180px); /* Chiều cao màn hình trừ header và footer */
+  background-color: #ffff;
+}
+
+.error-message {
+  display: flex;
+  justify-content: center;
+
+  height: 100%;
+  font-size: 24px;
+  color: #ff0000;
+}
+
+.empty-order-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 24px;
+  color: #666;
+}
+
+.history-container {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  padding: 0px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  position: relative;
+}
+
+.history-content {
+  flex: 1;
+  padding: 20px;
+  max-width: 800px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.history-content h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #202124;
+}
+
+.order-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  font-size: 14px;
+}
+
+.order-header {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+
+.order-header h2 {
+  color: #333;
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.order-info {
+  margin-bottom: 15px;
+  color: #666;
+}
+
+.order-date {
+  font-size: 0.9em;
+}
+
+.order-items {
+  margin: 15px 0;
+}
+
+.item-header,
+.item-details {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 8px 0;
+  align-items: center;
+}
+
+.item-header {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+.col {
+  padding: 5px;
+}
+
+.col.name {
+  text-align: left;
+}
+
+.col.quantity,
+.col.price {
+  text-align: center;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.order-actions {
+  flex: 1;
+}
+
+.total-info {
+  text-align: right;
+  font-weight: bold;
+  color: #333;
+}
+
+.total-info .total-amount {
+  color: #ee4d2d;
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+
+.cancel-button,
+.confirm-button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  background-color: #4a4a4a;
+  margin-right: 10px;
+}
+
+.cancel-button:hover,
+.confirm-button:hover {
+  background-color: #3a3a3a;
+}
+
+.orders-list {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.orders-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.orders-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.orders-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.orders-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.order-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  position: relative;
+}
+
+/* Dùng flexbox để đưa order-id và status nằm chung dòng */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 5px;
+}
+
+/* Để order-date nằm dưới order-id */
+.order-id {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+  line-height: 1.2;
+}
+
+/* Hiển thị ngày bên dưới ID */
+.order-date {
+  font-size: 0.9em;
+  color: #888;
+  margin-top: 4px;
+  margin-left: 2px;
+}
+
+/* Đưa status về bên phải */
+.order-status {
+  font-size: 1.4rem !important;
+  color: #e3d701 !important;
+  white-space: nowrap;
+  text-align: right;
+  margin: 0;
+}
+
+.order-status-confirmed {
+  color: #ff722c !important;
+  font-size: 1.4rem !important;
+  white-space: nowrap;
+  text-align: right;
+  margin: 0;
+}
+
+.order-status-cancelled {
+  color: #eb2424 !important;
+  font-size: 1.4rem !important;
+  white-space: nowrap;
+  text-align: right;
+  margin: 0;
+}
+
+.order-status-shipped {
+  color: #38abf3 !important;
+  font-size: 1.4rem !important;
+  white-space: nowrap;
+  text-align: right;
+  margin: 0;
+}
+
+.order-status-received {
+  color: #21de7c !important;
+  font-size: 1.4rem !important;
+  white-space: nowrap;
+  text-align: right;
+  margin: 0;
+}
+
+.confirm-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirm-dialog {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+}
+
+.confirm-dialog-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.confirm-dialog button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.confirm-yes {
+  background-color: #4caf50;
+  color: white;
+}
+
+.confirm-no {
+  background-color: #f44336;
+  color: white;
+}

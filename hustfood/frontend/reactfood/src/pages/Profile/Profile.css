@@ -1,0 +1,107 @@
+.pro_profile-page {
+  display: flex;
+  margin: 20px auto;
+  max-width: 1200px;
+  min-height: 393px;
+  background-color: #ffff;
+}
+
+.pro_profile_content {
+  padding: 12px 0;
+}
+
+.pro_detail-container {
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  padding: 20px 50px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 30%;
+  margin-left: 85px;
+}
+
+.pro_detail-container h1 {
+  font-size: 24px;
+  color: #202124;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.pro_detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: none;
+}
+
+.pro_form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.pro_form-row .pro_form-group {
+  flex: 1;
+}
+
+.pro_form-group {
+  max-height: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: none;
+  margin-bottom: 10px;
+}
+
+.pro_form-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.pro_form-group input,
+.pro_form-group select {
+  padding: 5px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 0px;
+  font-size: 13.5px;
+  transition: border-color 0.2s ease;
+  border-bottom: 1px solid #ccc;
+}
+
+.pro_form-group input:focus,
+.pro_form-group select:focus {
+  border-color: #e4002b;
+  outline: none;
+}
+
+.pro_update-button {
+  background: #e4002b;
+  color: white;
+  border: none;
+  padding: 10px 5px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 21px 0;
+}
+
+.pro_update-button:hover {
+  background: #c1001f;
+}
+
+.pro_update-button:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 600px) {
+  .pro_detail-container {
+    padding: 20px;
+  }
+
+  .pro_form-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

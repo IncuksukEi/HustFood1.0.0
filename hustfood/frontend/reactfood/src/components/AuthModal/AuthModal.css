@@ -1,0 +1,260 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  animation: fadeIn linear 0.1s;
+  z-index: 999;
+}
+
+.modal__overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal__body {
+  margin: auto;
+  position: relative;
+  z-index: 1;
+  animation: growth linear 0.1s;
+}
+
+.auth-form {
+  padding: 12.5px 25px 12.5px 25px;
+  width: 450px;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.auth-form__error {
+  color: #e4200b;
+  font-size: 10px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.auth-form__container {
+  padding: 20px 20px;
+}
+
+.auth-form__heading {
+  font-size: 25px;
+  font-weight: 200;
+  color: #000;
+  text-align: left; /* Align text to the left */
+  margin-bottom: 12px;
+  text-decoration: none; /* Remove unnecessary underline */
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.auth-form__group {
+  margin-bottom: 0px;
+}
+
+.auth-form__input {
+  width: 100%;
+  padding: 2px 0px 0px 0px; /* Adjust padding for top and bottom */
+  border: none; /* Remove border */
+  border-bottom: 0.1px solid#a8a7a7f8; /* Add underline */
+  border-radius: 0px;
+  font-size: 15px !important;
+  background-color: #fff;
+  color: #000000;
+  font-weight: normal; /* Ensure underline is not bold */
+  font-family: inherit;
+}
+
+.auth-form__input::placeholder {
+  color: #000000;
+  font-size: 15px !important;
+}
+
+.auth-form__input:focus {
+  border-color: #e4200b;
+  outline: none;
+}
+
+.auth-form__policy {
+  margin: 8px 0;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  font-size: 13.75px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.auth-form__policy input[type="checkbox"] {
+  width: 17.5px;
+  height: 17.5px;
+  margin-top: 1px;
+}
+
+.auth-form__policy-checked span {
+  color: red; /* Đặt màu chữ là đỏ */
+}
+
+.auth-form__policy-checked {
+  margin-top: 4px; /* Add spacing between the label and the new line */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13.75px;
+  color: red; /* Keep the text red */
+}
+
+.auth-form__submit {
+  width: 100%;
+  height: 40px; /* Add fixed height */
+  padding: 0; /* Remove padding */
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 8px 0;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.auth-form__submit:hover {
+  background: #25983f;
+}
+
+.auth-form__separator {
+  text-align: left; /* Align text to the left */
+  color: #000;
+  font-size: 13.75px;
+  font-weight: bold; /* Make text bold */
+  margin: 10px 0 16px;
+  position: relative;
+  font-family: Oswald, sans-serif;
+}
+
+.auth-form__separator::before {
+  content: none; /* Remove the horizontal line */
+}
+
+.auth-form__separator span {
+  position: relative;
+  background: none; /* Remove background */
+  padding: 0;
+  z-index: 1;
+}
+
+.social-button {
+  width: 100%;
+  height: 40px; /* Match login button height */
+  padding: 0; /* Remove padding */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 25px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 8px 0;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.social-button.facebook {
+  background: #3958a6;
+  color: white;
+}
+
+.social-button.facebook:hover {
+  background: #2e558c;
+}
+
+.social-button.google {
+  background: #e4200b;
+  color: white;
+}
+
+.social-button.google:hover {
+  background: #c23321;
+}
+
+.social-button.apple {
+  background: #000;
+  color: white;
+}
+
+.social-button i {
+  margin-right: 10px;
+  font-size: 17.5px; /* Slightly smaller icons */
+}
+
+.auth-form__switch {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 13.75px;
+  color: #333;
+}
+
+.auth-form__switch span {
+  color: #000000;
+}
+
+.auth-form__switch button {
+  background: none;
+  border: none;
+  color: #000000;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 4px;
+  font-size: 13.75px;
+}
+
+.auth-form__switch button:hover {
+  text-decoration: underline;
+}
+
+.password-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  font-size: 15px;
+  padding: 2px;
+  background: none;
+  border: none;
+  margin-top: 10px;
+  margin-right: 7px;
+}
+
+.password-toggle-icon:hover {
+  color: #000;
+}
+
+@keyframes growth {
+  from {
+    transform: scale(0.7);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
