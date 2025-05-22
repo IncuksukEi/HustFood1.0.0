@@ -1,15 +1,17 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from "react";
 //import Sidebar from '../../components/Sidebar/Sidebar';
-import Header from '../../components/Header/Header';
-import Navbar from '../../components/Navbar/Navbar';
-import Cards from '../../components/Cards/Cards'; 
-import ActionsCard from '../../components/ActionsCard/ActionCard'; 
-import ProductTable from '../../components/ProductTable/ProductTable'; 
-import '../../assets/dashboard.css';
+import Header from "../../components/Header/Header";
+import Navbar from "../../components/Navbar/Navbar";
+import Cards from "../../components/Cards/Cards";
+import ActionsCard from "../../components/ActionsCard/ActionCard";
+import ProductTable from "../../components/ProductTable/ProductTable";
+import "../../assets/dashboard.css";
 // import { exportData } from '../../services/dashboardService';
 export default function DashboardPage() {
   return (
     <>
+      <input type="checkbox" id="navbar-toggle" style={{ display: "none" }} />
+      <label htmlFor="navbar-toggle" className="body-label"></label>
       <Navbar />
       <div className="main-content">
         <Header />

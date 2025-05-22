@@ -1,4 +1,4 @@
-import './Header.css';
+import "../../assets/base.css";
 
 function Header() {
   return (

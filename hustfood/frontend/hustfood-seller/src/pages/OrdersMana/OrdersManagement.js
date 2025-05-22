@@ -1,13 +1,17 @@
 // OrderManagement.js
-import React, { useState, useEffect } from 'react';
-import { getOrders, createOrder, updateOrder } from '../../services/orderService';
-import Navbar from '../../components/Navbar/Navbar';
-import axios from 'axios';
-import Header from '../../components/Header/Header';
-import OrderTable from '../../components/OrderTable/OrderTable';
-import OrderFormModal from '../../components/OrderFormModal/OrderFormModel'; 
-import OrderDetailModal from '../../components/OrderDetailModel/OrderDetailModel'; 
-import '../../assets/ordersmana.css';
+import React, { useState, useEffect } from "react";
+import {
+  getOrders,
+  createOrder,
+  updateOrder,
+} from "../../services/orderService";
+import Navbar from "../../components/Navbar/Navbar";
+import axios from "axios";
+import Header from "../../components/Header/Header";
+import OrderTable from "../../components/OrderTable/OrderTable";
+import OrderFormModal from "../../components/OrderFormModal/OrderFormModel";
+import OrderDetailModal from "../../components/OrderDetailModel/OrderDetailModel";
+import "../../assets/ordersmana.css";
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
@@ -37,7 +41,9 @@ const OrderManagement = () => {
 
   const handleViewDetail = async (order) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/orders/details/${order.order_id}`);
+      const res = await axios.get(
+        `http://localhost:5000/api/orders/details/${order.order_id}`
+      );
       setOrderDetails(res.data);
       setSelectedOrder(order);
       setShowDetailModal(true);
@@ -62,15 +68,19 @@ const OrderManagement = () => {
 
   return (
     <div className="admin-page">
+      <input type="checkbox" id="navbar-toggle" style={{ display: "none" }} />
+      <label htmlFor="navbar-toggle" className="body-label"></label>
       <Navbar />
       <div className="main-content">
         <Header />
         <section className="orders">
           <h2>Danh sách đơn hàng</h2>
-          <button id="addOrderBtn" onClick={handleAddOrder}>Thêm đơn hàng</button>
+          <button id="addOrderBtn" onClick={handleAddOrder}>
+            Thêm đơn hàng
+          </button>
         </section>
-        <OrderTable 
-          orders={orders} 
+        <OrderTable
+          orders={orders}
           onEdit={handleEditOrder}
           onView={handleViewDetail}
         />

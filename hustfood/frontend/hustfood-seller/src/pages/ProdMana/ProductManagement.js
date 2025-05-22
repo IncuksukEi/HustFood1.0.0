@@ -1,17 +1,17 @@
 // ProductManagement.js
-import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar/Navbar';
-import Header from '../../components/Header/Header';
-import ProductTableNew from '../../components/ProductTableNew/ProductTableNew';
-import ProductFormModal from '../../components/ProductFormModal/ProductFormModal';
+import React, { useEffect, useState } from "react";
+import Navbar from "../../components/Navbar/Navbar";
+import Header from "../../components/Header/Header";
+import ProductTableNew from "../../components/ProductTableNew/ProductTableNew";
+import ProductFormModal from "../../components/ProductFormModal/ProductFormModal";
 import {
   getAllProducts,
   createProduct,
   updateProduct,
   deleteProductById,
-} from '../../services/prodmanaService';
-import axios from 'axios';
-import '../../assets/prodmana.css';
+} from "../../services/prodmanaService";
+import axios from "axios";
+import "../../assets/prodmana.css";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -25,17 +25,17 @@ const ProductManagement = () => {
       const data = await getAllProducts();
       setProducts(data);
     } catch (err) {
-      console.error('Lỗi khi tải danh sách sản phẩm:', err);
+      console.error("Lỗi khi tải danh sách sản phẩm:", err);
     }
   };
 
   // ✅ Load danh mục sản phẩm
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/categories');
+      const res = await axios.get("http://localhost:5000/api/categories");
       setCategories(res.data);
     } catch (err) {
-      console.error('Lỗi khi tải danh mục sản phẩm:', err);
+      console.error("Lỗi khi tải danh mục sản phẩm:", err);
     }
   };
 
@@ -55,28 +55,26 @@ const ProductManagement = () => {
       fetchProducts();
       setShowModal(false);
     } catch (err) {
-      console.error('Lỗi khi lưu sản phẩm:', err);
+      console.error("Lỗi khi lưu sản phẩm:", err);
     }
   };
 
   // ✅ Xử lý xóa sản phẩm
   const handleDelete = async (productId) => {
-  try {
-    console.log("Đang xóa sản phẩm có id:", productId);
-    await deleteProductById(Number(productId));
-    // toast.success("Xóa thành công");
-    fetchProducts();
-  } catch (error) {
-    // if (error.response?.data?.error) {
-    //   toast.error(error.response.data.error); // Thông báo lỗi rõ ràng từ backend
-    // } else {
-    //   toast.error("Lỗi khi xóa sản phẩm.");
-    // }
-    console.error("Lỗi khi xóa sản phẩm:", error);
-  }
-};
-
-
+    try {
+      console.log("Đang xóa sản phẩm có id:", productId);
+      await deleteProductById(Number(productId));
+      // toast.success("Xóa thành công");
+      fetchProducts();
+    } catch (error) {
+      // if (error.response?.data?.error) {
+      //   toast.error(error.response.data.error); // Thông báo lỗi rõ ràng từ backend
+      // } else {
+      //   toast.error("Lỗi khi xóa sản phẩm.");
+      // }
+      console.error("Lỗi khi xóa sản phẩm:", error);
+    }
+  };
 
   const handleAddClick = () => {
     setEditingProduct(null);
@@ -90,6 +88,8 @@ const ProductManagement = () => {
 
   return (
     <div className="product-management">
+      <input type="checkbox" id="navbar-toggle" style={{ display: "none" }} />
+      <label htmlFor="navbar-toggle" className="body-label"></label>
       <Navbar />
       <div className="main-content">
         <Header />
