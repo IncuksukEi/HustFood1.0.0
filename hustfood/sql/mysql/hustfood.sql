@@ -6,7 +6,7 @@ CREATE DATABASE hustfood;
 USE hustfood;
 
 -- 1. Bảng categories
-CREATE TABLE categories (
+CREATE TABLE if not exists categories (
     category_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     cate_name VARCHAR(255),
     query VARCHAR(30),
@@ -14,7 +14,7 @@ CREATE TABLE categories (
 );
 
 -- 2. Bảng users
-CREATE TABLE users (
+CREATE TABLE if not exists users (
     user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     full_name VARCHAR(255),
     email VARCHAR(255),
@@ -27,7 +27,7 @@ CREATE TABLE users (
 );
 
 -- 3. Bảng products
-CREATE TABLE products (
+CREATE TABLE if not exists products (
     product_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
     description VARCHAR(255),
@@ -41,7 +41,7 @@ CREATE TABLE products (
 );
 
 -- 4. Bảng orders
-CREATE TABLE orders (
+CREATE TABLE if not exists orders (
     order_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT,
     status ENUM('PENDING', 'CONFIRMED', 'SHIPPED', 'CANCELLED', 'RECEIVED'),
@@ -52,7 +52,7 @@ CREATE TABLE orders (
 );
 
 -- 5. Bảng orderdetails
-CREATE TABLE orderdetails (
+CREATE TABLE if not exists orderdetails (
     order_detail_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     order_id BIGINT,
     product_id BIGINT,
@@ -63,7 +63,7 @@ CREATE TABLE orderdetails (
 );
 
 -- 6. Bảng cart
-CREATE TABLE cart (
+CREATE TABLE if not exists cart (
     cart_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT,
     product_id BIGINT,
@@ -74,11 +74,21 @@ CREATE TABLE cart (
 );
 
 -- 7. Bảng inventory
-CREATE TABLE inventory (
+CREATE TABLE if not exists inventory (
     inventory_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     product_id BIGINT,
     quantity INT,
     unit VARCHAR(50),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
-
+-- 8. Bảng ingredients (nguyên liệu)
+CREATE TABLE if not exists ingredients (
+    ingredient_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    product_id BIGINT,
+    name VARCHAR(100),
+    quantity DECIMAL(10,2),
+    unit VARCHAR(20),
+    type VARCHAR(50),
+    price DECIMAL(10,2),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
