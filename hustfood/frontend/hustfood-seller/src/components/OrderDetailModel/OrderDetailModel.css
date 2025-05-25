@@ -1,4 +1,4 @@
-.order-modal-overlay {
+.order-modal-overlay-1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,7 +11,7 @@
   z-index: 1000;
 }
 
-.order-modal {
+.order-modal-1 {
   background: white;
   padding: 20px;
   border-radius: 8px;
@@ -21,21 +21,21 @@
   overflow-x: auto;
 }
 
-.order-modal-table {
+.order-modal-table-1 {
   width: 100%;
   border-collapse: collapse;
   margin-top: 16px;
 }
 
-.order-modal-table th,
-.order-modal-table td {
+.order-modal-table-1 th,
+.order-modal-table-1 td {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: center;
   white-space: nowrap;
 }
 
-.order-modal-close-button {
+.order-modal-close-button-1 {
   margin-top: 20px;
   background-color: #f44336;
   color: white;

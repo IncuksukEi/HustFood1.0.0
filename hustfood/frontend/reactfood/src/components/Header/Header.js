@@ -114,7 +114,7 @@ const Header = () => {
 
   // chuyển đổi giữa người mua và người bán
   const handleSwitchToSeller = () => {
-    navigate('/management');
+    window.location.href = 'http://localhost:3001';
   };
 
   // đi đến các trang mạng xã hội

@@ -38,16 +38,29 @@ public class DashboardController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/cancelled-orders")
-    public ResponseEntity<?> getCancelledOrders(HttpServletRequest request) {
-        Long userId = jwtUtil.getUserIdFromRequest(request);
-        if (userId == null) {
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
+    // @GetMapping("/cancelled-orders")
+    // public ResponseEntity<?> getCancelledOrders(HttpServletRequest request) {
+    //     Long userId = jwtUtil.getUserIdFromRequest(request);
+    //     if (userId == null) {
+    //         return ResponseEntity.status(401).body("Unauthorized");
+    //     }
 
-        Map<String, Object> result = orderService.getCancelledOrdersStats();
-        return ResponseEntity.ok(result);
+    //     Map<String, Object> result = orderService.getCancelledOrdersStats();
+    //     return ResponseEntity.ok(result);
+    // }
+
+    @GetMapping("/cancelled-orders")
+public ResponseEntity<?> getCancelledOrders(HttpServletRequest request) {
+    Long userId = jwtUtil.getUserIdFromRequest(request);
+    if (userId == null) {
+        return ResponseEntity.status(401).body("Unauthorized");
     }
+
+    BigDecimal cancelledTotal = orderService.getCancelledOrdersTotal();
+    Map<String, Object> result = new HashMap<>();
+    result.put("cancelledOrders", cancelledTotal);
+    return ResponseEntity.ok(result);
+}
     @GetMapping("/combo-revenue")
     public ResponseEntity<?> getComboRevenue(HttpServletRequest request) {
         Long userId = jwtUtil.getUserIdFromRequest(request);
@@ -71,4 +84,16 @@ public class DashboardController {
         return ResponseEntity.ok(sales);
     }
 
+    @GetMapping("/cancelled-rate")
+    public ResponseEntity<?> getCancelledRate(HttpServletRequest request) {
+        Long userId = jwtUtil.getUserIdFromRequest(request);
+        if (userId == null) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+
+        double cancelledRate = orderService.getCancelledOrderRate();
+        Map<String, Double> response = new HashMap<>();
+        response.put("cancelledRate", Math.round(cancelledRate * 100.0) / 100.0);
+        return ResponseEntity.ok(response);
+    }
 }

@@ -27,7 +27,7 @@ public class AnalyticsService {
     }
 
     public Long getTotalOrderCount() {
-        return orderDetailRepository.count();
+        return orderRepository.count();
     }
 
     public Long getTotalQuantitySold() {

@@ -1,49 +1,36 @@
+import axios from "axios";
 
-//orderService.js
-import axios from 'axios';
+const BASE_URL = "http://localhost:8080/api/orders";
 
-const API_URL = 'http://localhost:5000/api/orders';
-
-// Lấy danh sách đơn hàng
-export const getOrders = async () => {
+export const getAllOrders = async (token) => {
   try {
-    const res = await axios.get(API_URL);
+    const res = await axios.get(BASE_URL, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.data;
   } catch (error) {
-    console.error("Lỗi khi lấy đơn hàng:", error);
-    return [];
-  }
-};
-
-// Thêm đơn hàng
-export const createOrder = async (orderData) => {
-  try {
-    const res = await axios.post(API_URL, orderData);
-    return res.data;
-  } catch (error) {
-    console.error("Lỗi khi thêm đơn hàng:", error);
     throw error;
   }
 };
 
-// Cập nhật đơn hàng
-export const updateOrder = async (id, orderData) => {
+export const addOrder = async (token, data) => {
   try {
-    const res = await axios.put(`${API_URL}/${id}`, orderData);
+    const res = await axios.post(BASE_URL, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.data;
   } catch (error) {
-    console.error("Lỗi khi cập nhật đơn hàng:", error);
     throw error;
   }
 };
 
-// Xóa đơn hàng
-export const deleteOrder = async (id) => {
+export const updateOrderStatus = async (token, orderId, data) => {
   try {
-    const res = await axios.delete(`${API_URL}/${id}`);
+    const res = await axios.patch(`${BASE_URL}/${orderId}/status`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.data;
   } catch (error) {
-    console.error("Lỗi khi xóa đơn hàng:", error);
     throw error;
   }
 };

@@ -25,12 +25,12 @@ const ProductForm = ({ product, onChange, categories }) => {
 
       <div className="pf-form-group">
         <label>Danh mục:</label>
-        <select name="category_id" value={product.category_id} onChange={onChange} className="pf-form-input">
+        <select name="categoryId" value={product.categoryId} onChange={onChange} className="pf-form-input">
           <option value="">-- Chọn danh mục --</option>
           {Array.isArray(categories) &&
             categories.map((cat) => (
-              <option key={cat.category_id} value={cat.category_id}>
-                {cat.cate_name}
+              <option key={cat.categoryId} value={cat.categoryId}>
+                {cat.cateName}
               </option>
             ))}
         </select>
@@ -49,19 +49,19 @@ const ProductForm = ({ product, onChange, categories }) => {
         <label>Ưu đãi:</label>
         <select
           name="category_id_uu_dai"
-          value={product.category_id_uu_dai || '0'}
+          value={product.category_id_uu_dai === null ? "" : product.category_id_uu_dai}
           onChange={onChange}
           className="pf-form-input"
         >
-          <option value="0">Không</option>
+          <option value="">Không</option>
           <option value="1">Có</option>
         </select>
       </div>
 
-      {/* <div className="pf-form-group">
+      <div className="pf-form-group">
         <label>Ảnh:</label>
         <input type="text" name="url_img" value={product.url_img} onChange={onChange} className="pf-form-input" />
-      </div> */}
+      </div>
     </div>
   );
 };

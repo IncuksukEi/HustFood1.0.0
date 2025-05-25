@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import {
+  getTotalRevenue,
+  getCancelledOrders,
+  getComboRevenue,
+} from "../../services/dashboardService";
 
 export default function Cards() {
   const [cardValues, setCardValues] = useState({
@@ -11,20 +15,22 @@ export default function Cards() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [res1, res2, res3] = await Promise.all([
-          axios.get('http://localhost:5000/api/dashboard/revenue'),
-          axios.get('http://localhost:5000/api/dashboard/cancelled_orders'),
-          axios.get('http://localhost:5000/api/dashboard/combo_orders'),
+        const [revenueRes, cancelledRes, comboRes] = await Promise.all([
+          getTotalRevenue(),
+          getCancelledOrders(),
+          getComboRevenue(),
         ]);
+
         setCardValues({
-          revenue: res1.data.revenue,
-          cancelled: res2.data.cancelledRevenue,
-          combo: res3.data.comboRevenue,
+          revenue: revenueRes.data.totalRevenue || 0,
+          cancelled: cancelledRes.data.cancelledOrders || 0,
+          combo: comboRes.data.comboRevenue || 0,
         });
       } catch (err) {
         console.error("Lỗi khi fetch dashboard data:", err);
       }
     };
+
     fetchData();
   }, []);
 
@@ -32,21 +38,24 @@ export default function Cards() {
     {
       title: "Doanh thu",
       subtitle: "Doanh thu bán hàng",
-      value: cardValues.revenue?.toLocaleString("vi-VN") + "k",
+      value: (cardValues.revenue/1000).toLocaleString("vi-VN") + " kđ",
+      // value: cardValues.revenue,
       trend: "",
       className: "danger",
     },
     {
       title: "Hủy đơn",
       subtitle: "Giá trị của đơn hàng bị hủy",
-      value: cardValues.cancelled?.toLocaleString("vi-VN") + "k",
+      value: (cardValues.cancelled/1000).toLocaleString("vi-VN") + " kđ", 
+      // value: cardValues.cancelled,
       trend: "",
       className: "success",
     },
     {
       title: "Combo",
       subtitle: "Doanh thu các combo",
-      value: cardValues.combo?.toLocaleString("vi-VN") + "k",
+      // value: cardValues.combo.toLocaleString("vi-VN") + "k",
+      value: (cardValues.combo/1000).toLocaleString("vi-VN") + " kđ",
       trend: "",
       className: "yellow",
     },
