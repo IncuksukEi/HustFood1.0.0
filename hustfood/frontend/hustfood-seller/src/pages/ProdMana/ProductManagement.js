@@ -1,4 +1,3 @@
-// ProductManagement.js
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Header from "../../components/Header/Header";
@@ -19,7 +18,6 @@ const ProductManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
-  // ✅ Load danh sách sản phẩm
   const fetchProducts = async () => {
     try {
       const data = await getAllProducts();
@@ -29,10 +27,9 @@ const ProductManagement = () => {
     }
   };
 
-  // ✅ Load danh mục sản phẩm
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/categories");
+      const res = await axios.get("http://localhost:8080/api/categories");
       setCategories(res.data);
     } catch (err) {
       console.error("Lỗi khi tải danh mục sản phẩm:", err);
@@ -44,37 +41,47 @@ const ProductManagement = () => {
     fetchCategories();
   }, []);
 
-  // ✅ Xử lý thêm / cập nhật sản phẩm
   const handleSubmit = async (product) => {
-    try {
-      if (editingProduct) {
-        await updateProduct(editingProduct.product_id, product);
-      } else {
-        await createProduct(product);
-      }
-      fetchProducts();
-      setShowModal(false);
-    } catch (err) {
-      console.error("Lỗi khi lưu sản phẩm:", err);
-    }
-  };
+  try {
+    const parsedProduct = {
+      name: product.name,
+      description: product.description || "",
+      price: parseFloat(product.price),
+      stock: parseInt(product.stock),
+      categoryId: product.categoryId === "" ? null : parseInt(product.categoryId),
+      category_id_combo: product.category_id_combo === "" ? null : parseInt(product.category_id_combo),
+      category_id_uu_dai:
+        product.category_id_uu_dai === "" || product.category_id_uu_dai === null
+          ? null
+          : parseInt(product.category_id_uu_dai),
+      url_img: product.url_img || "",
+    };
 
-  // ✅ Xử lý xóa sản phẩm
-  const handleDelete = async (productId) => {
-    try {
-      console.log("Đang xóa sản phẩm có id:", productId);
-      await deleteProductById(Number(productId));
-      // toast.success("Xóa thành công");
-      fetchProducts();
-    } catch (error) {
-      // if (error.response?.data?.error) {
-      //   toast.error(error.response.data.error); // Thông báo lỗi rõ ràng từ backend
-      // } else {
-      //   toast.error("Lỗi khi xóa sản phẩm.");
-      // }
-      console.error("Lỗi khi xóa sản phẩm:", error);
+    if (editingProduct) {
+      await updateProduct(editingProduct.productId, parsedProduct);
+    } else {
+      console.log("Parsed product gửi lên:", parsedProduct);
+      await createProduct(parsedProduct);
     }
-  };
+
+    fetchProducts();
+    setShowModal(false);
+  } catch (err) {
+    console.error("Lỗi khi lưu sản phẩm:", err);
+  }
+};
+
+
+  const handleDelete = async (productId) => {
+  try {
+    const res = await deleteProductById(Number(productId));
+    alert(res.message || "Xóa thành công!");
+    fetchProducts();
+  } catch (error) {
+    alert(error.response?.data?.error || "Lỗi khi xóa sản phẩm");
+    console.error("Lỗi khi xóa sản phẩm:", error);
+  }
+};
 
   const handleAddClick = () => {
     setEditingProduct(null);

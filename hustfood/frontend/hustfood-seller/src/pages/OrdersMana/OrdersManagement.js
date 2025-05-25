@@ -1,12 +1,11 @@
-// OrderManagement.js
 import React, { useState, useEffect } from "react";
 import {
-  getOrders,
+  getOrdersbyManagement,
   createOrder,
-  updateOrder,
-} from "../../services/orderService";
+  updateOrderStatus,
+  getOrderDetailsByOrderId,
+} from "../../services/ordermanaService";
 import Navbar from "../../components/Navbar/Navbar";
-import axios from "axios";
 import Header from "../../components/Header/Header";
 import OrderTable from "../../components/OrderTable/OrderTable";
 import OrderFormModal from "../../components/OrderFormModal/OrderFormModel";
@@ -21,8 +20,12 @@ const OrderManagement = () => {
   const [orderDetails, setOrderDetails] = useState([]);
 
   const fetchOrders = async () => {
-    const data = await getOrders();
-    setOrders(data);
+    try {
+      const data = await getOrdersbyManagement();
+      setOrders(data);
+    } catch (error) {
+      console.error("Lỗi khi tải danh sách đơn hàng:", error);
+    }
   };
 
   useEffect(() => {
@@ -34,18 +37,11 @@ const OrderManagement = () => {
     setShowFormModal(true);
   };
 
-  const handleEditOrder = (order) => {
-    setSelectedOrder(order);
-    setShowFormModal(true);
-  };
-
   const handleViewDetail = async (order) => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/orders/details/${order.order_id}`
-      );
-      setOrderDetails(res.data);
+      const details = await getOrderDetailsByOrderId(order.orderId);
       setSelectedOrder(order);
+      setOrderDetails(details);
       setShowDetailModal(true);
     } catch (error) {
       console.error("Lỗi khi lấy chi tiết đơn hàng:", error);
@@ -54,15 +50,20 @@ const OrderManagement = () => {
 
   const handleSaveOrder = async (formData) => {
     try {
-      if (selectedOrder) {
-        await updateOrder(selectedOrder.order_id, formData);
-      } else {
-        await createOrder(formData);
-      }
+      await createOrder(formData);
       setShowFormModal(false);
       fetchOrders();
     } catch (error) {
-      console.error("Lỗi khi lưu đơn hàng:", error);
+      console.error("Lỗi khi tạo đơn hàng:", error);
+    }
+  };
+
+  const handleUpdateStatus = async (orderId, newStatus) => {
+    try {
+      await updateOrderStatus(orderId, newStatus);
+      fetchOrders();
+    } catch (error) {
+      console.error("Lỗi khi cập nhật trạng thái đơn hàng:", error);
     }
   };
 
@@ -81,10 +82,15 @@ const OrderManagement = () => {
         </section>
         <OrderTable
           orders={orders}
-          onEdit={handleEditOrder}
           onView={handleViewDetail}
+          onEdit={(order) => {
+            setSelectedOrder(order);
+            setShowFormModal(true);
+          }}
+          onUpdateStatus={handleUpdateStatus}
         />
       </div>
+
       <OrderFormModal
         show={showFormModal}
         onClose={() => setShowFormModal(false)}

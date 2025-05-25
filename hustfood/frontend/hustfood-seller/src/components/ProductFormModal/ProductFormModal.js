@@ -8,7 +8,7 @@ const ProductFormModal = ({ show, onClose, onSubmit, editingProduct, categories 
     description: "",
     price: "",
     stock: "",
-    category_id: "",
+    categoryId: "",
     category_id_combo: "",
     category_id_uu_dai: "",
     url_img: "",
@@ -16,14 +16,18 @@ const ProductFormModal = ({ show, onClose, onSubmit, editingProduct, categories 
 
   useEffect(() => {
     if (editingProduct) {
-      setProduct(editingProduct);
+      setProduct({
+        ...editingProduct,
+        category_id_uu_dai:
+          editingProduct.category_id_uu_dai === null ? "" : editingProduct.category_id_uu_dai.toString(),
+      });
     } else {
       setProduct({
         name: "",
         description: "",
         price: "",
         stock: "",
-        category_id: "",
+        categoryId: "",
         category_id_combo: "",
         category_id_uu_dai: "",
         url_img: "",

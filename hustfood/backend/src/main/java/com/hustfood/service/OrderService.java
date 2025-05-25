@@ -4,10 +4,9 @@ import com.hustfood.dto.ProductSalesDTO;
 import com.hustfood.entity.*;
 import com.hustfood.repository.*;
 
-import jakarta.transaction.Transactional;
-
 import com.hustfood.dto.OrderResponseDTO;
 import com.hustfood.dto.OrderDetailResponseDTO;
+import com.hustfood.dto.OrderManagementDTO;
 import com.hustfood.dto.OrderRequestDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Service
-@Transactional
 public class OrderService {
-
     @Autowired
     private OrderRepository orderRepository;
 
@@ -130,16 +127,20 @@ public class OrderService {
         return orderRepository.getTotalRevenue();
     }
     // Lọc tổng số tiền đơn hàng bị hủy
-    public Map<String, Object> getCancelledOrdersStats() {
-        Object[] result = orderRepository.getCancelledOrdersStats();
-        Long totalCancelledOrders = (Long) result[0];
-        BigDecimal cancelledValue = (BigDecimal) result[1];
+    // public Map<String, Object> getCancelledOrdersStats() {
+    //     Object[] result = orderRepository.getCancelledOrdersStats();
+    //     Long totalCancelledOrders = (Long) result[0];
+    //     BigDecimal cancelledValue = (BigDecimal) result[1];
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("totalCancelledOrders", totalCancelledOrders);
-        response.put("cancelledValue", cancelledValue);
-        return response;
+    //     Map<String, Object> response = new HashMap<>();
+    //     response.put("totalCancelledOrders", totalCancelledOrders);
+    //     response.put("cancelledValue", cancelledValue);
+    //     return response;
+    // }
+    public BigDecimal getCancelledOrdersTotal() {
+        return orderRepository.getCancelledOrdersTotal();
     }
+
     // Doanh thu combo
     public BigDecimal getComboRevenue() {
         return orderDetailRepository.getComboRevenue();
@@ -180,5 +181,26 @@ public class OrderService {
         }
 
         orderRepository.save(order);
+    }
+    public double getCancelledOrderRate() {
+        long totalOrders = orderRepository.countTotalOrders();
+        if (totalOrders == 0) return 0.0;
+
+        long cancelledOrders = orderRepository.countCancelledOrders();
+        return (double) cancelledOrders / totalOrders;
+    }
+    public List<OrderManagementDTO> getAllOrdersForManagement() {
+        List<Object[]> rawData = orderRepository.findOrdersWithUserInfo();
+
+        return rawData.stream().map(row -> {
+            Long orderId = (Long) row[0];
+            String fullName = (String) row[1];
+            com.hustfood.entity.Order.Status status = (com.hustfood.entity.Order.Status) row[2];
+            Double price = (row[3] instanceof BigDecimal)
+                    ? ((BigDecimal) row[3]).doubleValue()
+                    : (Double) row[3];
+
+            return new OrderManagementDTO(orderId, fullName, status, price);
+        }).toList();
     }
 }
