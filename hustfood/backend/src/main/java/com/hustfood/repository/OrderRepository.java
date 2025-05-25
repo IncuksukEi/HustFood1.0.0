@@ -24,10 +24,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT COALESCE(SUM(o.totalPrice), 0) FROM Order o WHERE o.status <> 'CANCELLED'")
     BigDecimal getTotalRevenue();
 
-    @Query("SELECT COUNT(o), COALESCE(SUM(o.totalPrice), 0) FROM Order o WHERE o.status = com.hustfood.entity.Order.Status.CANCELLED")
-    Object[] getCancelledOrdersStats();
+//     @Query("SELECT COUNT(o), COALESCE(SUM(o.totalPrice), 0) FROM Order o WHERE o.status = com.hustfood.entity.Order.Status.CANCELLED")
+//     Object[] getCancelledOrdersStats();
 
-    @Query("SELECT COUNT(DISTINCT o.userId) FROM Order o WHERE o.status = 'RECEIVED'")
+    @Query("SELECT COALESCE(SUM(o.totalPrice), 0) FROM Order o WHERE o.status = com.hustfood.entity.Order.Status.CANCELLED")
+        BigDecimal getCancelledOrdersTotal();
+        
+    @Query("SELECT COUNT(DISTINCT o.userId) FROM Order o")
     Long countDistinctUsersWithReceivedOrders();
 
     @Query("SELECT new com.hustfood.dto.MonthlySalesDTO(MONTH(o.orderTime), SUM(od.totalPrice)) " +
@@ -45,4 +48,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "GROUP BY MONTH(o.orderTime) " +
             "ORDER BY MONTH(o.orderTime)")
     List<MonthlyCustomerDTO> findMonthlyCustomerCounts(@Param("year") Integer year, @Param("month") Integer month);
+    @Query("SELECT COUNT(o) FROM Order o")
+        long countTotalOrders();
+
+        @Query("SELECT COUNT(o) FROM Order o WHERE o.status = com.hustfood.entity.Order.Status.CANCELLED")
+        long countCancelledOrders();
+
+        @Query("SELECT o.id, u.fullName, o.status, o.totalPrice FROM Order o JOIN o.user u")
+        List<Object[]> findOrdersWithUserInfo();
 }

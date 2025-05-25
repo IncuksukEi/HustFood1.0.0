@@ -27,14 +27,14 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private Category category;
-
+    
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
     @Column(name = "category_id_combo", nullable = false)
     private Long category_id_combo;
 
-    @Column(name = "category_id_uu_dai", nullable = false)
+    @Column(name = "category_id_uu_dai")
     private Long category_id_uu_dai;
 
     @Column(columnDefinition = "INT DEFAULT 0")

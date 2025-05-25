@@ -1,5 +1,6 @@
 package com.hustfood.controller;
 
+import com.hustfood.dto.OrderManagementDTO;
 import com.hustfood.dto.OrderRequestDTO;
 import com.hustfood.dto.OrderResponseDTO;
 import com.hustfood.dto.UpdateOrderStatusDTO;
@@ -60,5 +61,10 @@ public class OrderController {
         } catch (IllegalArgumentException | SecurityException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
+    }
+    @GetMapping("/management")
+    public ResponseEntity<List<OrderManagementDTO>> getOrdersForManagement() {
+        List<OrderManagementDTO> orders = orderService.getAllOrdersForManagement();
+        return ResponseEntity.ok(orders);
     }
 }

@@ -95,18 +95,23 @@ public class ProductService {
     }
     // GET - Lấy danh sách sản phẩm (cho admin)
     public List<ProductListResponse> getAllProductsForAdmin() {
-        return productRepository.findAll().stream().map(product -> {
-            ProductListResponse dto = new ProductListResponse();
-            dto.setProductId(product.getProductId());
-            dto.setName(product.getName());
-            dto.setPrice(product.getPrice());
-            dto.setStock(product.getStock());
-            dto.setSoldQuantity(product.getSoldQuantity());
-            dto.setCategoryId(product.getCategoryId());
-            dto.setUrlImg(product.getUrlImg());
-            return dto;
-        }).collect(Collectors.toList());
-    }
+    return productRepository.findAll().stream().map(product -> {
+        ProductListResponse dto = new ProductListResponse();
+        dto.setProductId(product.getProductId());
+        dto.setName(product.getName());
+        dto.setDescription(product.getDescription());               
+        dto.setPrice(product.getPrice());
+        dto.setCategoryId(product.getCategoryId());
+        dto.setCategory_id_combo(product.getCategory_id_combo());   // gọi getter theo tên biến snake_case
+        dto.setCategory_id_uu_dai(product.getCategory_id_uu_dai());  // gọi getter theo tên biến snake_case
+        dto.setStock(product.getStock());
+        dto.setSoldQuantity(product.getSoldQuantity());
+        dto.setUrlImg(product.getUrlImg());
+        return dto;
+    }).collect(Collectors.toList());
+}
+
+
 
     // POST - Tạo sản phẩm mới
     public Long createProduct(ProductCreateRequest request) {
