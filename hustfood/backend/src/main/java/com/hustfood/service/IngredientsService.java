@@ -1,4 +1,3 @@
-// IngredientsService.java
 package com.hustfood.service;
 
 import com.hustfood.dto.IngredientsDTO;
@@ -32,12 +31,12 @@ public class IngredientsService {
                 .map(Product::getName).orElse("Unknown");
         String quantity = nf.format(ingredient.getQuantity()) + ingredient.getUnit();
         return new IngredientsDTO(
-                ingredient.getIngredientId(),           // ✅
+                ingredient.getIngredientId(),
                 ingredient.getName(),
                 ingredient.getType(),
                 productName,
                 quantity,
-                ingredient.getPrice()                  // ✅
+                ingredient.getPrice()
         );
     }).collect(Collectors.toList());
 }

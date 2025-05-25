@@ -11,7 +11,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Analytics />} /> 
-        {/* <Route path="/login" element={<Login />} />                     { /*created*/ } 
+        <Route path="/login" element={<Login />} />                     { /*created*/ }
         <Route path="/analytics" element={<Analytics />} />    
         <Route path="/dashboard" element={<Dashboard />} /> 
         <Route path="/ordersmana" element={<OrderManagement />} />  
