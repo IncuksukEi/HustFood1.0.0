@@ -40,7 +40,7 @@ public class Order {
     @Column(name = "order_address")
     private String orderAddress;
 
-    @Column(name = "order_time", insertable = false, updatable = false)
+    @Column(name = "order_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime orderTime;
 

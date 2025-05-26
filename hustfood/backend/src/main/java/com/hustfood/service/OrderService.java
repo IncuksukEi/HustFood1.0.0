@@ -4,6 +4,8 @@ import com.hustfood.dto.ProductSalesDTO;
 import com.hustfood.entity.*;
 import com.hustfood.repository.*;
 
+import jakarta.transaction.Transactional;
+
 import com.hustfood.dto.OrderResponseDTO;
 import com.hustfood.dto.OrderDetailResponseDTO;
 import com.hustfood.dto.OrderManagementDTO;
@@ -87,7 +89,7 @@ public class OrderService {
     public List<Order> getOrdersByUser(Long userId) {
         return orderRepository.findByUserId(userId);
     }
-
+    @Transactional
     public List<OrderResponseDTO> getOrdersWithDetailsByUser(Long userId) {
         List<Order> orders = orderRepository.findByUserId(userId);
         List<OrderResponseDTO> result = new ArrayList<>();
@@ -99,7 +101,7 @@ public class OrderService {
 
             dto.setOrderAddress(order.getOrderAddress());
             dto.setOrderTime(order.getOrderTime());
-            dto.setStatus(order.getStatus().name());
+            dto.setStatus(order.getStatus());
 
             List<OrderDetailResponseDTO> productList = new ArrayList<>();
 

@@ -1,9 +1,9 @@
+// src/pages/OrderManagement/OrderManagement.js
 import React, { useState, useEffect } from "react";
 import {
-  getOrdersbyManagement,
-  createOrder,
-  updateOrderStatus,
-  getOrderDetailsByOrderId,
+  fetchOrders,
+  fetchOrderById,
+  deleteOrder
 } from "../../services/ordermanaService";
 import Navbar from "../../components/Navbar/Navbar";
 import Header from "../../components/Header/Header";
@@ -14,59 +14,70 @@ import "../../assets/ordersmana.css";
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [orderDetails, setOrderDetails] = useState([]);
+  const [isEdit, setIsEdit] = useState(false);
 
-  const fetchOrders = async () => {
+  const loadOrders = async () => {
     try {
-      const data = await getOrdersbyManagement();
-      setOrders(data);
-    } catch (error) {
-      console.error("Lỗi khi tải danh sách đơn hàng:", error);
+      const res = await fetchOrders();
+      setOrders(res.data);
+    } catch (err) {
+      console.error("Lỗi khi tải đơn hàng:", err);
     }
   };
 
   useEffect(() => {
-    fetchOrders();
+    loadOrders();
   }, []);
 
   const handleAddOrder = () => {
     setSelectedOrder(null);
+    setIsEdit(false);
     setShowFormModal(true);
   };
 
-  const handleViewDetail = async (order) => {
+  const handleEdit = async (order) => {
     try {
-      const details = await getOrderDetailsByOrderId(order.orderId);
-      setSelectedOrder(order);
-      setOrderDetails(details);
+      const res = await fetchOrderById(order.orderId);
+      setSelectedOrder(res.data);
+      setIsEdit(true);
+      setShowFormModal(true);
+    } catch (err) {
+      console.error("Không lấy được dữ liệu đơn hàng:", err);
+    }
+  };
+
+  const handleViewDetails = async (order) => {
+    try {
+      const res = await fetchOrderById(order.orderId);
+      setSelectedOrder(res.data);
       setShowDetailModal(true);
-    } catch (error) {
-      console.error("Lỗi khi lấy chi tiết đơn hàng:", error);
+    } catch (err) {
+      console.error("Không thể hiển thị chi tiết đơn hàng:", err);
     }
   };
 
-  const handleSaveOrder = async (formData) => {
-    try {
-      await createOrder(formData);
-      setShowFormModal(false);
-      fetchOrders();
-    } catch (error) {
-      console.error("Lỗi khi tạo đơn hàng:", error);
-    }
+  const handleFormClose = () => {
+    setShowFormModal(false);
   };
 
-  const handleUpdateStatus = async (orderId, newStatus) => {
-    try {
-      await updateOrderStatus(orderId, newStatus);
-      fetchOrders();
-    } catch (error) {
-      console.error("Lỗi khi cập nhật trạng thái đơn hàng:", error);
-    }
+  const handleDetailClose = () => {
+    setShowDetailModal(false);
   };
 
+  const handleFormSubmit = () => {
+    loadOrders(); // reload list sau khi thêm/sửa
+  };
+   const handleDeleteOrder = async (orderId) => {
+      try {
+        await deleteOrder(orderId);
+        loadOrders(); // Refresh lại danh sách
+      } catch (error) {
+        console.error("Lỗi khi xoá đơn hàng:", error);
+      }
+    };
   return (
     <div className="admin-page">
       <input type="checkbox" id="navbar-toggle" style={{ display: "none" }} />
@@ -82,27 +93,24 @@ const OrderManagement = () => {
         </section>
         <OrderTable
           orders={orders}
-          onView={handleViewDetail}
-          onEdit={(order) => {
-            setSelectedOrder(order);
-            setShowFormModal(true);
-          }}
-          onUpdateStatus={handleUpdateStatus}
+          onEdit={handleEdit}
+          onViewDetails={handleViewDetails}
+          onDelete={handleDeleteOrder}
         />
       </div>
 
       <OrderFormModal
-        show={showFormModal}
-        onClose={() => setShowFormModal(false)}
-        order={selectedOrder}
-        onSave={handleSaveOrder}
+        isOpen={showFormModal}
+        onClose={handleFormClose}
+        onSubmit={handleFormSubmit}
+        selectedOrder={selectedOrder}
+        isEdit={isEdit}
       />
 
       <OrderDetailModal
-        show={showDetailModal}
-        onClose={() => setShowDetailModal(false)}
+        isOpen={showDetailModal}
+        onClose={handleDetailClose}
         order={selectedOrder}
-        details={orderDetails}
       />
     </div>
   );
