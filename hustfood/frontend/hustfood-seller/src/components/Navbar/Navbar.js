@@ -77,7 +77,7 @@ const Navbar = ({ active }) => {
             </li>
             <li>
               <Link to="/inventory">
-                <span className="las la-inventory"></span> Quản lý kho
+                <span className="las la-utensils"></span> Quản lý kho
               </Link>
             </li>
           </ul>

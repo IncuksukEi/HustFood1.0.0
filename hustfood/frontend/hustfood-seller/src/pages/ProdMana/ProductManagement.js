@@ -54,7 +54,7 @@ const ProductManagement = () => {
         product.category_id_uu_dai === "" || product.category_id_uu_dai === null
           ? null
           : parseInt(product.category_id_uu_dai),
-      url_img: product.url_img || "",
+      urlImg: product.urlImg || "",
     };
 
     if (editingProduct) {

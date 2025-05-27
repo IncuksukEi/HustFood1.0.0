@@ -1,27 +1,28 @@
+// IngredientManagement.js
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Header from "../../components/Header/Header";
 import IngredientsTable from "../../components/IngredientsTable/IngredientsTable";
 import IngredientsFormModal from "../../components/IngredientsFormModal/IngredientsFormModal";
 import {
-  getIngredients,
+  getAllIngredients,
   createIngredient,
-  updateIngredient
+  updateIngredient,
+  deleteIngredient,
 } from "../../services/ingremanaService";
 import "../../assets/ingremana.css";
+import { Navigate } from "react-router-dom";
 
-const IngredientsManagement = () => {
+const IngredientManagement = () => {
   const [ingredients, setIngredients] = useState([]);
-  const [showFormModal, setShowFormModal] = useState(false);
   const [selectedIngredient, setSelectedIngredient] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const fetchIngredients = async () => {
-    try {
-      const data = await getIngredients();
-      setIngredients(data);
-    } catch (error) {
-      console.error("Lỗi khi tải danh sách nguyên liệu:", error);
-    }
+    const response = await getAllIngredients();
+    console.log("Fetched ingredients:", response);
+    setIngredients(response.data);
   };
 
   useEffect(() => {
@@ -29,40 +30,37 @@ const IngredientsManagement = () => {
   }, []);
 
   const handleAddIngredient = () => {
+    setIsEditMode(false);
     setSelectedIngredient(null);
-    setShowFormModal(true);
+    setIsModalOpen(true);
   };
 
   const handleEditIngredient = (ingredient) => {
+    setIsEditMode(true);
     setSelectedIngredient(ingredient);
-    setShowFormModal(true);
+    setIsModalOpen(true);
   };
 
-//   const handleDeleteIngredient = async (id) => {
-//     try {
-//       await deleteIngredient(id);
-//       fetchIngredients();
-//     } catch (error) {
-//       console.error("Lỗi khi xoá nguyên liệu:", error);
-//     }
-//   };
-
-  const handleSaveIngredient = async (formData) => {
-    try {
-      if (selectedIngredient) {
-        await updateIngredient(selectedIngredient.id, formData);
-      } else {
-        await createIngredient(formData);
-      }
-      setShowFormModal(false);
+  const handleDeleteIngredient = async (id) => {
+    const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa nguyên liệu này?");
+    if (confirmDelete) {
+      await deleteIngredient(id);
       fetchIngredients();
-    } catch (error) {
-      console.error("Lỗi khi lưu nguyên liệu:", error);
     }
   };
 
+  const handleSubmit = async (ingredient) => {
+    if (isEditMode) {
+      await updateIngredient(ingredient.ingredientId, ingredient);
+    } else {
+      await createIngredient(ingredient);
+    }
+    setIsModalOpen(false);
+    fetchIngredients();
+  };
+
   return (
-    <div className="admin-page">
+    <div className="admin-pageIM">
       <input type="checkbox" id="navbar-toggle" style={{ display: "none" }} />
       <label htmlFor="navbar-toggle" className="body-label"></label>
       <Navbar />
@@ -77,18 +75,19 @@ const IngredientsManagement = () => {
         <IngredientsTable
           ingredients={ingredients}
           onEdit={handleEditIngredient}
-        //   onDelete={handleDeleteIngredient}
+          onDelete={handleDeleteIngredient}
         />
       </div>
 
       <IngredientsFormModal
-        show={showFormModal}
-        onClose={() => setShowFormModal(false)}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
         ingredient={selectedIngredient}
-        onSave={handleSaveIngredient}
+        isEditMode={isEditMode}
       />
     </div>
   );
 };
 
-export default IngredientsManagement;
+export default IngredientManagement;
