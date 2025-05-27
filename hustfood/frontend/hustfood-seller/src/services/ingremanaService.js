@@ -1,28 +1,32 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_BASE = "http://localhost:8080/api/ingredients";
+const API_URL = 'http://localhost:8080/api/ingredients';
 
-// Lấy token từ localStorage
 const getAuthHeaders = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   return {
     headers: {
-      Authorization: `Bearer ${token}`,
-    },
+      Authorization: `Bearer ${token}`
+    }
   };
 };
 
-export const getIngredients = async () => {
-  const response = await axios.get(API_BASE, getAuthHeaders());
-  return response.data;
+export const getAllIngredients = () => {
+  return axios.get(API_URL, getAuthHeaders());
 };
 
-export const createIngredient = async (ingredientData) => {
-  const response = await axios.post(API_BASE, ingredientData, getAuthHeaders());
-  return response.data;
+export const getIngredientById = (id) => {
+  return axios.get(`${API_URL}/${id}`, getAuthHeaders());
 };
 
-export const updateIngredient = async (id, updatedData) => {
-  const response = await axios.put(`${API_BASE}/${id}`, updatedData, getAuthHeaders());
-  return response.data;
+export const createIngredient = (ingredientData) => {
+  return axios.post(API_URL, ingredientData, getAuthHeaders());
+};
+
+export const updateIngredient = (id, ingredientData) => {
+  return axios.put(`${API_URL}/${id}`, ingredientData, getAuthHeaders());
+};
+
+export const deleteIngredient = (id) => {
+  return axios.delete(`${API_URL}/${id}`, getAuthHeaders());
 };

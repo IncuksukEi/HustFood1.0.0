@@ -258,3 +258,13 @@ main {
     left: 0;
   }
 }
+.highlighted-search {
+  background-color: yellow;
+  color: black;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.active-highlight {
+  background-color: orange !important;
+}

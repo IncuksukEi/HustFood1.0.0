@@ -18,7 +18,7 @@ const Login = () => {
       const response = await loginUser(email, password);
       if (response.status === 200) {
         // Đăng nhập thành công, token đã lưu localStorage trong loginUser
-        navigate("/analytics");  // Hoặc dashboard hoặc trang chính
+        navigate("/dashboard");  // Hoặc dashboard hoặc trang chính
       }
     } catch (error) {
       setErrorMsg("Email hoặc mật khẩu không đúng.");

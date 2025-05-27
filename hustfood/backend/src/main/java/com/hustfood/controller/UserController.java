@@ -1,12 +1,18 @@
 package com.hustfood.controller;
 
 import com.hustfood.dto.ResetPasswordRequest;
+import com.hustfood.dto.UserDTO;
 import com.hustfood.dto.UserProfileDTO;
 import com.hustfood.entity.User;
 import com.hustfood.exception.ErrorResponse;
+import com.hustfood.repository.AdUserRepository;
+import com.hustfood.repository.UserRepository;
 import com.hustfood.service.UserService;
 import com.hustfood.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +26,9 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;
+    
+    @Autowired
+    private AdUserRepository userRepository;
 
     // Lấy thông tin profile của user hiện tại
     @GetMapping("/profile")

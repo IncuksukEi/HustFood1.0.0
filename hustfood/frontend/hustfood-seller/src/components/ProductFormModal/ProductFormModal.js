@@ -11,7 +11,7 @@ const ProductFormModal = ({ show, onClose, onSubmit, editingProduct, categories 
     categoryId: "",
     category_id_combo: "",
     category_id_uu_dai: "",
-    url_img: "",
+    urlImg: "",
   });
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const ProductFormModal = ({ show, onClose, onSubmit, editingProduct, categories 
         categoryId: "",
         category_id_combo: "",
         category_id_uu_dai: "",
-        url_img: "",
+        urlImg: "",
       });
     }
   }, [editingProduct]);

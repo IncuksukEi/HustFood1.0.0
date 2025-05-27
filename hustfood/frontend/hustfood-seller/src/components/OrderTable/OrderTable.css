@@ -1,45 +1,69 @@
-.table-responsive-yeah {
+/* .order-table-wrapper {
   overflow-x: auto;
   margin-top: 1rem;
 }
 
-table {
+.order-table {
   width: 100%;
   border-collapse: collapse;
   font-family: 'Segoe UI', sans-serif;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-thead th {
-  background-color: #f4f4f4;
-  border: 1px solid #ddd;
-  padding: 10px;
+.order-table th {
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: 600;
+  padding: 12px 16px;
   text-align: left;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-tbody td {
-  border: 1px solid #ddd;
-  padding: 10px;
+.order-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 0.95rem;
+  color: #444;
 }
 
-tbody tr:nth-child(even) {
+.order-table tr:nth-child(even) {
   background-color: #fafafa;
 }
 
-tbody tr:hover {
+.order-table tr:hover {
   background-color: #f1f1f1;
-}
+} */
 
-button {
-  margin-right: 5px;
+/* .order-table button {
   padding: 6px 10px;
+  margin-right: 6px;
   border: none;
   border-radius: 4px;
+  font-size: 0.9rem;
+  color: #fff;
   cursor: pointer;
-  background-color: #007bff;
-  color: white; /* Đây là phần quan trọng */
   transition: background-color 0.2s;
 }
 
-button:hover {
-  background-color: #0056b3;
+.btn-edit {
+  background-color: #ffc107;
 }
+.btn-view {
+  background-color: #17a2b8;
+}
+.btn-delete {
+  background-color: #dc3545;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+.btn-view:hover {
+  background-color: #138496;
+}
+.btn-delete:hover {
+  background-color: #c82333;
+} */

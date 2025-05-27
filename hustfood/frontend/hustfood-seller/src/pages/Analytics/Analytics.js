@@ -67,7 +67,7 @@ function Analytics() {
               iconClass="la-envelope"
               number={totalOrders}
               label="Tổng số đơn hàng"
-              className="orders"
+              className="orders1"
             />
             <Card
               iconClass="la-shopping-cart"

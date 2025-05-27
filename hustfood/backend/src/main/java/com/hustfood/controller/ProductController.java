@@ -1,12 +1,15 @@
 package com.hustfood.controller;
 
+import com.hustfood.dto.ProductDTO;
 import com.hustfood.dto.ProductResponseDTO;
 import com.hustfood.entity.Product;
 import com.hustfood.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
