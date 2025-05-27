@@ -1,63 +1,38 @@
-import axios from 'axios';
+// src/services/ordermanaService.js
+import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:8080/api'; // Đảm bảo đúng base path khi deploy hoặc dùng proxy
+const API_BASE = "http://localhost:8080/api"; // cập nhật nếu cần
 
-// Tạo Axios instance có sẵn Authorization header
-const createAuthHeaders = () => {
-  const token = localStorage.getItem('token'); // Giả sử token được lưu sau khi đăng nhập
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+const getAuthHeader = () => {
+  const token = localStorage.getItem("token"); // token lưu tại localStorage
+  return { headers: { Authorization: `Bearer ${token}` } };
 };
 
-// ========== ORDERS ==========
-export const getOrders = async () => {
-  const response = await axios.get(`${API_BASE_URL}/orders`, createAuthHeaders());
-  return response.data;
-};
+export const fetchOrders = () =>
+  axios.get(`${API_BASE}/adorders`, getAuthHeader());
 
-export const createOrder = async (orderData) => {
-  const response = await axios.post(`${API_BASE_URL}/orders`, orderData, createAuthHeaders());
-  return response.data;
-};
+export const fetchOrderById = (orderId) =>
+  axios.get(`${API_BASE}/adorders/${orderId}`, getAuthHeader());
 
-export const updateOrderStatus = async (orderId, newStatus) => {
-  const response = await axios.patch(
-    `${API_BASE_URL}/orders/${orderId}/status`,
-    { status: newStatus },
-    createAuthHeaders()
-  );
-  return response.data;
-};
+export const fetchOrderDetails = (orderId) =>
+  axios.get(`${API_BASE}/adorders/details/${orderId}`, getAuthHeader());
 
-// ========== ORDER DETAILS ==========
-export const getAllOrderDetails = async () => {
-  const response = await axios.get(`${API_BASE_URL}/orderdetails`, createAuthHeaders());
-  return response.data;
-};
+export const fetchTotalPrice = (orderId) =>
+  axios.get(`${API_BASE}/adorders/totalPrices/${orderId}`, getAuthHeader());
 
-export const getOrderDetailsByOrderId = async (orderId) => {
-  const response = await axios.get(`${API_BASE_URL}/orderdetails/order/${orderId}`, createAuthHeaders());
-  return response.data;
-};
+export const fetchCountDetails = (orderId) =>
+  axios.get(`${API_BASE}/adorders/count-details/${orderId}`, getAuthHeader());
 
-export const getOrderDetailsByProductId = async (productId) => {
-  const response = await axios.get(`${API_BASE_URL}/orderdetails/product/${productId}`, createAuthHeaders());
-  return response.data;
-};
+export const createOrder = (orderData) =>
+  axios.post(`${API_BASE}/adorders`, orderData, getAuthHeader());
 
-export const createOrderDetail = async (orderDetailData) => {
-  const response = await axios.post(`${API_BASE_URL}/orderdetails`, orderDetailData, createAuthHeaders());
-  return response.data;
-};
+export const updateOrder = (orderId, orderData) =>
+  axios.put(`${API_BASE}/adorders/${orderId}`, orderData, getAuthHeader());
 
-export const deleteOrderDetail = async (orderDetailId) => {
-  const response = await axios.delete(`${API_BASE_URL}/orderdetails/${orderDetailId}`, createAuthHeaders());
-  return response.data;
-};
-export const getOrdersbyManagement = async () => {
-  const response = await axios.get(`${API_BASE_URL}/orders/management`, createAuthHeaders());
-  return response.data;
-};
+export const fetchUserByPhone = (phone) =>
+  axios.get(`${API_BASE}/adorders/user-by-phone/${phone}`, getAuthHeader()); // Giả sử có API này
+
+export const fetchProductByName = (name) =>
+  axios.get(`${API_BASE}/adorders/product-by-name/${name}`, getAuthHeader()); // Giả sử có API này
+export const deleteOrder = (orderId) =>
+  axios.delete(`${API_BASE}/adorders/${orderId}`, getAuthHeader());

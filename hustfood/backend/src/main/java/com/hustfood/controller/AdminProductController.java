@@ -2,7 +2,9 @@ package com.hustfood.controller;
 
 import com.hustfood.dto.ProductListResponse;
 import com.hustfood.dto.ProductCreateRequest;
+import com.hustfood.dto.ProductDTO;
 import com.hustfood.entity.Product;
+import com.hustfood.repository.AdProductRepository;
 import com.hustfood.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,6 +24,9 @@ public class AdminProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private AdProductRepository productRepository;
 
     // @GetMapping
     // public ResponseEntity<List<ProductListResponse>> getAllProducts() {
@@ -117,5 +123,4 @@ public class AdminProductController {
             );
         }
     }
-
 }

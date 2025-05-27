@@ -1,29 +1,33 @@
-// components/OrderTable.js
-import './OrderTable.css';
-
-const OrderTable = ({ orders = [], onEdit, onView }) => {
+const OrderTable = ({ orders, onEdit, onViewDetails, onDelete }) => {
   return (
-    <div className="table-responsive-yeah">
-      <table>
+    <div className="table-container">
+      <table className="custom-table">
         <thead>
           <tr>
-            <th>Mã đơn hàng</th>
             <th>Tên khách hàng</th>
             <th>Trạng thái</th>
-            <th>Giá đơn hàng</th>
+            <th>Giá</th>
+            <th>Ngày</th>
             <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(orders) && orders.map((order) => (
+          {orders.map((order) => (
             <tr key={order.orderId}>
-              <td>{order.orderId}</td>
               <td>{order.fullName}</td>
               <td>{order.status}</td>
-              <td>{Number(order.price).toLocaleString()}đ</td>
+              <td>{order.totalPrice.toLocaleString("vi-VN")}₫</td>
+              <td>{order.orderTime}</td>
               <td>
-                <button onClick={() => onEdit(order)} color = 'GREEN'>Sửa</button>
-                <button onClick={() => onView(order)} color = 'GREEN'>Chi tiết</button>
+                <button className="btn btn-edit" onClick={() => onEdit(order)}>Sửa</button>
+                <button className="btn btn-view" onClick={() => onViewDetails(order)}>Chi tiết</button>
+                <button className="btn btn-delete" onClick={() => {
+                  if (window.confirm("Bạn có chắc chắn muốn xoá đơn hàng này?")) {
+                    onDelete(order.orderId);
+                  }
+                }}>
+                  Xóa
+                </button>
               </td>
             </tr>
           ))}
