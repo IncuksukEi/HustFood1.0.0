@@ -60,7 +60,7 @@ const ProductForm = ({ product, onChange, categories }) => {
 
       <div className="pf-form-group">
         <label>Ảnh:</label>
-        <input type="text" name="url_img" value={product.url_img} onChange={onChange} className="pf-form-input" />
+        <input type="text" name="urlImg" value={product.urlImg} onChange={onChange} className="pf-form-input" />
       </div>
     </div>
   );

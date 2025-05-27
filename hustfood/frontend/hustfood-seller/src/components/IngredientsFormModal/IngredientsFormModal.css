@@ -1,0 +1,166 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: auto; /* giúp overlay có thể cuộn nếu modal cao hơn màn hình */
+}
+
+.modal {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh; /* giới hạn chiều cao modal */
+  overflow-y: auto;  /* bật thanh cuộn bên trong modal nếu quá cao */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #444;
+}
+
+input {
+  margin-top: 0.5rem;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button[type="button"] {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+button[type="button"]:hover {
+  background-color: #e0e0e0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.table-container {
+  overflow-x: auto;
+  margin: 2rem auto;
+  max-width: 1000px;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.custom-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #333;
+}
+
+.custom-table tr:hover {
+  background-color: #f0f8ff;
+}
+
+.btn {
+  padding: 0.5rem 0.8rem;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+
+.btn-edit {
+  background-color: #ffca28;
+  color: #333;
+}
+
+.btn-edit:hover {
+  background-color: #f4b400;
+}
+
+.btn-view {
+  background-color: #42a5f5;
+  color: white;
+}
+
+.btn-view:hover {
+  background-color: #1e88e5;
+}
+
+.btn-delete {
+  background-color: #ef5350;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #d32f2f;
+}

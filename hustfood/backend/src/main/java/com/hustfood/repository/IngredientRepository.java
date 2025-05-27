@@ -1,8 +1,8 @@
 // IngredientsRepository.java
 package com.hustfood.repository;
 
-import com.hustfood.entity.Ingredients;
+import com.hustfood.entity.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IngredientsRepository extends JpaRepository<Ingredients, Long> {
+public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 }

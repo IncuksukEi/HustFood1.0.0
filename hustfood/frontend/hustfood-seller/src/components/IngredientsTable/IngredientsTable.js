@@ -1,33 +1,38 @@
 import React from "react";
 
-const IngredientsTable = ({ ingredients, onEdit }) => {
+const IngredientsTable = ({ ingredients, onEdit, onDelete }) => {
   return (
     <table className="ingredients-table">
       <thead>
         <tr>
-          <th>Mã nguyên liệu</th>
           <th>Tên nguyên liệu</th>
-          {/* <th>Đơn vị</th> */}
-          <th>Số lượng</th>
-          <th>Đơn giá (kg,l/VNĐ)</th>
+          <th>Loại</th>
+          <th>Món ăn</th>
+          <th>SL/KL</th>
+          <th>Đơn vị</th>
+          <th>Đơn giá</th>
           <th>Hành động</th>
         </tr>
       </thead>
       <tbody>
-        {ingredients.map((ingredient) => (
-          <tr key={ingredient.ingredientId}>
-            <td>{ingredient.ingredientId}</td>
-            <td>{ingredient.name}</td>
-            {/* <td>{ingredient.unit}</td> */}
-            <td>{ingredient.quantity}</td>
-            <td>{ingredient.price != null ? ingredient.price.toLocaleString() + "đ" : "0đ"}</td>
-            <td>
-              <button onClick={() => onEdit(ingredient)} className="edit-btn">
-                Sửa
-              </button>
-            </td>
-          </tr>
-        ))}
+        {Array.isArray(ingredients) ? (
+          ingredients.map((ingredient) => (
+            <tr key={ingredient.ingredientId}>
+              <td>{ingredient.name}</td>
+              <td>{ingredient.type}</td>
+              <td>{ingredient.productName}</td>
+              <td>{ingredient.quantity}</td>
+              <td>{ingredient.unit}</td>
+              <td>{ingredient.price.toLocaleString()}đ</td>
+              <td>
+                <button onClick={() => onEdit(ingredient)}>Sửa</button>
+                <button onClick={() => onDelete(ingredient.ingredientId)}>Xóa</button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr><td colSpan="7">Không có dữ liệu nguyên liệu</td></tr>
+        )}
       </tbody>
     </table>
   );

@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import OrderManagement from './pages/OrdersMana/OrdersManagement';
 import ProductManagement from './pages/ProdMana/ProductManagement';
 import Login from "./pages/Login/Login";
-import IngredientsManagement from './pages/IngreMana/IngredientsManagement';
+import IngredientsManagement from './pages/IngreMana/IngredientManagement';
 function App() {
   return (
     <Router>
