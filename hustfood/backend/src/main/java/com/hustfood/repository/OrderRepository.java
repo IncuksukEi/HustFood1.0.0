@@ -54,6 +54,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         @Query("SELECT COUNT(o) FROM Order o WHERE o.status = com.hustfood.entity.Order.Status.CANCELLED")
         long countCancelledOrders();
 
-        @Query("SELECT o.id, u.fullName, o.status, o.totalPrice FROM Order o JOIN o.user u")
+        @Query("SELECT o.orderId, u.fullName, o.status, o.totalPrice FROM Order o JOIN o.user u")
         List<Object[]> findOrdersWithUserInfo();
 }
