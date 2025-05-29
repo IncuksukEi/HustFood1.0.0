@@ -1,4 +1,3 @@
-// IngredientsRepository.java
 package com.hustfood.repository;
 
 import com.hustfood.entity.Ingredient;

@@ -25,9 +25,9 @@ public class AdOrderService {
     private final AdUserRepository userRepository;
 
     public List<AdOrderResponseDTO> getAllOrders() {
-        return orderRepository.findAll().stream()
-            .map(this::convertToDto)
-            .collect(Collectors.toList());
+        return orderRepository.findAllSorted().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     public AdOrderResponseDTO getOrderById(Long id) {
