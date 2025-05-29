@@ -11,7 +11,7 @@ import {
   deleteIngredient,
 } from "../../services/ingremanaService";
 import "../../assets/ingremana.css";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 
 const IngredientManagement = () => {
   const [ingredients, setIngredients] = useState([]);
