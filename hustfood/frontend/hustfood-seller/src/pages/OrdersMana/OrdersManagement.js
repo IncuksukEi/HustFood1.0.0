@@ -11,7 +11,7 @@ import OrderTable from "../../components/OrderTable/OrderTable";
 import OrderFormModal from "../../components/OrderFormModal/OrderFormModel";
 import OrderDetailModal from "../../components/OrderDetailModel/OrderDetailModel";
 import "../../assets/ordersmana.css";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
