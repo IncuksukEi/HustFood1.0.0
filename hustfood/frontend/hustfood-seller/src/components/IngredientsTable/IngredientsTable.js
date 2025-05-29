@@ -1,4 +1,4 @@
-import React from "react";
+import './IngredientsTable.css';
 
 const IngredientsTable = ({ ingredients, onEdit, onDelete }) => {
   return (

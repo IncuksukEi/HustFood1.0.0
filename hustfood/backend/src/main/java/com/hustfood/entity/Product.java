@@ -51,5 +51,7 @@ public class Product {
     @JsonIgnore  
     private List<OrderDetail> orderDetails;
 
-
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Inventory> inventories;
 }
