@@ -24,7 +24,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
     JOIN od.order o
     JOIN od.product p
     WHERE o.status <> com.hustfood.entity.Order.Status.CANCELLED
-      AND (p.category_id_combo = 3 OR p.category_id_combo = 4)
+      AND (p.category_id_combo = 4)
 """)
     BigDecimal getComboRevenue();
 
@@ -36,10 +36,12 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
     )
     FROM OrderDetail od
     JOIN od.product p
+    JOIN od.order o
+    WHERE o.status <> com.hustfood.entity.Order.Status.CANCELLED
     GROUP BY p.productId, p.name
 """)
     List<ProductSalesDTO> getProductSalesReport();
 
-    @Query("SELECT COALESCE(SUM(od.quantity), 0) FROM OrderDetail od")
+    @Query("SELECT COALESCE(SUM(od.quantity), 0) FROM OrderDetail od JOIN od.order o where o.status <> com.hustfood.entity.Order.Status.CANCELLED")
     Long getTotalQuantitySold();
 }

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -53,7 +54,7 @@ public class OrderService {
         Order order = new Order();
         order.setUserId(userId);
         order.setOrderAddress(orderAddress);
-        // KHÔNG set orderTime — để DB tự xử lý
+        order.setOrderTime(LocalDateTime.now());
 
         for (OrderRequestDTO.OrderItemDTO item : orderRequest.getItems()) {
             Long productId = item.getProductId();
