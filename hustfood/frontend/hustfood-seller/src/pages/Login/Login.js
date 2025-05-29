@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/authService";
 import "./Login.css";
+import { jwtDecode } from "jwt-decode"; // ✅ dùng named import
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,12 +17,23 @@ const Login = () => {
 
     try {
       const response = await loginUser(email, password);
+
       if (response.status === 200) {
-        // Đăng nhập thành công, token đã lưu localStorage trong loginUser
-        navigate("/dashboard");  // Hoặc dashboard hoặc trang chính
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Không tìm thấy token.");
+        }
+
+        const decoded = jwtDecode(token); // ✅ sửa tại đây
+        if (decoded.role === "ADMIN") {
+          navigate("/dashboard");
+        } else {
+          localStorage.removeItem("token");
+          setErrorMsg("Tài khoản không có quyền truy cập.");
+        }
       }
     } catch (error) {
-      setErrorMsg("Email hoặc mật khẩu không đúng.");
+      if (!errorMsg) setErrorMsg("Email hoặc mật khẩu không đúng.");
       console.error("Login error:", error);
     }
   };
