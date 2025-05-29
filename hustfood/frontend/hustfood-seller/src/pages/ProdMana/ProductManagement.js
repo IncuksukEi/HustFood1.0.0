@@ -11,6 +11,7 @@ import {
 } from "../../services/prodmanaService";
 import axios from "axios";
 import "../../assets/prodmana.css";
+import { Navigate } from "react-router-dom";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -20,6 +21,9 @@ const ProductManagement = () => {
 
   const fetchProducts = async () => {
     try {
+      if (!localStorage.getItem("token")) {
+          return Navigate("/login");
+        }
       const data = await getAllProducts();
       setProducts(data);
     } catch (err) {

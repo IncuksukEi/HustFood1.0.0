@@ -53,7 +53,7 @@ export default function Cards() {
     },
     {
       title: "Combo",
-      subtitle: "Doanh thu các combo",
+      subtitle: "Doanh thu combo nhóm",
       // value: cardValues.combo.toLocaleString("vi-VN") + "k",
       value: (cardValues.combo/1000).toLocaleString("vi-VN") + " kđ",
       trend: "",

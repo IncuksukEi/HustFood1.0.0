@@ -268,3 +268,39 @@ main {
 .active-highlight {
   background-color: orange !important;
 }
+/* .highlighted-search {
+  background-color: yellow;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+.active-highlight {
+  background-color: orange !important;
+  outline: 2px solid #f90;
+}
+
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search input {
+  padding-right: 70px;
+}
+
+.search-navigation {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 50px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+} */

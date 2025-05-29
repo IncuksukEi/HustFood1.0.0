@@ -25,7 +25,7 @@ const ProductTableNew = ({ products, categories, onEdit, onDelete }) => {
             return (
               <tr key={`${keyPrefix}-${product.productId}`}>
                 <td>{product.name}</td>
-                <td>{product.category_id_uu_dai ? "Có" : "Không"}</td>
+                <td>{product.category_id_uu_dai ? "Y" : ""}</td>
                 <td>{product.price.toLocaleString()}₫</td>
                 <td>{categoryName}</td>
                 <td>{product.stock}</td>
