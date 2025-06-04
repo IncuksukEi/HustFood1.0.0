@@ -43,7 +43,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/products/**",
                                 "/api/categories/**",
-                                "/api/auth/**"
+                                "/api/auth/**",
+                                "/api/chatbot/**"
                         ).permitAll()
                         // Admin-only APIs
                         .requestMatchers("/api/admin/products/**","/api/analytics/**").hasRole("ADMIN")
@@ -71,7 +72,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3001"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000", "http://localhost:3001"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
