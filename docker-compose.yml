@@ -6,85 +6,69 @@ services:
     image: mysql:8.0
     container_name: hustfood-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-hustfood}
-      MYSQL_USER: ${MYSQL_USER:-hustfood}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-hustfood}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: hustfood
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
       - hustfood-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   # Qdrant Vector Database
   qdrant:
-    image: qdrant/qdrant
+    image: qdrant/qdrant:latest
     container_name: hustfood-qdrant
     ports:
-      - "6334:6334"
       - "6333:6333"
+      - "6334:6334"
     volumes:
       - qdrant_data:/qdrant/storage
     networks:
       - hustfood-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
-  # Backend Spring Boot
+  # Backend Service
   backend:
     build:
       context: ./hustfood/backend
       dockerfile: Dockerfile
     container_name: hustfood-backend
+    depends_on:
+      - mysql
+      - qdrant
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-hustfood}?useSSL=false&serverTimezone=UTC
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER:-hustfood}
-      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:-hustfood}
-      - OPENAI_API_KEY=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
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/hustfood
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_API_URL=${OPENAI_API_URL}
+      - OPENAI_MODEL=${OPENAI_MODEL}
+      - OPENAI_EMBEDDING_MODEL=${OPENAI_EMBEDDING_MODEL}
+      - OPENAI_TEMPERATURE=${OPENAI_TEMPERATURE}
+      - OPENAI_MAX_TOKENS=${OPENAI_MAX_TOKENS}
       - QDRANT_HOST=qdrant
-      - QDRANT_PORT=6334
-      - SPRING_PROFILES_ACTIVE=prod
+      - QDRANT_PORT=6333
+      - QDRANT_COLLECTION=${QDRANT_COLLECTION}
+      - QDRANT_VECTOR_SIZE=${QDRANT_VECTOR_SIZE}
     ports:
       - "8080:8080"
-    depends_on:
-      mysql:
-        condition: service_healthy
-      qdrant:
-        condition: service_healthy
     networks:
       - hustfood-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
-  # Frontend React
+  # Frontend Service
   frontend:
     build:
       context: ./hustfood/frontend
       dockerfile: Dockerfile
     container_name: hustfood-frontend
-    ports:
-      - "80:80"
     depends_on:
       - backend
+    ports:
+      - "80:80"
     networks:
       - hustfood-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 networks:
   hustfood-network:
@@ -92,6 +76,4 @@ networks:
 
 volumes:
   mysql_data:
-    name: hustfood-mysql-data
-  qdrant_data:
-    name: hustfood-qdrant-data 
+  qdrant_data: 
