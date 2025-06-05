@@ -14,6 +14,7 @@ import General from './pages/General/General' //Chinh sach chung (thuoc Footer)
 import History from './pages/History/History';
 import Reset from './pages/Reset/Reset';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import Chatbot from './components/Chatbot';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/history" element={<History />} />            { /*created*/ }
         <Route path="/reset-password" element={<Reset />} />       { /*created*/ }
       </Routes>
+      <Chatbot />
     </Router>
   );
 }
