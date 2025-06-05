@@ -8,6 +8,7 @@ import com.hustfood.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.authentication.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,18 +52,30 @@ public class AuthController {
     public ResponseEntity<?> adminLogin(@RequestBody LoginRequest request) {
         Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
 
-        if (userOpt.isEmpty() || !userOpt.get().getRole().name().equals("ADMIN")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Admin account required");
-        }
-
-        try {
-            authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email hoặc mật khẩu không đúng");
         }
 
         User user = userOpt.get();
+
+        if (!user.getRole().name().equals("ADMIN")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tài khoản không có quyền ADMIN");
+        }
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getHashedPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email hoặc mật khẩu không đúng");
+        }
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                request.getEmail(), request.getPassword()
+        );
+
+        try {
+            authManager.authenticate(authentication);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email hoặc mật khẩu không đúng");
+        }
+
         String token = jwtUtil.generateToken(user);
         return ResponseEntity.ok(new LoginResponse(token, user.getRole().name()));
     }
