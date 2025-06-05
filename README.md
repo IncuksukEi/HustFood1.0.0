@@ -41,6 +41,47 @@ HustFood là một hệ thống đặt món ăn trực tuyến được phát tr
 - Docker & Docker Compose
 - OpenAI API Key
 
+## Cấu hình môi trường
+
+1. Copy file `.env.example` thành `.env`:
+```bash
+cp .env.example .env
+```
+
+2. Cập nhật các biến môi trường trong file `.env` với giá trị thực tế của bạn:
+- DB_USERNAME: Tên người dùng MySQL
+- DB_PASSWORD: Mật khẩu MySQL
+- JWT_SECRET: Khóa bí mật cho JWT
+- OPENAI_API_KEY: API key của OpenAI
+
+## Chạy dự án với Docker
+
+1. Đảm bảo đã cài đặt Docker và Docker Compose
+
+2. Chạy lệnh sau để khởi động tất cả các service:
+```bash
+docker-compose up --build
+```
+
+3. Truy cập ứng dụng:
+- Frontend: http://localhost
+- Backend API: http://localhost:8080
+
+## Cấu trúc dự án
+
+- Frontend: React.js
+- Backend: Spring Boot
+- Database: MySQL
+- Vector Database: Qdrant
+- AI: OpenAI GPT-3.5
+
+## Bảo mật
+
+- Không đẩy file `.env` lên git
+- Sử dụng biến môi trường cho các thông tin nhạy cảm
+- Mã hóa mật khẩu người dùng
+- Sử dụng JWT cho xác thực
+
 ## Cài đặt
 
 ### 1. Clone repository
@@ -49,25 +90,7 @@ git clone https://github.com/your-username/hustfood.git
 cd hustfood
 ```
 
-### 2. Cấu hình môi trường
-```bash
-# Copy file .env.example thành .env
-cp .env.example .env
-
-# Chỉnh sửa các biến môi trường trong .env
-nano .env
-```
-
-### 3. Chạy với Docker
-```bash
-# Build và chạy các containers
-docker-compose up --build
-
-# Chạy ở chế độ background
-docker-compose up -d
-```
-
-### 4. Chạy thủ công
+### 2. Chạy thủ công
 
 #### Backend
 ```bash
