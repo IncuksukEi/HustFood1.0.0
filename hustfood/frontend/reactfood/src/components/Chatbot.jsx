@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import React, { useState, useRef, useEffect } from 'react';
+import { FaRobot, FaTimes, FaPaperPlane } from 'react-icons/fa';
 import './Chatbot.css';
 
 const Chatbot = () => {
-    const [messages, setMessages] = useState([]);
-    const [input, setInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [messages, setMessages] = useState([]);
+    const [inputMessage, setInputMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -17,71 +17,117 @@ const Chatbot = () => {
         scrollToBottom();
     }, [messages]);
 
-    const sendMessage = async () => {
-        if (!input.trim()) return;
+    const handleSendMessage = async () => {
+        if (!inputMessage.trim()) return;
 
-        const userMessage = input;
-        setInput('');
-        setMessages(prev => [...prev, { type: 'user', content: userMessage }]);
+        const userMessage = {
+            message: inputMessage,
+            isUser: true,
+            timestamp: new Date().toLocaleTimeString()
+        };
+
+        setMessages(prev => [...prev, userMessage]);
+        setInputMessage('');
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/chatbot/message', {
-                content: userMessage,
-                sessionId: 'user-session-' + Date.now()
+            const response = await fetch('http://localhost:8080/api/chat/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: inputMessage }),
             });
 
-            setMessages(prev => [...prev, { type: 'bot', content: response.data }]);
+            const data = await response.json();
+            
+            const botMessage = {
+                message: data.response,
+                isUser: false,
+                timestamp: new Date().toLocaleTimeString()
+            };
+
+            setMessages(prev => [...prev, botMessage]);
         } catch (error) {
             console.error('Error:', error);
-            setMessages(prev => [...prev, { 
-                type: 'error', 
-                content: 'Sorry, I encountered an error. Please try again.' 
-            }]);
+            const errorMessage = {
+                message: 'Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.',
+                isUser: false,
+                timestamp: new Date().toLocaleTimeString()
+            };
+            setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
         }
     };
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    };
+
     return (
-        <div className="chatbot-wrapper">
+        <div className="chatbot-container">
             {!isOpen && (
                 <button 
                     className="chatbot-button"
                     onClick={() => setIsOpen(true)}
                 >
-                    <i className="fas fa-comments"></i>
-                    Chat with us
+                    <FaRobot />
                 </button>
             )}
 
             {isOpen && (
-                <div className="chatbot-container">
+                <div className="chatbot-window">
                     <div className="chatbot-header">
-                        <h3>HustFood Assistant</h3>
+                        <div className="chatbot-title">
+                            <FaRobot className="chatbot-icon" />
+                            <span>HustFood Assistant</span>
+                        </div>
                         <button 
                             className="close-button"
                             onClick={() => setIsOpen(false)}
                         >
-                            ×
+                            <FaTimes />
                         </button>
                     </div>
 
                     <div className="chatbot-messages">
-                        {messages.map((msg, index) => (
-                            <div 
-                                key={index} 
-                                className={`message ${msg.type}`}
-                            >
-                                {msg.content}
+                        {messages.length === 0 ? (
+                            <div className="welcome-message">
+                                Xin chào! Tôi là trợ lý ảo của HustFood. 
+                                Tôi có thể giúp bạn tìm hiểu về:
+                                <ul>
+                                    <li>Thông tin sản phẩm</li>
+                                    <li>Thông tin nguyên liệu</li>
+                                    <li>Thông tin đơn hàng</li>
+                                </ul>
                             </div>
-                        ))}
+                        ) : (
+                            messages.map((msg, index) => (
+                                <div 
+                                    key={index} 
+                                    className={`message ${msg.isUser ? 'user-message' : 'bot-message'}`}
+                                >
+                                    <div className="message-content">
+                                        {msg.message}
+                                    </div>
+                                    <div className="message-timestamp">
+                                        {msg.timestamp}
+                                    </div>
+                                </div>
+                            ))
+                        )}
                         {isLoading && (
-                            <div className="message bot loading">
-                                <div className="typing-indicator">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
+                            <div className="message bot-message">
+                                <div className="message-content">
+                                    <div className="typing-indicator">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -89,19 +135,18 @@ const Chatbot = () => {
                     </div>
 
                     <div className="chatbot-input">
-                        <input
-                            type="text"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                            placeholder="Type your message..."
-                            disabled={isLoading}
+                        <textarea
+                            value={inputMessage}
+                            onChange={(e) => setInputMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            placeholder="Nhập tin nhắn của bạn..."
+                            rows="1"
                         />
                         <button 
-                            onClick={sendMessage}
-                            disabled={isLoading}
+                            onClick={handleSendMessage}
+                            disabled={!inputMessage.trim() || isLoading}
                         >
-                            Send
+                            <FaPaperPlane />
                         </button>
                     </div>
                 </div>
