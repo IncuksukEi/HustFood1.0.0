@@ -38,7 +38,7 @@ export default function Cards() {
     {
       title: "Doanh thu",
       subtitle: "Doanh thu bán hàng",
-      value: (cardValues.revenue/1000).toLocaleString("vi-VN") + " kđ",
+      value: (cardValues.revenue/1000).toLocaleString("vi-VN") + " Tr",
       // value: cardValues.revenue,
       trend: "",
       className: "danger",
@@ -46,7 +46,7 @@ export default function Cards() {
     {
       title: "Hủy đơn",
       subtitle: "Giá trị của đơn hàng bị hủy",
-      value: (cardValues.cancelled/1000).toLocaleString("vi-VN") + " kđ", 
+      value: (cardValues.cancelled/1000).toLocaleString("vi-VN") + " Tr", 
       // value: cardValues.cancelled,
       trend: "",
       className: "success",
@@ -55,7 +55,7 @@ export default function Cards() {
       title: "Combo",
       subtitle: "Doanh thu combo nhóm",
       // value: cardValues.combo.toLocaleString("vi-VN") + "k",
-      value: (cardValues.combo/1000).toLocaleString("vi-VN") + " kđ",
+      value: (cardValues.combo/1000).toLocaleString("vi-VN") + " Tr",
       trend: "",
       className: "yellow",
     },
