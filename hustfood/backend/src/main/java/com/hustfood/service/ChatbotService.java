@@ -1,81 +1,115 @@
 package com.hustfood.service;
 
-import com.hustfood.entity.Product;
-import com.hustfood.entity.User;
-import com.hustfood.repository.ProductRepository;
-import com.hustfood.repository.UserRepository;
-import com.theokanning.openai.completion.chat.ChatCompletionRequest;
-import com.theokanning.openai.completion.chat.ChatMessage;
-import com.theokanning.openai.service.OpenAiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
+import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ChatbotService {
+    private static final Logger logger = LoggerFactory.getLogger(ChatbotService.class);
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final OpenAiService openAiService;
-    private final ProductRepository productRepository;
-    private final UserRepository userRepository;
+    private final RestTemplate restTemplate;
+    private final String apiKey;
+    private final String apiUrl;
 
     @Autowired
-    public ChatbotService(OpenAiService openAiService,
-                         ProductRepository productRepository,
-                         UserRepository userRepository) {
-        this.openAiService = openAiService;
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
-    }
-
-    public String processMessage(String message, String sessionId) {
-        // Lấy context từ database
-        List<Product> products = productRepository.findAll();
-
-        // Tạo system prompt với context
-        String systemPrompt = String.format("""
-            You are a helpful food ordering assistant for HustFood, a food delivery service at Hanoi University of Science and Technology.
-            Available products: %s
-            
-            Your role is to:
-            1. Help users find and order food from our menu
-            2. Provide accurate information about prices and availability
-            3. Explain our ordering process and delivery options
-            4. Handle special requests and dietary requirements
-            5. Assist with order tracking and support
-            
-            Guidelines:
-            - Always be polite and professional
-            - Keep responses concise and clear
-            - If you're unsure about something, say so
-            - For order-specific questions, guide users to check their order history
-            - For payment issues, direct users to our payment support
-            
-            Current menu and prices are as follows:
-            %s
-            """, products, formatProducts(products));
-
-        // Gọi OpenAI API
-        ChatCompletionRequest request = ChatCompletionRequest.builder()
-            .model("gpt-3.5-turbo")
-            .messages(Arrays.asList(
-                new ChatMessage("system", systemPrompt),
-                new ChatMessage("user", message)
-            ))
-            .build();
-
-        return openAiService.createChatCompletion(request)
-            .getChoices().get(0).getMessage().getContent();
-    }
-
-    private String formatProducts(List<Product> products) {
-        StringBuilder sb = new StringBuilder();
-        for (Product product : products) {
-            sb.append(String.format("- %s: %s VND\n", 
-                product.getName(), 
-                product.getPrice()));
+    public ChatbotService(RestTemplate restTemplate,
+                         @Value("${openai.api.key}") String apiKey,
+                         @Value("${openai.api.url}") String apiUrl) {
+        this.restTemplate = restTemplate;
+        this.apiKey = apiKey;
+        this.apiUrl = apiUrl;
+        logger.info("ChatbotService initialized with API URL: {}", apiUrl);
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            logger.error("OpenAI API key is not configured");
+        } else {
+            logger.info("API Key is configured (length: {})", apiKey.length());
+            logger.debug("API Key first 8 chars: {}", apiKey.substring(0, Math.min(8, apiKey.length())));
         }
-        return sb.toString();
+    }
+
+    public String ask(String userMessage) {
+        if (userMessage == null || userMessage.trim().isEmpty()) {
+            return "Xin lỗi, tôi không hiểu câu hỏi của bạn.";
+        }
+
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            logger.error("OpenAI API key is not configured");
+            return "Xin lỗi, dịch vụ chatbot đang được bảo trì. Vui lòng thử lại sau.";
+        }
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            String trimmedApiKey = apiKey.trim();
+            headers.setBearerAuth(trimmedApiKey);
+            logger.debug("Using API Key: {}...{}", 
+                trimmedApiKey.substring(0, Math.min(8, trimmedApiKey.length())),
+                trimmedApiKey.substring(trimmedApiKey.length() - 4));
+
+            List<Map<String, String>> messages = new ArrayList<>();
+            
+            Map<String, String> systemMessage = new HashMap<>();
+            systemMessage.put("role", "system");
+            systemMessage.put("content", "Bạn là trợ lý ảo của nhà hàng HustFood. Hãy trả lời ngắn gọn, thân thiện và bằng tiếng Việt.");
+            messages.add(systemMessage);
+            
+            Map<String, String> userMessageMap = new HashMap<>();
+            userMessageMap.put("role", "user");
+            userMessageMap.put("content", userMessage);
+            messages.add(userMessageMap);
+
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("model", "gpt-3.5-turbo");
+            requestBody.put("messages", messages);
+            requestBody.put("temperature", 0.7);
+
+            logger.debug("Sending request to OpenAI API: {}", objectMapper.writeValueAsString(requestBody));
+
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+            Map<String, Object> response = restTemplate.postForObject(apiUrl, request, Map.class);
+            
+            logger.debug("Received response from OpenAI API: {}", objectMapper.writeValueAsString(response));
+
+            if (response != null && response.containsKey("choices")) {
+                List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
+                if (!choices.isEmpty()) {
+                    Map<String, Object> choice = choices.get(0);
+                    Map<String, String> message = (Map<String, String>) choice.get("message");
+                    return message.get("content");
+                }
+            }
+            
+            logger.error("Invalid response format from OpenAI API: {}", response);
+            return "Xin lỗi, tôi không thể xử lý câu hỏi của bạn lúc này.";
+        } catch (Exception e) {
+            logger.error("Error calling OpenAI API: {}", e.getMessage());
+            
+            // Handle specific error cases
+            if (e.getMessage().contains("insufficient_quota")) {
+                logger.error("OpenAI API quota exceeded. Please check billing details.");
+                return "Xin lỗi, dịch vụ chatbot đang tạm thời không khả dụng do vượt quá giới hạn sử dụng. Vui lòng thử lại sau.";
+            } else if (e.getMessage().contains("401")) {
+                logger.error("OpenAI API authentication failed. Please check API key.");
+                return "Xin lỗi, dịch vụ chatbot đang gặp vấn đề xác thực. Vui lòng thử lại sau.";
+            } else if (e.getMessage().contains("429")) {
+                logger.error("OpenAI API rate limit exceeded.");
+                return "Xin lỗi, dịch vụ chatbot đang quá tải. Vui lòng thử lại sau một lát.";
+            }
+            
+            return "Xin lỗi, có lỗi xảy ra khi xử lý câu hỏi của bạn. Vui lòng thử lại sau.";
+        }
     }
 } 
