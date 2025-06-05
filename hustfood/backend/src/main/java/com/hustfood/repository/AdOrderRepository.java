@@ -16,6 +16,6 @@ public interface AdOrderRepository extends JpaRepository<Order, Long> {
             "  WHEN 'RECEIVED' THEN 4 " +
             "  WHEN 'CANCELLED' THEN 5 " +
             "  ELSE 6 END, " +
-            "o.orderTime DESC")
+            "o.orderTime ASC")
     List<Order> findAllSorted();
 }
