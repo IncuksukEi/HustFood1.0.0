@@ -35,6 +35,7 @@ public class OrderService {
     @Autowired
     UserRepository userRepository;
 
+    @Transactional
     public void placeOrder(Long userId, OrderRequestDTO orderRequest) {
         if (orderRequest.getItems() == null || orderRequest.getItems().isEmpty()) {
             throw new IllegalStateException("Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm trước khi đặt hàng.");
@@ -46,7 +47,6 @@ public class OrderService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID: " + userId));
 
-        // Lấy địa chỉ từ request nếu có, ngược lại dùng địa chỉ của user
         String orderAddress = (orderRequest.getAddress() != null && !orderRequest.getAddress().trim().isEmpty())
                 ? orderRequest.getAddress()
                 : user.getAddress();
@@ -62,6 +62,16 @@ public class OrderService {
 
             Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm ID: " + productId));
+
+            // Kiểm tra tồn kho
+            if (quantity > product.getStock()) {
+                throw new IllegalStateException("Sản phẩm '" + product.getName() + "' không đủ hàng trong kho. Hiện còn " + product.getStock());
+            }
+
+            // Cập nhật lại tồn kho
+            product.setStock(product.getStock() - quantity);
+            product.setSoldQuantity(product.getSoldQuantity() + quantity);
+            productRepository.save(product); // lưu cập nhật
 
             BigDecimal itemTotal = product.getPrice().multiply(BigDecimal.valueOf(quantity));
             total = total.add(itemTotal);
@@ -83,7 +93,6 @@ public class OrderService {
 
         cartRepository.deleteByUserId(userId);
     }
-
 
 
 
@@ -152,6 +161,7 @@ public class OrderService {
     public List<ProductSalesDTO> getProductSalesReport() {
         return orderDetailRepository.getProductSalesReport();
     }
+
     public void updateOrderStatus(Long orderId, String statusStr, User user) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
@@ -206,4 +216,5 @@ public class OrderService {
             return new OrderManagementDTO(orderId, fullName, status, price);
         }).toList();
     }
+
 }
