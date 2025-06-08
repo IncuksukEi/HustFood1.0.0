@@ -150,7 +150,7 @@ const Footer = () => {
       </div>
       <div className="footer__bottom">
         <div className="grid">
-          <p className="footer__text">Bản quyền thuộc về nhóm 24</p>
+          <p className="footer__text">Bản quyền thuộc về nhóm 5</p>
         </div>
       </div>
     </footer>
