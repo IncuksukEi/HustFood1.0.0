@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
 
 @Service
 public class ChatbotService {
@@ -24,16 +25,25 @@ public class ChatbotService {
     private final String apiKey;
     private final String apiUrl;
     private final RAGService ragService;
+    private final String qdrantHost;
+    private final int qdrantPort;
+    private final String COLLECTION_NAME;
 
     @Autowired
     public ChatbotService(RestTemplate restTemplate,
                          @Value("${openai.api.key}") String apiKey,
                          @Value("${openai.api.url}") String apiUrl,
-                         RAGService ragService) {
+                         RAGService ragService,
+                         @Value("${qdrant.host}") String qdrantHost,
+                         @Value("${qdrant.port}") int qdrantPort,
+                         @Value("${qdrant.collection.name}") String COLLECTION_NAME) {
         this.restTemplate = restTemplate;
         this.apiKey = apiKey;
         this.apiUrl = apiUrl;
         this.ragService = ragService;
+        this.qdrantHost = qdrantHost;
+        this.qdrantPort = qdrantPort;
+        this.COLLECTION_NAME = COLLECTION_NAME;
         logger.info("ChatbotService initialized with API URL: {}", apiUrl);
         if (apiKey == null || apiKey.trim().isEmpty()) {
             logger.error("OpenAI API key is not configured");
@@ -90,7 +100,8 @@ public class ChatbotService {
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("model", "gpt-3.5-turbo");
             requestBody.put("messages", messages);
-            requestBody.put("temperature", 0.7);
+            requestBody.put("temperature", 0.1);
+            requestBody.put("max_tokens", 150);
 
             logger.debug("Sending request to OpenAI API: {}", objectMapper.writeValueAsString(requestBody));
 
@@ -126,6 +137,25 @@ public class ChatbotService {
             }
             
             return "Xin lỗi, có lỗi xảy ra khi xử lý câu hỏi của bạn. Vui lòng thử lại sau.";
+        }
+    }
+
+    private void verifyData() {
+        try {
+            String qdrantUrl = String.format("http://%s:%d", qdrantHost, qdrantPort);
+            ResponseEntity<Map> response = restTemplate.getForEntity(
+                qdrantUrl + "/collections/" + COLLECTION_NAME + "/points?limit=10",
+                Map.class
+            );
+            
+            List<Map<String, Object>> points = (List<Map<String, Object>>) response.getBody().get("result");
+            for (Map<String, Object> point : points) {
+                Map<String, Object> payload = (Map<String, Object>) point.get("payload");
+                String text = (String) payload.get("text");
+                logger.info("Verifying data: {}", text);
+            }
+        } catch (Exception e) {
+            logger.error("Failed to verify data: {}", e.getMessage());
         }
     }
 } 

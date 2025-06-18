@@ -34,14 +34,23 @@ public class RAGService {
         try {
             // 1. Tối ưu query
             String optimizedQuery = optimizeQuery(query);
+            logger.info("Optimized query: {}", optimizedQuery);
+            
             float[] queryVector = generateEmbedding(optimizedQuery);
             
-            // 2. Tìm kiếm với score threshold cao hơn
+            // 2. Tìm kiếm với score threshold
             String qdrantUrl = String.format("http://%s:%d", qdrantHost, qdrantPort);
             Map<String, Object> searchRequest = new HashMap<>();
             searchRequest.put("vector", queryVector);
-            searchRequest.put("limit", 3); // Giảm số lượng kết quả
-            searchRequest.put("score_threshold", 0.8); // Tăng ngưỡng độ tương đồng
+            searchRequest.put("limit", 5); // Tăng số lượng kết quả
+            searchRequest.put("score_threshold", 0.7); // Giảm ngưỡng để lấy nhiều kết quả hơn
+            
+            // 3. Thêm filter nếu cần
+            if (query.toLowerCase().contains("gà rán") || query.toLowerCase().contains("gà quay")) {
+                Map<String, Object> filter = new HashMap<>();
+                filter.put("category_id", 5); // ID của danh mục Gà Rán - Gà Quay
+                searchRequest.put("filter", filter);
+            }
             
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -53,31 +62,23 @@ public class RAGService {
                 Map.class
             );
             
-            if (response.getBody() == null || !response.getBody().containsKey("result")) {
-                logger.warn("No results found in Qdrant for query: {}", query);
-                return Collections.emptyList();
-            }
-            
-            // 3. Extract và format kết quả
+            // 4. Extract và format kết quả
             List<Map<String, Object>> results = (List<Map<String, Object>>) response.getBody().get("result");
             return results.stream()
                 .map(result -> {
                     Map<String, Object> payload = (Map<String, Object>) result.get("payload");
-                    if (payload != null) {
-                        String text = (String) payload.get("text");
-                        Double score = (Double) result.get("score");
-                        // Chỉ lấy kết quả có độ tương đồng cao
-                        if (score != null && score >= 0.8) {
-                            return text;
-                        }
-                    }
-                    return null;
+                    Double score = (Double) result.get("score");
+                    String text = payload != null ? (String) payload.get("text") : null;
+                    
+                    logger.info("Retrieved chunk - Score: {}, Text: {}", score, text);
+                    
+                    return text;
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
                 
         } catch (Exception e) {
-            logger.error("Error retrieving context from Qdrant: {}", e.getMessage(), e);
+            logger.error("Error retrieving context: {}", e.getMessage(), e);
             return Collections.emptyList();
         }
     }
@@ -157,6 +158,7 @@ public class RAGService {
         if (contexts.isEmpty()) {
             prompt.append("Xin lỗi, tôi không tìm thấy thông tin liên quan đến câu hỏi của bạn.\n");
         } else {
+            prompt.append("Danh sách sản phẩm trong danh mục Gà Rán - Gà Quay:\n");
             for (String context : contexts) {
                 prompt.append("- ").append(context).append("\n");
             }
@@ -164,10 +166,15 @@ public class RAGService {
         
         prompt.append("\nCâu hỏi: ").append(query);
         prompt.append("\n\nLưu ý quan trọng:");
-        prompt.append("\n1. Chỉ trả lời dựa trên thông tin được cung cấp ở trên.");
-        prompt.append("\n2. Nếu không có thông tin liên quan, hãy nói 'Xin lỗi, tôi không có thông tin về điều này'.");
+        prompt.append("\n1. Chỉ liệt kê các sản phẩm có trong thông tin được cung cấp ở trên.");
+        prompt.append("\n2. Với mỗi sản phẩm, hãy nêu rõ:");
+        prompt.append("\n   - Tên sản phẩm");
+        prompt.append("\n   - Giá tiền");
+        prompt.append("\n   - Mô tả ngắn gọn");
         prompt.append("\n3. Trả lời ngắn gọn, chính xác và bằng tiếng Việt.");
         prompt.append("\n4. Nếu có giá, hãy trả lời đúng giá như trong thông tin.");
+        prompt.append("\n5. KHÔNG được thêm thông tin không có trong dữ liệu được cung cấp.");
+        prompt.append("\n6. Nếu được hỏi về danh mục, chỉ liệt kê các sản phẩm có trong thông tin được cung cấp.");
         
         return prompt.toString();
     }

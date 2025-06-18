@@ -72,15 +72,21 @@ public class DataIngestionService {
                 "Sản phẩm: %s\n" +
                 "Mô tả: %s\n" +
                 "Giá: %,.0f VNĐ\n" +
-                "Danh mục: %s\n" +
+                "Danh mục ID: %d\n" +
+                "Danh mục Combo ID: %d\n" +
+                "Danh mục Ưu đãi ID: %s\n" +
                 "Số lượng tồn kho: %d\n" +
-                "Số lượng đã bán: %d",
+                "Số lượng đã bán: %d\n" +
+                "Trạng thái: %s",
                 product.getName(),
                 product.getDescription(),
-                product.getPrice(),
-                product.getCategory(),
+                product.getPrice().doubleValue(),
+                product.getCategoryId(),
+                product.getCategory_id_combo(),
+                product.getCategory_id_uu_dai(),
                 product.getStock(),
-                product.getSoldQuantity()
+                product.getSoldQuantity(),
+                product.isAvailable() ? "Còn hàng" : "Hết hàng"
             );
             
             validateData(text, "product");
