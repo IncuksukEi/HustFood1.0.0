@@ -28,18 +28,13 @@ HustFood là một hệ thống đặt món ăn trực tuyến được phát tr
 - Axios
 - React Router
 
-### DevOps
-- Docker
-- Docker Compose
-- Nginx
-
 ## Yêu cầu hệ thống
 
 - Java 17+
 - Node.js 18+
 - MySQL 8.0+
-- Docker & Docker Compose
 - OpenAI API Key
+- Qdrant Vector Database
 
 ## Cấu hình môi trường
 
@@ -54,35 +49,7 @@ cp .env.example .env
 - JWT_SECRET: Khóa bí mật cho JWT
 - OPENAI_API_KEY: API key của OpenAI
 
-## Chạy dự án với Docker
-
-1. Đảm bảo đã cài đặt Docker và Docker Compose
-
-2. Chạy lệnh sau để khởi động tất cả các service:
-```bash
-docker-compose up --build
-```
-
-3. Truy cập ứng dụng:
-- Frontend: http://localhost
-- Backend API: http://localhost:8080
-
-## Cấu trúc dự án
-
-- Frontend: React.js
-- Backend: Spring Boot
-- Database: MySQL
-- Vector Database: Qdrant
-- AI: OpenAI GPT-3.5
-
-## Bảo mật
-
-- Không đẩy file `.env` lên git
-- Sử dụng biến môi trường cho các thông tin nhạy cảm
-- Mã hóa mật khẩu người dùng
-- Sử dụng JWT cho xác thực
-
-## Cài đặt
+## Cài đặt và chạy dự án
 
 ### 1. Clone repository
 ```bash
@@ -90,20 +57,44 @@ git clone https://github.com/your-username/hustfood.git
 cd hustfood
 ```
 
-### 2. Chạy thủ công
+### 2. Cài đặt và chạy Backend
 
-#### Backend
 ```bash
 cd hustfood/backend
+./mvnw clean install
 ./mvnw spring-boot:run
 ```
 
-#### Frontend
+### 3. Cài đặt và chạy Frontend
+
 ```bash
 cd hustfood/frontend
 npm install
 npm start
 ```
+
+### 4. Cài đặt và chạy Qdrant
+
+1. Tải và cài đặt Qdrant từ [trang chủ Qdrant](https://qdrant.tech/documentation/quick-start/)
+2. Chạy Qdrant server:
+```bash
+qdrant
+```
+
+### 5. Cấu hình Database
+
+1. Tạo database MySQL:
+```sql
+CREATE DATABASE hustfood;
+```
+
+2. Import schema từ file `hustfood/sql/mysql/schema.sql`
+
+## Truy cập ứng dụng
+
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8080
+- Swagger UI: http://localhost:8080/swagger-ui.html
 
 ## Cấu trúc thư mục
 
@@ -111,14 +102,12 @@ npm start
 hustfood/
 ├── backend/                 # Spring Boot backend
 │   ├── src/
-│   ├── pom.xml
-│   └── Dockerfile
+│   └── pom.xml
 ├── frontend/               # React frontend
 │   ├── src/
-│   ├── package.json
-│   └── Dockerfile
-├── docker-compose.yml      # Docker Compose configuration
-├── .env                    # Environment variables
+│   └── package.json
+├── sql/                    # Database scripts
+│   └── mysql/
 └── README.md
 ```
 
@@ -145,6 +134,13 @@ hustfood/
 ### Chatbot
 - POST `/api/chat` - Gửi tin nhắn đến chatbot
 
+## Bảo mật
+
+- Không đẩy file `.env` lên git
+- Sử dụng biến môi trường cho các thông tin nhạy cảm
+- Mã hóa mật khẩu người dùng
+- Sử dụng JWT cho xác thực
+
 ## Đóng góp
 
 1. Fork repository
@@ -159,8 +155,8 @@ Dự án này được cấp phép theo giấy phép MIT - xem file [LICENSE](LI
 
 ## Liên hệ
 
-- Email: your.email@example.com
-- GitHub: [@your-username](https://github.com/your-username)
+- Email:
+- GitHub: 
 
 ## Cảm ơn
 

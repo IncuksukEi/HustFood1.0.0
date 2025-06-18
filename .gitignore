@@ -45,8 +45,6 @@ application-*.properties
 /backend/mvnw
 /backend/mvnw.cmd
 
-# Docker
-docker-compose.override.yml
 
 # Database
 *.sql
