@@ -51,4 +51,13 @@ public class Product {
     @JsonIgnore  
     private List<OrderDetail> orderDetails;
 
+    private boolean available = true; // default value
+    
+    public boolean isAvailable() {
+        return available;
+    }
+    
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 }

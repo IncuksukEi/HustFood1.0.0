@@ -23,14 +23,17 @@ public class ChatbotService {
     private final RestTemplate restTemplate;
     private final String apiKey;
     private final String apiUrl;
+    private final RAGService ragService;
 
     @Autowired
     public ChatbotService(RestTemplate restTemplate,
                          @Value("${openai.api.key}") String apiKey,
-                         @Value("${openai.api.url}") String apiUrl) {
+                         @Value("${openai.api.url}") String apiUrl,
+                         RAGService ragService) {
         this.restTemplate = restTemplate;
         this.apiKey = apiKey;
         this.apiUrl = apiUrl;
+        this.ragService = ragService;
         logger.info("ChatbotService initialized with API URL: {}", apiUrl);
         if (apiKey == null || apiKey.trim().isEmpty()) {
             logger.error("OpenAI API key is not configured");
@@ -51,19 +54,32 @@ public class ChatbotService {
         }
 
         try {
+            // 1. Retrieve relevant context
+            List<String> relevantContexts = ragService.retrieveRelevantContext(userMessage);
+            
+            // 2. Build augmented prompt
+            StringBuilder augmentedPrompt = new StringBuilder();
+            augmentedPrompt.append("Bạn là trợ lý ảo của nhà hàng HustFood. ");
+            augmentedPrompt.append("Dưới đây là một số thông tin liên quan:\n");
+            
+            for (String context : relevantContexts) {
+                augmentedPrompt.append("- ").append(context).append("\n");
+            }
+            
+            augmentedPrompt.append("\nCâu hỏi của khách hàng: ").append(userMessage);
+            augmentedPrompt.append("\nHãy trả lời ngắn gọn, thân thiện và bằng tiếng Việt, ");
+            augmentedPrompt.append("sử dụng thông tin trên nếu có liên quan.");
+
+            // 3. Call GPT with augmented prompt
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            String trimmedApiKey = apiKey.trim();
-            headers.setBearerAuth(trimmedApiKey);
-            logger.debug("Using API Key: {}...{}", 
-                trimmedApiKey.substring(0, Math.min(8, trimmedApiKey.length())),
-                trimmedApiKey.substring(trimmedApiKey.length() - 4));
+            headers.setBearerAuth(apiKey);
 
             List<Map<String, String>> messages = new ArrayList<>();
             
             Map<String, String> systemMessage = new HashMap<>();
             systemMessage.put("role", "system");
-            systemMessage.put("content", "Bạn là trợ lý ảo của nhà hàng HustFood. Hãy trả lời ngắn gọn, thân thiện và bằng tiếng Việt.");
+            systemMessage.put("content", augmentedPrompt.toString());
             messages.add(systemMessage);
             
             Map<String, String> userMessageMap = new HashMap<>();
