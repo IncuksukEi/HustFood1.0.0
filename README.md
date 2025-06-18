@@ -44,10 +44,33 @@ cp .env.example .env
 ```
 
 2. Cập nhật các biến môi trường trong file `.env` với giá trị thực tế của bạn:
-- DB_USERNAME: Tên người dùng MySQL
-- DB_PASSWORD: Mật khẩu MySQL
-- JWT_SECRET: Khóa bí mật cho JWT
-- OPENAI_API_KEY: API key của OpenAI
+```properties
+# Database Configuration
+DB_USERNAME=your_mysql_username
+DB_PASSWORD=your_mysql_password
+
+# JWT Configuration
+JWT_SECRET=your_jwt_secret_key
+
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_MODEL=gpt-3.5-turbo
+OPENAI_EMBEDDING_MODEL=text-embedding-ada-002
+
+# Qdrant Configuration
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
+```
+
+3. Cấu hình application.properties:
+- Copy file `application.properties.example` thành `application.properties`
+- Cập nhật các giá trị từ biến môi trường
+
+**Lưu ý quan trọng về bảo mật:**
+- KHÔNG BAO GIỜ commit các file chứa thông tin nhạy cảm như API keys, mật khẩu
+- Sử dụng `.gitignore` để loại trừ các file chứa thông tin nhạy cảm
+- Luôn sử dụng biến môi trường cho các thông tin nhạy cảm
+- Nếu vô tình commit thông tin nhạy cảm, hãy thay đổi ngay lập tức và xóa lịch sử commit
 
 ## Cài đặt và chạy dự án
 
