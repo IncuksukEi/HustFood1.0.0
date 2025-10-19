@@ -1,5 +1,7 @@
 package com.hustfood.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.hustfood.dto.*;
 import com.hustfood.entity.User;
 import com.hustfood.repository.UserRepository;
@@ -50,33 +52,49 @@ public class AuthController {
 
     @PostMapping("/admin-login")
     public ResponseEntity<?> adminLogin(@RequestBody LoginRequest request) {
+        log.debug("=== Admin Login Attempt ===");
+        log.debug("Email from request: '{}'", request.getEmail());
+        log.debug("Password length: {}", request.getPassword().length());
+
         Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
 
         if (userOpt.isEmpty()) {
+            log.debug("FAIL: User not found in database");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email hoặc mật khẩu không đúng");
         }
 
         User user = userOpt.get();
+        log.debug("User found: ID={}, Email='{}', Role={}", user.getUserId(), user.getEmail(), user.getRole());
 
         if (!user.getRole().name().equals("ADMIN")) {
+            log.debug("FAIL: User role is {} (not ADMIN)", user.getRole().name());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tài khoản không có quyền ADMIN");
         }
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getHashedPassword())) {
+        log.debug("Role check passed. Checking password...");
+        log.debug("Stored hash: {}", user.getHashedPassword());
+        boolean passwordMatches = passwordEncoder.matches(request.getPassword(), user.getHashedPassword());
+        log.debug("Password matches: {}", passwordMatches);
+
+        if (!passwordMatches) {
+            log.debug("FAIL: Password does not match");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email hoặc mật khẩu không đúng");
         }
 
+        log.debug("Password check passed. Attempting Spring Security authentication...");
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                request.getEmail(), request.getPassword()
-        );
+                request.getEmail(), request.getPassword());
 
         try {
             authManager.authenticate(authentication);
+            log.debug("Spring Security authentication passed");
         } catch (Exception e) {
+            log.error("FAIL: Spring Security authentication failed", e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email hoặc mật khẩu không đúng");
         }
 
         String token = jwtUtil.generateToken(user);
+        log.debug("=== Admin Login SUCCESS ===");
         return ResponseEntity.ok(new LoginResponse(token, user.getRole().name()));
     }
 
@@ -123,4 +141,6 @@ public class AuthController {
         tokenBlacklistService.blacklistToken(token);
         return ResponseEntity.ok("Logged out successfully");
     }
+
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 }
